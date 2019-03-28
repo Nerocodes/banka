@@ -1,0 +1,154 @@
+body{
+    background: linear-gradient(to right, #A62639 10%, rgb(252, 56, 89) 60%);
+    color: #ffffff;
+    font-family: sans-serif;
+}
+
+/* Library */
+
+.text-center{
+    text-align: center;
+}
+
+/* End */
+
+.main-header{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 1rem 8rem;
+}
+
+.logo h1{
+    margin: 0rem;
+}
+
+.logo h1 a{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.main-header nav ul{
+    list-style: none;
+    padding-left: 0px;
+    display: flex;
+    margin: 0rem;
+}
+
+.main-header .link, .main-header .link-btn{
+    text-decoration: none;
+    color: #ffffff;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+}
+
+.main-header .link-btn{
+    border: 2px solid #ffffff;
+    background: linear-gradient(to bottom, #A62639 10%, rgb(252, 56, 89) 100%);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+}
+
+.main-header .link:hover{
+    border-bottom: 2px solid #ffffff;
+    padding: 0.5rem 0rem;
+}
+
+.main-header .link-btn:hover{
+    background: linear-gradient(to top, #A62639 10%, rgb(252, 56, 89) 100%);
+}
+
+.main{
+    display: flex;
+    justify-content: space-between;
+    padding: 0rem 8rem;
+    height: 70vh;
+    align-items: center;
+}
+
+.main .left{
+    font-size: 3.5rem;
+    width: 50%;
+}
+
+.main .left p{
+    margin-bottom: 0rem;
+}
+
+.main .left .link-btn{
+    font-size: 2rem;
+    border: 2px solid #ffffff;
+    text-decoration: none;
+    background: linear-gradient(to bottom, #511C29 10%, #511C29a4 100%);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+}
+
+.main .left .link-btn:hover{
+    background: linear-gradient(to top, #A62639 10%, rgb(252, 56, 89) 100%);
+}
+
+.main .right .icon{
+    margin-top: 2rem;
+    height: 75vh;
+}
+
+.main .right .icon img{
+    width: 100%;
+    height: 100%;
+}
+
+/* Sign Up Page */
+.signup{
+    background: #ffffff;
+    color: #56494E;
+}
+
+.signup .main-header{
+    justify-content: center;
+}
+
+.signup .logo{
+    color: #A62639;
+}
+
+.signup .logo h1 a{
+    color: #A62639;
+}
+
+.signup .main{
+    justify-content: center;
+}
+
+.signup form{
+    width: 300px;
+}
+
+.signup .form-group input{
+    height: 45px;
+    width: calc(100% - 9px);
+    padding-left: 5px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.signup form .link-btn{
+    display: block;
+    text-decoration: none;
+    background: #A62639;
+    color: #ffffff;
+    border-radius: 25px;
+    padding: 1rem;
+    text-align: center;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+}
