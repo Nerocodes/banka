@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="dashboard">
+    <header class="main-header">
+        <div class="logo">
+            <h1><a href="../index.html">BA₦KA</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html" class="link">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="dashboard-main">
+        <div class="left">
+            <div class="img">
+                <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
+            </div>
+            <nav>
+                <ul>
+                    <a href="dashboard.html"><li>Bank Accounts</li></a>
+                    <a href="users.html"><li class="active">Users</li></a>
+                </ul>
+            </nav>
+        </div>
+        <div class="right credit-debit">
+            <form>
+                <h2 class="text-center">CREATE USER</h2>
+                <div class="form-group">
+                    <input type="text" name="first_name" id="firstName" placeholder="First Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="last_name" id="lastName" placeholder="Last Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="email" id="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <select name="type_of_account" id="type_of_account" placeholder="Select Role">
+                        <option value="" disabled>Role</option>
+                        <option value="savings">Staff</option>
+                        <option value="current">Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="submit-btn">
+                    <a href="#" class="link-btn">CREATE</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer class="footer-relative">
+        <p>&copy; NeroCodes 2019</p>
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>

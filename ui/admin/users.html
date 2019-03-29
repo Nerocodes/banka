@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="dashboard">
+    <header class="main-header">
+        <div class="logo">
+            <h1><a href="../index.html">BA₦KA</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html" class="link">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="dashboard-main">
+        <div class="left">
+            <div class="img">
+                <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
+            </div>
+            <nav>
+                <ul>
+                    <a href="dashboard.html"><li>Bank Accounts</li></a>
+                    <a href="users.html"><li class="active">Users</li></a>
+                </ul>
+            </nav>
+        </div>
+        <div class="right bank-accounts users">
+            <h2 class="text-center m-0">USERS</h2>
+            <div class="flex">
+                <a href="new-user.html" class="add-btn">Add User</a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Paul</td>
+                        <td>Ajiri</td>
+                        <td>Client</td>
+                        <td class="credit">Active</td>
+                        <td><a href="#" class="deactivate-btn">Deactivate</a></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Yetunde</td>
+                        <td>George</td>
+                        <td>Staff</td>
+                        <td class="credit">Active</td>
+                        <td><a href="#" class="deactivate-btn">Deactivate</a></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Richard</td>
+                        <td>Okoye</td>
+                        <td>Client</td>
+                        <td class="debit">Inactive</td>
+                        <td><a href="#" class="activate-btn">Activate</a></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Jacob</td>
+                        <td>John</td>
+                        <td>Client</td>
+                        <td class="credit">Active</td>
+                        <td><a href="#" class="deactivate-btn">Deactivate</a></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Uzumaki</td>
+                        <td>Naruto</td>
+                        <td>Admin</td>
+                        <td class="credit">Active</td>
+                        <td><a href="#" class="deactivate-btn">Deactivate</a></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; NeroCodes 2019</p>
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>

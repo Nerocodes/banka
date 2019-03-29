@@ -388,6 +388,14 @@ body{
     margin-bottom: 2rem;
 }
 
+.credit-debit .form-group select{
+    height: 45px;
+    width: 100%;
+    padding-left: 5px;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+}
+
 .credit-debit form .link-btn{
     display: block;
     text-decoration: none;
@@ -404,7 +412,46 @@ body{
     background: #A62639d1;
 }
 
+/* Admin Dashboard */
+.users .flex{
+    display: flex;
+    justify-content: flex-end;
+}
 
+.users .add-btn{
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #511C29;
+    padding: 0.5rem 1rem;
+}
+
+.users .add-btn:hover{
+    background-color: #511C29c1;
+}
+
+.users .activate-btn{
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #5cb85c;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+}
+
+.users .activate-btn:hover{
+    background-color: #5cb85cc1;
+}
+
+.users .deactivate-btn{
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #d9534f;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+}
+
+.users .deactivate-btn:hover{
+    background-color: #d9534fc1;
+}
 
 footer{
     position: fixed;
