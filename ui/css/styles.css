@@ -17,6 +17,10 @@ body{
 .debit{
     color: 	#d9534f;
 }
+
+.m-0{
+    margin: 0rem;
+}
 /* End */
 
 .main-header{
@@ -342,6 +346,64 @@ body{
     border-bottom: 1px solid #511C29;
 }
 
+/* Staff Dashboard */
+.bank-accounts table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.bank-accounts table th{
+    text-align: left;
+    color: #A62639;
+    font-size: 1.2rem;
+    padding: 1rem;
+    border-bottom: 1px solid #A62639;
+}
+
+.bank-accounts table td{
+    font-size: 1.1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #A62639;
+}
+
+.records .flex{
+    justify-content: space-between;
+    margin: 1rem 0rem;
+}
+
+.credit-debit form{
+    width: 300px;
+    margin: 0 auto;
+}
+
+.credit-debit form h2{
+    margin-bottom: 2rem;
+}
+
+.credit-debit .form-group input{
+    height: 45px;
+    width: calc(100% - 9px);
+    padding-left: 5px;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+}
+
+.credit-debit form .link-btn{
+    display: block;
+    text-decoration: none;
+    background: #A62639;
+    color: #ffffff;
+    border-radius: 25px;
+    padding: 1rem;
+    text-align: center;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+.credit-debit form .link-btn:hover{
+    background: #A62639d1;
+}
+
 
 
 footer{
@@ -349,4 +411,8 @@ footer{
     bottom: 0;
     text-align: center;
     width: 100%;
+}
+
+.footer-relative{
+    position: relative;
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Client Dashboard</title>
+    <title>Staff Dashboard</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body class="dashboard">
@@ -25,28 +25,31 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard-active.html">Dashboard</a></li>
-                    <li><a href="#">Transactions</a></li>
+                    <a href="dashboard.html"><li>Bank Accounts</li></a>
+                    <a href="credit.html"><li>Credit Account</li></a>
+                    <a href="debit.html"><li class="active">Debit Account</li></a>
                 </ul>
             </nav>
         </div>
-        <div class="right">
-            <form class="create-acc-form">
-                <h2 class="text-center">Create Account</h2>
+        <div class="right credit-debit">
+            <form>
+                <h2 class="text-center m-0">DEBIT ACCOUNT</h2>
                 <div class="form-group">
-                   <label for="type_of_account">Type of account</label>
-                   <select name="type_of_account" id="type_of_account">
-                       <option value="savings" selected>Savings</option>
-                       <option value="current">Current</option>
-                   </select>
+                    <input type="text" name="acc_name" id="accName" placeholder="Account Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="acc_no" id="accNo" placeholder="Account Number">
+                </div>
+                <div class="form-group">
+                    <input type="number" name="amount" id="amount" placeholder="Amount">
                 </div>
                 <div class="submit-btn">
-                    <a href="dashboard-active.html" class="link-btn">Create Account</a>
+                    <a href="#" class="link-btn">DEBIT</a>
                 </div>
             </form>
         </div>
     </main>
-    <footer>
+    <footer class="footer-relative">
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="../js/main.js"></script>
