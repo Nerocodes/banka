@@ -21,6 +21,14 @@ body{
 .m-0{
     margin: 0rem;
 }
+
+.tr{
+    overflow-x: auto;
+}
+
+.fr{
+    position: relative;
+}
 /* End */
 
 .main-header{
@@ -197,6 +205,18 @@ body{
     margin-bottom: 1rem;
 }
 
+.dashboard .min-img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: none;
+}
+
+.dashboard .img img{
+    width: 100%;
+}
+
 .dashboard-main .left nav{
     border: 2px solid #56494E;
     border-bottom: transparent;
@@ -223,7 +243,7 @@ body{
     color: #56494E;
 }
 
-.dashboard-main .img img{
+.dashboard-main .min-img img{
     width: 100%;
 }
 
@@ -320,6 +340,7 @@ body{
 .transactions .flex{
     display: flex;
     justify-content: flex-end;
+    margin-top: 0.5rem;
 }
 
 .transactions .acc-balance{
@@ -335,7 +356,7 @@ body{
     box-shadow: 5px 1px 5px #511C29;
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: 50px;
+    grid-auto-rows: minmax(50px, auto);
 }
 
 .transactions .transaction{
@@ -460,10 +481,6 @@ footer{
     width: 100%;
 }
 
-.footer-relative{
-    position: relative;
-}
-
 @media screen and (max-width: 1075px){
     .main-header{
         padding: 1rem 4rem;
@@ -471,6 +488,15 @@ footer{
 
     .main{
         padding: 0rem 4rem;
+    }
+
+    /* Dashboard */
+    .dashboard .dashboard-main{
+        padding: 2rem 4rem;
+    }
+
+    .records .acc-balance{
+        padding: 0rem 1rem;
     }
 }
 
@@ -481,6 +507,10 @@ footer{
 
     .main{
         padding: 0rem 2rem;
+    }
+
+    .dashboard .dashboard-main{
+        padding: 2rem 2rem;
     }
 }
 
@@ -499,8 +529,99 @@ footer{
         z-index: 1;
     }
 
+    .main .left p{
+        margin-top: 0rem;
+    }
+
     .main .right{
         display: none;
+    }
+
+    /* Dashboard */
+    .dashboard .dashboard-main{
+        padding: 2rem 1rem;
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-main .img{
+        display: none;
+    }
+
+    .dashboard .min-img{
+        display: block;
+    }
+
+    .dashboard-main nav ul{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .staff .dashboard-main nav ul{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .staff .dashboard-main nav ul li{
+        padding: 0.5rem;
+    }
+
+    .admin .dashboard-main nav ul li{
+        height: 2.5rem;
+        padding: 0.5rem;
+    }
+
+    .transactions .flex{
+        justify-content: center;
+    }
+
+}
+
+@media screen and (max-width: 600px){
+    .dashboard-main .right .link-btn{
+        display: block;
+        text-decoration: none;
+        background: #A62639;
+        color: #ffffff;
+        border-radius: 25px;
+        padding: 0.7rem;
+        text-align: center;
+        margin: 0 auto;
+        font-weight: bold;
+        width: 120px;
+    }
+
+    .create-acc-form, .credit-debit form{
+        width: 200px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .dashboard-active{
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-active > .card{
+        margin-bottom: 1rem;
+    }
+
+    .dashboard-active .center{
+        display: none;
+    }
+
+    .transactions .transaction{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+    .records .flex{
+        justify-content: space-between;
+        flex-direction: column;
+        margin: 1rem 0rem;
+    }
+
+    .records .acc-balance{
+       margin-bottom: 1rem;
     }
 }
 
@@ -517,6 +638,12 @@ footer{
     .main .left{
         font-size: 2.8rem;
     }
+
+    footer{
+        position: relative;
+        bottom: 0;
+    }
+
 }
 
 @media screen and (max-width: 341px){
