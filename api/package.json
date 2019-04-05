@@ -1,0 +1,37 @@
+{
+  "name": "banka",
+  "version": "1.0.0",
+  "description": "a simple banking api",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nerocodes/banka.git"
+  },
+  "keywords": [
+    "bank",
+    "credit",
+    "debit",
+    "transaction"
+  ],
+  "author": "nerocodes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nerocodes/banka/issues"
+  },
+  "homepage": "https://github.com/Nerocodes/banka#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "nodemon": "^1.18.10"
+  }
+}
