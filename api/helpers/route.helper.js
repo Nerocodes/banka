@@ -20,6 +20,10 @@ const routeHelper = {
       type: Joi.string().required(),
       isAdmin: Joi.boolean(),
     }),
+    authLoginSchema: Joi.object().keys({
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    }),
   },
 };
 
