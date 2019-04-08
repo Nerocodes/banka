@@ -39,6 +39,32 @@ const UserController = {
     }).status(201);
   },
 
+  signIn(req, res) {
+    const oldUser = req.body;
+    const foundUser = UserService.signIn(oldUser);
+    if (!foundUser.email) {
+      return res.json({
+        status: 404,
+        error: 'no user with this email',
+      }).status(404);
+    }
+    const validPassword = bcrypt.compareSync(oldUser.password, foundUser.password);
+    if (!validPassword) {
+      return res.json({
+        status: 401,
+        error: 'wrong password',
+      }).status(401);
+    }
+    const token = jwt.sign({ id: foundUser.id }, secret, {
+      expiresIn: 86400, // expires in 24 hours
+    });
+    foundUser.token = token;
+    return res.json({
+      status: 201,
+      data: foundUser,
+    }).status(201);
+  },
+
   getSingleUser(req, res) {
     const { id } = req.params;
     const foundUser = UserService.getAUser(id);

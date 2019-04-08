@@ -15,5 +15,6 @@ app.get('/', (req, res) => res.send('The api is working'));
 app.use('/api/v1/auth', userRoutes);
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server is running on PORT ${PORT}`);
 });
