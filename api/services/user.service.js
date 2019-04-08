@@ -30,6 +30,11 @@ const UserService = {
     return user;
   },
 
+  signIn(user) {
+    const foundUser = dummyData.users.find(singleUser => singleUser.email == user.email);
+    return foundUser || {};
+  },
+
   getAUser(id) {
     const user = dummyData.users.find(singleUser => singleUser.id == id);
     return user || {};
