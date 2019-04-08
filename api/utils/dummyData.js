@@ -37,4 +37,24 @@ export default {
       isAdmin: true,
     },
   ],
+  accounts: [
+    {
+      id: 1,
+      accountNumber: 23402001,
+      createdOn: '04/08/2019',
+      owner: 1,
+      type: 'savings',
+      status: 'active',
+      balance: 250000,
+    },
+    {
+      id: 2,
+      accountNumber: 23402002,
+      createdOn: '04/08/2019',
+      owner: 2,
+      type: 'savings',
+      status: 'active',
+      balance: 50000,
+    },
+  ],
 };
