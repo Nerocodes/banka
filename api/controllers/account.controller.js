@@ -31,11 +31,25 @@ const AccountController = {
   },
 
   fetchAllAccounts(req, res) {
-    const allAccounts = AccountService.fetchAllAccounts();
+    const allAccounts = AccountService.fetchAllAccounts(req);
     // eslint-disable-next-line array-callback-return
     return res.json({
       status: 200,
       data: allAccounts,
+    }).status(200);
+  },
+
+  deleteAnAccount(req, res) {
+    const deleteAccount = AccountService.deleteAccount(req, req.params);
+    if (deleteAccount.error) {
+      return res.json({
+        status: 401,
+        error: deleteAccount.error,
+      }).status(401);
+    }
+    return res.json({
+      status: 200,
+      message: 'Account successfully deleted',
     }).status(200);
   },
 };
