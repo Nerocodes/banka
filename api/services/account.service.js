@@ -26,7 +26,7 @@ const AccountService = {
     account.createdOn = new Date();
     account.owner = user.id;
     account.type = accountType;
-    account.status = 'active';
+    account.status = 'draft';
     account.balance = 0.00;
     dummyData.accounts.push(account);
     accountResponse.accountNumber = account.accountNumber;
@@ -48,7 +48,9 @@ const AccountService = {
     return account;
   },
 
-  fetchAllAccounts() {
+  fetchAllAccounts({ userId }) {
+    const user = UserService.getAUser(userId);
+    if (user.type === 'client') return { error: 'Unathorized user' };
     const validAccounts = dummyData.accounts.map((singleAccount) => {
       const newAccount = new Account();
       newAccount.id = singleAccount.id;
@@ -60,6 +62,24 @@ const AccountService = {
       newAccount.balance = singleAccount.balance;
       return newAccount;
     });
+    return validAccounts;
+  },
+
+  deleteAccount({ userId }, { accountNumber }) {
+    const user = UserService.getAUser(userId);
+    if (user.type === 'client') return { error: 'Unathorized user' };
+    const accountIndex = dummyData.accounts
+      .findIndex(account => account.accountNumber == accountNumber);
+    dummyData.accounts.splice(accountIndex, 1);
+    const validAccounts = dummyData.accounts.map((account) => {
+      const newAccount = new Account();
+      newAccount.id = account.id;
+      newAccount.name = account.name;
+      newAccount.description = account.description;
+      newAccount.price = account.price;
+      return newAccount;
+    });
+
     return validAccounts;
   },
 };
