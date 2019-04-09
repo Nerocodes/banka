@@ -22,6 +22,10 @@ const UserController = {
 
   addAUser(req, res) {
     const newUser = req.body;
+    if (!newUser.type && !newUser.isAdmin) {
+      newUser.type = 'client';
+      newUser.isAdmin = false;
+    }
     const hashedPassword = bcrypt.hashSync(newUser.password, 8);
     newUser.password = hashedPassword;
     const createdUser = UserService.addUser(newUser);
@@ -55,6 +59,10 @@ const UserController = {
         error: 'wrong password',
       }).status(401);
     }
+    Object.defineProperty(foundUser, 'password', {
+      enumerable: false,
+      writable: true,
+    });
     const token = jwt.sign({ id: foundUser.id }, secret, {
       expiresIn: 86400, // expires in 24 hours
     });
