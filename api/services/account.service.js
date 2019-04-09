@@ -38,11 +38,29 @@ const AccountService = {
     return accountResponse;
   },
 
-  accountStatus(accountNumber, status) {
+  accountStatus({ userId }, { accountNumber }, { status }) {
+    const user = UserService.getAUser(userId);
+    if (user.type === 'client') return { error: 'Unathorized user' };
     const account = dummyData.accounts
       .find(singleAccount => singleAccount.accountNumber == accountNumber);
+    if (!account) return { error: 'No account found' };
     account.status = status;
-    return account || {};
+    return account;
+  },
+
+  fetchAllAccounts() {
+    const validAccounts = dummyData.accounts.map((singleAccount) => {
+      const newAccount = new Account();
+      newAccount.id = singleAccount.id;
+      newAccount.accountNumber = singleAccount.accountNumber;
+      newAccount.createdOn = singleAccount.createdOn;
+      newAccount.owner = singleAccount.owner;
+      newAccount.type = singleAccount.type;
+      newAccount.status = singleAccount.status;
+      newAccount.balance = singleAccount.balance;
+      return newAccount;
+    });
+    return validAccounts;
   },
 };
 

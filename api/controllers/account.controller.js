@@ -17,13 +17,26 @@ const AccountController = {
   },
 
   accountStatus(req, res) {
-    const accountNumber = req.params;
-    const status = req.body;
-    const modifiedAccount = AccountService.accountStatus(accountNumber, status);
+    const modifiedAccount = AccountService.accountStatus(req, req.params, req.body);
+    if (modifiedAccount.error) {
+      return res.json({
+        status: 404,
+        error: modifiedAccount.error,
+      }).status(404);
+    }
     return res.json({
-      status: 201,
+      status: 200,
       data: modifiedAccount,
-    }).status(201);
+    }).status(200);
+  },
+
+  fetchAllAccounts(req, res) {
+    const allAccounts = AccountService.fetchAllAccounts();
+    // eslint-disable-next-line array-callback-return
+    return res.json({
+      status: 200,
+      data: allAccounts,
+    }).status(200);
   },
 };
 
