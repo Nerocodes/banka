@@ -31,6 +31,9 @@ const routeHelper = {
     accountStatusSchema: Joi.object().keys({
       status: Joi.string().required(),
     }),
+    debitCreditSchema: Joi.object().keys({
+      amount: Joi.number().required(),
+    }),
   },
 };
 
