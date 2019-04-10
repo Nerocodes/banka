@@ -82,6 +82,12 @@ const AccountService = {
 
     return validAccounts;
   },
+
+  getAnAccount(accountNumber) {
+    const account = dummyData.accounts
+      .find(singleAccount => singleAccount.accountNumber == accountNumber);
+    return account || {};
+  },
 };
 
 export default AccountService;
