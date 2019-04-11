@@ -20,6 +20,8 @@ const routeHelper = {
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
       password: Joi.string().required(),
+      type: Joi.string(),
+      isAdmin: Joi.boolean(),
     }),
     authLoginSchema: Joi.object().keys({
       email: Joi.string().email().required(),
