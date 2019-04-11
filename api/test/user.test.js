@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 // Test user sign up
 describe('Testing user signup', () => {
   const signUpUrl = '/api/v1/auth/signup';
-  it('it should register new user when all required fields are given', (done) => {
+  it('should register new user when all required fields are given', (done) => {
     const user = {
       firstName: 'Oghenero',
       lastName: 'Paul-Ejukorlem',
@@ -34,7 +34,7 @@ describe('Testing user signup', () => {
       });
   });
 
-  it('it should not register new user when first name field is missing', (done) => {
+  it('should not register new user when first name field is missing', (done) => {
     const user = {
       lastName: 'Paul-Ejukorlem',
       email: 'neropaulej@gmail.com',
@@ -53,7 +53,7 @@ describe('Testing user signup', () => {
       });
   });
 
-  it('it should not register new user when last name field is missing', (done) => {
+  it('should not register new user when last name field is missing', (done) => {
     const user = {
       firstName: 'Oghenero',
       email: 'neropaulej@gmail.com',
@@ -72,7 +72,7 @@ describe('Testing user signup', () => {
       });
   });
 
-  it('it should not register new user when email field is missing', (done) => {
+  it('should not register new user when email field is missing', (done) => {
     const user = {
       firstName: 'Oghenero',
       lastName: 'Paul-Ejukorlem',
@@ -91,7 +91,7 @@ describe('Testing user signup', () => {
       });
   });
 
-  it('it should not register new user when password field is missing', (done) => {
+  it('should not register new user when password field is missing', (done) => {
     const user = {
       firstName: 'Oghenero',
       lastName: 'Paul-Ejukorlem',
@@ -112,9 +112,9 @@ describe('Testing user signup', () => {
 });
 
 // Test for user sign in
-describe('Testing user signup', () => {
+describe('Testing user signin', () => {
   const signInUrl = '/api/v1/auth/signin';
-  it('it should sign in a user when all required fields are given', (done) => {
+  it('should sign in a user when all required fields are given', (done) => {
     const user = {
       email: 'neropaulej@gmail.com',
       password: 'password',
@@ -137,7 +137,7 @@ describe('Testing user signup', () => {
       });
   });
 
-  it('it should not sign in user when email field is missing', (done) => {
+  it('should not sign in user when email field is missing', (done) => {
     const user = {
       password: 'password',
     };
@@ -154,7 +154,7 @@ describe('Testing user signup', () => {
       });
   });
 
-  it('it should not sign in user when password field is missing', (done) => {
+  it('should not sign in user when password field is missing', (done) => {
     const user = {
       email: 'nerocodes@email.com',
     };

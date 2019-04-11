@@ -1,10 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
 
 // routes
 import userRoutes from './routes/user.route';
 import accountRoutes from './routes/account.route';
 import transactionRoutes from './routes/transaction.route';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 9000;

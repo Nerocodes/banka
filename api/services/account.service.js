@@ -14,7 +14,7 @@ const AccountService = {
     const oldAccount = dummyData.accounts
       .find(singleAccount => singleAccount.owner == user.id);
     if (oldAccount) {
-      return { error: 'User already has an account' };
+      return { error2: 'User already has an account' };
     }
     const accountLength = dummyData.accounts.length;
     const lastId = dummyData.accounts[accountLength - 1].id;
@@ -40,17 +40,17 @@ const AccountService = {
 
   accountStatus({ userId }, { accountNumber }, { status }) {
     const user = UserService.getAUser(userId);
-    if (user.type === 'client') return { error: 'Unathorized user' };
+    if (user.type === 'client') return { error: 'Unauthorized user' };
     const account = dummyData.accounts
       .find(singleAccount => singleAccount.accountNumber == accountNumber);
-    if (!account) return { error: 'No account found' };
+    if (!account) return { error2: 'No account found' };
     account.status = status;
     return account;
   },
 
   fetchAllAccounts({ userId }) {
     const user = UserService.getAUser(userId);
-    if (user.type === 'client') return { error: 'Unathorized user' };
+    if (user.type === 'client') return { error: 'Unauthorized user' };
     const validAccounts = dummyData.accounts.map((singleAccount) => {
       const newAccount = new Account();
       newAccount.id = singleAccount.id;
@@ -67,9 +67,10 @@ const AccountService = {
 
   deleteAccount({ userId }, { accountNumber }) {
     const user = UserService.getAUser(userId);
-    if (user.type === 'client') return { error: 'Unathorized user' };
+    if (user.type === 'client') return { error: 'Unauthorized user' };
     const accountIndex = dummyData.accounts
       .findIndex(account => account.accountNumber == accountNumber);
+    if (!accountIndex) return { error2: 'No account found' };
     dummyData.accounts.splice(accountIndex, 1);
     const validAccounts = dummyData.accounts.map((account) => {
       const newAccount = new Account();
