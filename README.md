@@ -24,11 +24,10 @@ Use npm to install dependencies
 ## Usage
 ``` npm start ```
 
-## Web URLs
 ### UI
 [Banka](https://nerocodes.github.io/banka/ui/)
 
-###API
+### API
 [Banka-Web-App](https://banka-web-app.herokuapp.com/)
 
 ## Author
