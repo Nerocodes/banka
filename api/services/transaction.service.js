@@ -7,9 +7,9 @@ import AccountService from './account.service';
 const TransactionService = {
   debitAccount({ userId }, { accountNumber }, { amount }) {
     const user = UserService.getAUser(userId);
-    if (user.type !== 'staff' || user.isAdmin == true) return { error: 'Unathorized user' };
+    if (user.type !== 'staff' || user.isAdmin == true) return { error: 'Unauthorized user' };
     const account = AccountService.getAnAccount(accountNumber);
-    if (!account.id) return { error: 'Account number does not match our records' };
+    if (!account.id) return { error1: 'Account number does not match our records' };
     const transaction = new Transaction();
     const transactionResponse = {};
     const transactionLength = dummyData.transactions.length;
@@ -37,9 +37,9 @@ const TransactionService = {
 
   creditAccount({ userId }, { accountNumber }, { amount }) {
     const user = UserService.getAUser(userId);
-    if (user.type !== 'staff' || user.isAdmin == true) return { error: 'Unathorized user' };
+    if (user.type !== 'staff' || user.isAdmin == true) return { error: 'Unauthorized user' };
     const account = AccountService.getAnAccount(accountNumber);
-    if (!account.id) return { error: 'Account number does not match our records' };
+    if (!account.id) return { error1: 'Account number does not match our records' };
     const transaction = new Transaction();
     const transactionResponse = {};
     const transactionLength = dummyData.transactions.length;
