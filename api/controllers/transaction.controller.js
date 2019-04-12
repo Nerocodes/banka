@@ -9,6 +9,12 @@ const TransactionController = {
         error: transaction.error,
       }).status(401);
     }
+    if (transaction.error1) {
+      return res.json({
+        status: 404,
+        error: transaction.error1,
+      }).status(404);
+    }
     if (transaction.error2) {
       return res.json({
         status: 400,
@@ -28,6 +34,12 @@ const TransactionController = {
         status: 401,
         error: transaction.error,
       }).status(401);
+    }
+    if (transaction.error1) {
+      return res.json({
+        status: 404,
+        error: transaction.error1,
+      }).status(404);
     }
     return res.json({
       status: 200,
