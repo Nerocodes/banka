@@ -4,8 +4,12 @@
   "description": "a simple banking api",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node index.js",
-    "test": "nyc mocha --require @babel/register --exit || true",
+    "clean": "rm -rf build && mkdir build",
+    "build-server": "babel -d ./build ./src -s",
+    "build": "npm run clean && npm run build-server",
+    "start": "node ./build/index.js",
+    "dev-start": "nodemon --exec babel-node ./src/index.js",
+    "test": "nyc mocha --require @babel/register ./src/test/ --exit || true",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
