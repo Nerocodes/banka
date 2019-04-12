@@ -327,7 +327,6 @@ describe('Testing debit transaction', () => {
           .set('x-access-token', tokenStaff)
           .send(amount)
           .end((errorStaff, responseStaff) => {
-            console.log(responseStaff.body);
             responseStaff.body.should.have.status(404);
             responseStaff.body.should.be.a('object');
             responseStaff.body.error.should.equal('Account number does not match our records');
