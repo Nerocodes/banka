@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="dropdown-links hide">
-                        <a href="../signin.html">Logout</a>
+                        <a href="../index.html">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -45,6 +45,14 @@
         </div>
         <div class="right bank-accounts tr">
             <h2 class="text-center m-0 mb-1">BANK ACCOUNTS</h2>
+            <div class="filter">
+                <label for="filter">Filter:</label>
+                <select name="filter" id="filter">
+                    <option value="all" selected>All</option>
+                    <option value="active">Active</option>
+                    <option value="dormant">Dormant</option>
+                </select>
+            </div>
             <table class="table1 fade-in">
                 <thead>
                     <tr>
