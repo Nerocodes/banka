@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Client Dashboard</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body class="dashboard">
     <header class="main-header">
@@ -15,87 +16,100 @@
         <nav>
             <ul>
                 <li>
-                    <div class="min-img">
-                        <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
+                    <div class="dropdown">
+                        <div class="flex">
+                            <div class="min-img">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-links hide">
+                        <a href="../signin.html">Logout</a>
                     </div>
                 </li>
-                <li><a href="../index.html" class="link">Logout</a></li>
             </ul>
         </nav>
     </header>
     <main class="dashboard-main">
         <div class="left">
-            <div class="img">
-                <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
-            </div>
             <nav>
                 <ul>
-                    <a href="dashboard-active.html"><li>Dashboard</li></a>
-                    <a href="transactions.html"><li class="active">Transactions</li></a>
+                    <a href="dashboard-active.html"><li><i class="fas fa-home"></i> Dashboard</li></a>
+                    <a href="transactions.html"><li class="active"><i class="fas fa-exchange-alt"></i> Transactions</li></a>
                 </ul>
             </nav>
         </div>
         <div class="right transactions">
             <h2 class="text-center">Transaction History</h2>
-            <div class="flex">
-                <div class="acc-balance">
+            <div class="flex mb-1">
+                <div class="acc-balance slide-in">
                     <p>Account Balance</p>
                     <p class="value">₦260, 000</p>
                 </div>
             </div>
-            <div class="card">
-                <div class="transaction">
-                    <div class="datails">
-                        Tuesday 19th March 2019
-                    </div>
-                    <div class="amount credit">
-                        ₦130, 000
-                    </div>
-                </div>
-                <div class="transaction">
-                    <div class="datails">
-                        Monday 11th March 2019
-                    </div>
-                    <div class="amount debit">
-                        -₦155, 000
-                    </div>
-                </div>
-                <div class="transaction">
-                    <div class="datails">
-                        Sunday 3rd March 2019
-                    </div>
-                    <div class="amount debit">
-                        -₦15, 000
-                    </div>
-                </div>
-                <div class="transaction">
-                    <div class="datails">
-                        Saturday 1st March 2019
-                    </div>
-                    <div class="amount debit">
-                        -₦150, 000
-                    </div>
-                </div>
-                <div class="transaction">
-                    <div class="datails">
-                        Thursday 20th February 2019
-                    </div>
-                    <div class="amount credit">
-                        ₦100, 000
-                    </div>
-                </div>
-                <div class="transaction">
-                    <div class="datails">
-                        Tuesday 12th February 2019
-                    </div>
-                    <div class="amount credit">
-                        ₦350, 000
-                    </div>
-                </div>
+            <div class="tr">
+                <table class="table1 fade-in">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tuesday 19th March 2019</td>
+                            <td>₦130, 000</td>
+                        </tr>
+                        <tr>
+                            <td>Monday 11th March 2019</td>
+                            <td>-₦155, 000</td>
+                        </tr>
+                        <tr>
+                            <td>Sunday 3rd March 2019</td>
+                            <td>-₦15, 000</td>
+                        </tr>
+                        <tr>
+                            <td>Saturday 1st March 2019</td>
+                            <td>-₦150, 000</td>
+                        </tr>
+                        <tr>
+                            <td>Thursday 20th February 2019</td>
+                            <td>₦100, 000</td>
+                        </tr>
+                        <tr>
+                            <td>Tuesday 12th February 2019</td>
+                            <td>₦350, 000</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
-    <footer class="fr">
+    <!-- Modal section -->
+    <div class="bg-modal hide">
+        <div class="modal-content transaction-modal">
+            <div class="close"><i class="fas fa-times"></i></div>
+            <h2 class="text-center m-0">Transaction Details</h2>
+            <div class="grid">
+                <div>Transaction ID</div>
+                <div>001</div>
+                <div>Date</div>
+                <div>Tuesday 19th March 2019</div>
+                <div>Type</div>
+                <div>Credit</div>
+                <div>cashier</div>
+                <div>Yetunde George</div>
+                <div>Amount</div>
+                <div>₦130, 000</div>
+                <div>Account Balance</div>
+                <div>₦260, 000</div>
+            </div>
+        </div>
+    </div>
+    <footer>
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="../js/main.js"></script>

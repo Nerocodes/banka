@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Client Dashboard</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body class="dashboard">
     <header class="main-header">
@@ -15,32 +16,62 @@
         <nav>
             <ul>
                 <li>
-                    <div class="min-img">
-                        <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
+                    <div class="dropdown">
+                       <div class="flex">
+                            <div class="min-img">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                       </div>
+                    </div>
+                    <div class="dropdown-links hide">
+                        <a href="../signin.html">Logout</a>
                     </div>
                 </li>
-                <li><a href="../index.html" class="link">Logout</a></li>
             </ul>
         </nav>
     </header>
     <main class="dashboard-main">
         <div class="left">
-            <div class="img">
-                <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
-            </div>
             <nav>
                 <ul>
-                    <a href="dashboard-active.html"><li>Dashboard</li></a>
-                    <a href="transactions.html"><li>Transactions</li></a>
+                    <!-- <a href="dashboard-active.html"><li>Dashboard</li></a> -->
+                    <a href="create-acc.html"><li class="active"><i class="fas fa-university"></i> Create Account</li></a>
+                    <a href="transactions.html"><li><i class="fas fa-exchange-alt"></i> Transactions</li></a>
                 </ul>
             </nav>
         </div>
-        <div class="right">
-            <h3 class="text-center">You currently don't have an account</h3>
-            <a href="create-acc.html" class="link-btn text-center">Create Account</a>
+        <div class="right create-account fade-in">
+                <form class="create-acc-form">
+                    <h2 class="text-center">Create Account</h2>
+                    <div class="form-group">
+                        <label for="firstName" class="mb-1 hide">First Name:</label>
+                        <input type="text" name="first_name" id="firstName" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="mb-1 hide">Last Name:</label>
+                        <input type="text" name="last_name" id="lastName" placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="mb-1 hide">Email:</label>
+                        <input type="text" name="email" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="type_of_account">Type of account:</label>
+                        <select name="type_of_account" id="type_of_account">
+                            <option value="savings" selected>Savings</option>
+                            <option value="current">Current</option>
+                        </select>
+                    </div>
+                    <div class="submit-btn">
+                        <a href="dashboard-active.html" class="link-btn">Create Account</a>
+                    </div>
+                </form>
         </div>
     </main>
-    <footer>
+    <footer class="fr">
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="../js/main.js"></script>

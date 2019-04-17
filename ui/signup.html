@@ -6,35 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sign Up</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body class="signup">
-    <header class="main-header">
-        <div class="logo">
-            <h1><a href="index.html">BA₦KA</a></h1>
-        </div>
-    </header>
-    <main class="main">
+    <main class="main logo">
         <form>
+            <h1 class="text-center"><a href="index.html">BA₦KA</a></h1>
             <h2 class="text-center">Sign Up</h2>
             <div class="form-group">
+                <label for="firstName" class="mb-1 hide">First Name:</label>
                 <input type="text" name="first_name" id="firstName" placeholder="First Name">
             </div>
             <div class="form-group">
+                <label for="lastName" class="mb-1 hide">Last Name:</label>
                 <input type="text" name="last_name" id="lastName" placeholder="Last Name">
             </div>
             <div class="form-group">
+                <label for="email" class="mb-1 hide">Email:</label>
                 <input type="text" name="email" id="email" placeholder="Email">
             </div>
             <div class="form-group">
+                <label for="password" class="mb-1 hide">Password:</label>
                 <input type="password" name="password" id="password" placeholder="Password">
             </div>
             <div class="submit-btn">
                 <a href="#" class="link-btn">REGISTER</a>
             </div>
-            <p class="text-center">Already have an account? <a href="signin.html">Login</a></p>
+            <p class="text-center">Already have an account? <a href="signin.html" class="default-link">Login</a></p>
         </form>
     </main>
-    <footer class="fr">
+    <footer>
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="js/main.js"></script>

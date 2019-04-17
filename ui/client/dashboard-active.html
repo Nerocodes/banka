@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Client Dashboard</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body class="dashboard">
     <header class="main-header">
@@ -15,65 +16,60 @@
         <nav>
             <ul>
                 <li>
-                    <div class="min-img">
-                        <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
+                    <div class="dropdown">
+                        <div class="flex">
+                            <div class="min-img">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-links hide">
+                        <a href="../signin.html">Logout</a>
                     </div>
                 </li>
-                <li><a href="../index.html" class="link">Logout</a></li>
             </ul>
         </nav>
     </header>
     <main class="dashboard-main">
         <div class="left">
-            <div class="img">
-                <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
-            </div>
             <nav>
                 <ul>
-                    <a href="dashboard-active.html"><li class="active">Dashboard</li></a>
-                    <a href="transactions.html"><li>Transactions</li></a>
+                    <a href="dashboard-active.html"><li class="active"><i class="fas fa-home"></i> Dashboard</li></a>
+                    <a href="transactions.html"><li><i class="fas fa-exchange-alt"></i> Transactions</li></a>
                 </ul>
             </nav>
         </div>
         <div class="right dashboard-active">
-            <div class="top">
-                <div class="card">
-                    <div class="icon">
-                        N
-                    </div>
-                    <h3>Account Name</h3>
-                    <p class="value">Paul Ajiri</p>
+            <div class="card slide-in">
+                <div class="icon">
+                    <i class="fas fa-university"></i>
                 </div>
-                <div class="card">
-                    <div class="icon">
-                        T
-                    </div>
-                    <h3>Account Type</h3>
-                    <p class="value">Savings</p>
-                </div>
+                <h3>Account Number</h3>
+                <p class="value">001122001</p>
             </div>
-            <div class="bottom">
-                <div class="card">
-                    <div class="icon">
-                        #
-                    </div>
-                    <h3>Account Number</h3>
-                    <p class="value">001122001</p>
+            <div class="card slide-in slide-delay">
+                <div class="icon">
+                    <i class="fas fa-layer-group"></i>
                 </div>
-                <div class="card">
-                    <div class="icon">
-                        ₦
-                    </div>
-                    <h3>Account Balance</h3>
-                    <p class="value">₦260, 000</p>
+                <h3>Account Balance</h3>
+                <p class="value">₦260, 000</p>
+            </div>
+            <div class="card slide-in slide-delay1">
+                <div class="icon">
+                    <i class="fas fa-money-check"></i>
                 </div>
-                <div class="card">
-                    <div class="icon">
-                        S
-                    </div>
-                    <h3>Account Status</h3>
-                    <p class="value">Active</p>
+                <h3>Account Type</h3>
+                <p class="value">Savings</p>
+            </div>
+            <div class="card slide-in slide-delay2">
+                <div class="icon">
+                    <i class="fas fa-door-open"></i>
                 </div>
+                <h3>Account Status</h3>
+                <p class="value">Active</p>
             </div>
             <!-- <div class="center">
                 <img src="../img/money.png" alt="" width="150" height="150">
@@ -81,7 +77,7 @@
             
         </div>
     </main>
-    <footer class="fr">
+    <footer>
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="../js/main.js"></script>

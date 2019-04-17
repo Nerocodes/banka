@@ -2,12 +2,19 @@ body{
     background: linear-gradient(to right, #A62639 10%, rgb(252, 56, 89) 60%);
     color: #ffffff;
     font-family: sans-serif;
+    margin: 0rem;
+    overflow-x: hidden;
 }
 
 /* Library */
 
 .text-center{
     text-align: center;
+}
+
+.default-link{
+    color: #511C29;
+    text-decoration: none;
 }
 
 .credit{
@@ -22,14 +29,174 @@ body{
     margin: 0rem;
 }
 
+.mb-1{
+    margin-bottom: 0.5rem;
+}
+
+.mt-1{
+    margin-top: 0.5rem;
+}
+
 .tr{
     overflow-x: auto;
+}
+
+.link-btn{
+    cursor: pointer;
+}
+
+label{
+    display: block;
 }
 
 .fr{
     position: relative;
 }
+
+.table1{
+    width: 100%;
+}
+
+.table1 th{
+    text-align: left;
+    padding: 1rem;
+    /* background: linear-gradient(to bottom, #A62639 10%, rgb(252, 56, 89) 100%); */
+    background-color: #A62639;
+    color: #ffffff;
+}
+
+.table1 td{
+    padding: 1rem;
+}
+
+.table1 tr{
+    cursor: pointer;
+}
+
+.table1 tr:nth-of-type(odd){
+    background-color: #eeeeee;
+}
+
+.table2{
+    width: 100%;
+}
+
+.table2 th{
+    text-align: left;
+    padding: 1rem;
+    /* background: linear-gradient(to bottom, #A62639 10%, rgb(252, 56, 89) 100%); */
+    background-color: #A62639;
+    color: #ffffff;
+}
+
+.table2 td{
+    padding: 1rem;
+}
+
+.table2 tr{
+    cursor: pointer;
+}
+
+.table2 tr:nth-of-type(odd){
+    background-color: #eeeeee;
+}
+  
+
+.bg-modal{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content{
+    min-width: 400px;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 1rem;
+    position: relative;
+    animation-name: fadeIn;
+    animation-duration: 0.3s;
+}
+
+.close{
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.hide{
+    display: none;
+}
 /* End */
+
+/* Animations */
+@-webkit-keyframes fadeIn {
+    0% {opacity: 0;}
+    25% {opacity: 0.25;}
+    50% {opacity: 0.50;}
+    100% {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    25% {opacity: 0.25;}
+    50% {opacity: 0.50;}
+    100% {opacity: 1;}
+}
+
+@-webkit-keyframes slideIn {
+    0% {left: -1000px; top: 0px;}
+    100% {left: 0px; top: 0px;}
+}
+
+@keyframes slideIn {
+    0% {right: -1000px; top: 0px;}
+    100% {right: 0px; top: 0px;}
+}
+
+.fade-in{
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 2s;
+    animation-name: fadeIn;
+    animation-duration: 1s;
+}
+
+.fade-out{
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 2s;
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-direction: reverse;
+    animation-fill-mode: forwards;
+}
+
+.slide-in{
+    position: relative;
+    -webkit-animation-name: slideIn;
+    -webkit-animation-duration: 2s;
+    animation-name: slideIn;
+    animation-duration: 1s;
+}
+
+.slide-delay{
+    animation-duration: 1.2s;
+}
+
+.slide-delay1{
+    animation-duration: 1.4s;
+}
+
+.slide-delay2{
+    animation-duration: 1.6s;
+}
 
 .main-header{
     display: flex;
@@ -82,7 +249,7 @@ body{
     display: flex;
     justify-content: space-between;
     padding: 0rem 8rem;
-    height: 70vh;
+    min-height: 70vh;
     align-items: center;
 }
 
@@ -135,15 +302,27 @@ body{
 
 .signup .main{
     justify-content: center;
+    min-height: 90vh;
 }
 
 .signup form{
     width: 300px;
+    border: 2px solid #511C29;
+    padding: 2rem 4rem;
 }
 
 .signup .form-group input{
     height: 45px;
     width: calc(100% - 9px);
+    padding-left: 5px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.signup .form-group select{
+    display: block;
+    height: 45px;
+    width: calc(100%);
     padding-left: 5px;
     border-radius: 5px;
     margin-bottom: 1rem;
@@ -173,20 +352,72 @@ body{
 
 .dashboard .main-header{
     justify-content: space-between;
+    background: linear-gradient(to right, #A62639 10%, rgb(252, 56, 89) 60%);
 }
 
 .dashboard .logo h1 a{
-    color: #A62639;
+    color: #ffffff;
 }
 
 .dashboard .link{
-    color: #56494E;
+    color: #ffffff;
     padding: 0.5rem 0rem;
 }
 
 .dashboard .link:hover{
     border-bottom: 2px solid #A62639;
     padding: 0.5rem 0rem;
+}
+
+.dashboard footer{
+    background-color: #fefefe;
+    color: #A62639;
+    box-shadow: 2px 2px 2px 3px #511C29;
+}
+
+.dropdown{
+    position: relative;
+    cursor: pointer;
+}
+
+.dropdown-links{
+    position: absolute;
+    top: 3rem;
+    background-color: #ffffff;
+    box-shadow: 2px 2px 2px #56494E;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+}
+
+.dropdown-links a{
+    color: #511C29;
+    text-decoration: none;
+    display: block;
+    padding: 1rem;
+}
+
+.dropdown-links a:hover {
+    text-decoration: underline #511C29;
+}
+
+.dropdown-links::after{
+    content: '';
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: -7px;
+    left: 8px;
+    border-bottom: 8px solid #ffffff;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+}
+
+.dropdown .flex{
+    display: flex;
+    color: #ffffff;
+    align-items: center;
 }
 
 .dashboard .dashboard-main{
@@ -210,7 +441,13 @@ body{
     height: 30px;
     border-radius: 50%;
     overflow: hidden;
-    display: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    position: relative;
+    margin-right: 0.5rem;
 }
 
 .dashboard .img img{
@@ -247,10 +484,9 @@ body{
     width: 100%;
 }
 
-.dashboard-main .right{
-    border: 2px solid #56494E;
-    min-height: 60vh;
-    padding: 2rem;
+.dashboard-main .create-account{
+   display: flex;
+   justify-content: center;
 }
 
 .dashboard-main .right .link-btn{
@@ -287,8 +523,16 @@ body{
 /* Create Account */
 .create-acc-form{
     width: 300px;
-    display: block;
-    margin: 0 auto;
+    border: 2px solid #511C29;
+    padding: 2rem 4rem;
+}
+
+.create-acc-form .form-group input{
+    height: 45px;
+    width: calc(100% - 9px);
+    padding-left: 5px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
 }
 
 .create-acc-form select{
@@ -303,7 +547,7 @@ body{
 /* Dashboard active */
 .dashboard-active{
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr 1fr;
     grid-column-gap: 2rem;
     grid-row-gap: 2rem;
 }
@@ -354,6 +598,7 @@ body{
     font-size: 3rem;
     background-color: #511C29;
     color: #ffffff;
+    padding: 0.5rem 0rem;
 }
 
 /* Transactions */
@@ -391,24 +636,38 @@ body{
     border-bottom: 1px solid #511C29;
 }
 
+.transaction-modal .grid{
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    grid-gap: 0.5rem;
+}
+
+.transaction-modal .grid div{
+    padding: 0.5rem;
+    background-color: #dddddd;
+}
+
+.transaction-modal .grid div:nth-of-type(odd){
+    background-color: #511C29;
+    color: #ffffff;
+}
+
 /* Staff Dashboard */
-.bank-accounts table{
-    width: 100%;
-    border-collapse: collapse;
+.bank-accounts .delete:hover{
+    color: #d9534f;
 }
 
-.bank-accounts table th{
-    text-align: left;
-    color: #A62639;
+.transactions{
+    position: relative;
+}
+
+.transactions .back{
+    position: absolute;
+    color: #511C29;
+    cursor: pointer;
     font-size: 1.2rem;
-    padding: 1rem;
-    border-bottom: 1px solid #A62639;
-}
-
-.bank-accounts table td{
-    font-size: 1.1rem;
-    padding: 1rem;
-    border-bottom: 1px solid #A62639;
+    text-decoration: none;
 }
 
 .records .flex{
@@ -416,45 +675,10 @@ body{
     margin: 1rem 0rem;
 }
 
-.credit-debit form{
-    width: 300px;
+.credit-debit{
     margin: 0 auto;
-}
-
-.credit-debit form h2{
-    margin-bottom: 2rem;
-}
-
-.credit-debit .form-group input{
-    height: 45px;
-    width: calc(100% - 9px);
-    padding-left: 5px;
-    border-radius: 5px;
-    margin-bottom: 2rem;
-}
-
-.credit-debit .form-group select{
-    height: 45px;
-    width: 100%;
-    padding-left: 5px;
-    border-radius: 5px;
-    margin-bottom: 2rem;
-}
-
-.credit-debit form .link-btn{
-    display: block;
-    text-decoration: none;
-    background: #A62639;
-    color: #ffffff;
-    border-radius: 25px;
-    padding: 1rem;
-    text-align: center;
-    margin: 0 auto;
-    font-weight: bold;
-}
-
-.credit-debit form .link-btn:hover{
-    background: #A62639d1;
+    animation-name: fadeIn;
+    animation-duration: 0.5s;
 }
 
 /* Admin Dashboard */
@@ -468,34 +692,52 @@ body{
     color: #ffffff;
     background-color: #511C29;
     padding: 0.5rem 1rem;
+    cursor: pointer;
 }
 
 .users .add-btn:hover{
     background-color: #511C29c1;
 }
 
-.users .activate-btn{
+.users .update-btn{
     text-decoration: none;
     color: #ffffff;
-    background-color: #5cb85c;
+    background-color: #511C29;
     padding: 0.5rem 1rem;
-    border-radius: 15px;
+    margin: 1rem auto;
 }
 
-.users .activate-btn:hover{
-    background-color: #5cb85cc1;
+.users .update-btn:hover{
+    background-color: #511C29c1;
 }
 
-.users .deactivate-btn{
+.users select{
+    background-color: inherit;
+    width: 100%;
+    border: transparent;
+}
+
+.user-modal form{
+    border: transparent;
+}
+
+.user-modal select{
+    width: 100%;
+}
+
+.user-modal .link-btn{
     text-decoration: none;
+    width: 100%;
+    background-color: #A62639;
     color: #ffffff;
-    background-color: #d9534f;
-    padding: 0.5rem 1rem;
-    border-radius: 15px;
+    display: block;
+    padding: 1rem 0rem;
+    text-align: center;
+    border-radius: 5px;
 }
 
-.users .deactivate-btn:hover{
-    background-color: #d9534fc1;
+.user-modal .link-btn:hover{
+    background-color: #A62639c1;
 }
 
 footer{
@@ -503,6 +745,7 @@ footer{
     bottom: 0;
     text-align: center;
     width: 100%;
+    padding: 0.2rem 0rem;
 }
 
 @media screen and (max-width: 1075px){
@@ -522,6 +765,26 @@ footer{
     .records .acc-balance{
         padding: 0rem 1rem;
     }
+    
+    .dropdown-links{
+        position: absolute;
+        top: 3rem;
+        right: 4rem;
+    }
+    
+    .dropdown-links::after{
+        content: '';
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        top: -7px;
+        left: 70%;
+        border-bottom: 8px solid #ffffff;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        animation-name: fadeIn;
+        animation-duration: 0.2s;
+    }
 }
 
 @media screen and (max-width: 945px){
@@ -535,6 +798,10 @@ footer{
 
     .dashboard .dashboard-main{
         padding: 2rem 2rem;
+    }
+
+    .dropdown-links{
+        right: 2rem;
     }
 }
 
@@ -551,10 +818,12 @@ footer{
     .main .left{
         width: 100%;
         z-index: 1;
+        text-align: center;
     }
 
     .main .left p{
         margin-top: 0rem;
+        margin-bottom: 1rem;
     }
 
     .main .right{
@@ -596,6 +865,10 @@ footer{
 
     .transactions .flex{
         justify-content: center;
+    }
+
+    .dropdown-links{
+        right: 1rem;
     }
 
 }
