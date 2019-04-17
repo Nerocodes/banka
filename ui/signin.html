@@ -6,33 +6,39 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Client Dashboard</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body class="signup">
-    <header class="main-header">
-        <div class="logo">
-            <h1><a href="index.html">BA₦KA</a></h1>
-        </div>
-    </header>
-    <main class="main">
+    <main class="main logo">
         <form>
+            <h1 class="text-center"><a href="index.html">BA₦KA</a></h1>
             <h2 class="text-center">Login</h2>
             <div class="form-group">
+                <label for="email" class="mb-1 hide">Email:</label>
                 <input type="text" name="email" id="email" placeholder="Email">
             </div>
             <div class="form-group">
+                <label for="password" class="mb-1 hide">Password:</label>
                 <input type="password" name="password" id="password" placeholder="Password">
             </div>
-            <div class="submit-btn">
-                <a href="#" class="link-btn">LOGIN</a>
+            <div class="form-group">
+                <select name="type_of_account" id="user">
+                    <option value="client" selected>Client</option>
+                    <option value="staff">Staff</option>
+                    <option value="admin">Admin</option>
+                </select>
             </div>
-            <p class="text-center">Don't have an account? <a href="signup.html">Sign up</a></p>
+            <div class="submit-btn">
+                <p id="login" class="link-btn">LOGIN</p>
+            </div>
+            <p class="text-center">Don't have an account? <a href="signup.html" class="default-link">Sign up</a></p>
         </form>
         
     </main>
-    <p class="text-center"><a href="client/dashboard.html">Client Dashboard</a> 
+    <!-- <p class="text-center"><a href="client/dashboard.html">Client Dashboard</a> 
         <a href="staff/dashboard.html">Staff Dashboard</a> 
-        <a href="admin/dashboard.html">Admin Dashboard</a></p>
-    <footer class="fr">
+        <a href="admin/dashboard.html">Admin Dashboard</a></p> -->
+    <footer>
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="js/main.js"></script>

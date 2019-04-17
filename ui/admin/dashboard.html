@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body class="dashboard admin">
     <header class="main-header">
@@ -15,32 +16,38 @@
         <nav>
             <ul>
                 <li>
-                    <div class="min-img">
-                        <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
+                    <div class="dropdown">
+                        <div class="flex">
+                            <div class="min-img">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-links hide">
+                        <a href="../signin.html">Logout</a>
                     </div>
                 </li>
-                <li><a href="../index.html" class="link">Logout</a></li>
             </ul>
         </nav>
     </header>
     <main class="dashboard-main">
         <div class="left">
-            <div class="img">
-                <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
-            </div>
             <nav>
                 <ul>
-                    <a href="dashboard.html"><li class="active">Bank Accounts</li></a>
-                    <a href="users.html"><li>Users</li></a>
+                    <a href="dashboard.html"><li class="active"><i class="fas fa-university"></i> Bank Accounts</li></a>
+                    <a href="users.html"><li><i class="fas fa-users"></i> Users</li></a>
                 </ul>
             </nav>
         </div>
         <div class="right bank-accounts tr">
-            <h2 class="text-center m-0">BANK ACCOUNTS</h2>
-            <table>
+            <h2 class="text-center m-0 mb-1">BANK ACCOUNTS</h2>
+            <table class="table1 fade-in">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>S/N</th>
                         <th>Account Name</th>
                         <th>Account Number</th>
                         <th></th>
@@ -52,8 +59,9 @@
                         <td>Paul Ajiri</td>
                         <td>001122001</td>
                         <td>
-                            <a href="account-record.html">View</a>
-                            <a href="#" class="debit">Delete</a>
+                            <span class="delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
                         </td>
                     </tr>
                     <tr>
@@ -61,8 +69,9 @@
                         <td>Yetunde George</td>
                         <td>001122002</td>
                         <td>
-                            <a href="account-record.html">View</a>
-                            <a href="#" class="debit">Delete</a>
+                            <span class="delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
                         </td>
                     </tr>
                     <tr>
@@ -70,8 +79,9 @@
                         <td>Richard Okoye</td>
                         <td>001122003</td>
                         <td>
-                            <a href="account-record.html">View</a>
-                            <a href="#" class="debit">Delete</a>
+                            <span class="delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
                         </td>
                     </tr>
                     <tr>
@@ -79,8 +89,9 @@
                         <td>Jacob John</td>
                         <td>001122004</td>
                         <td>
-                            <a href="account-record.html">View</a>
-                            <a href="#" class="debit">Delete</a>
+                            <span class="delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
                         </td>
                     </tr>
                     <tr>
@@ -88,8 +99,29 @@
                         <td>Uzumaki Naruto</td>
                         <td>001122005</td>
                         <td>
-                            <a href="account-record.html">View</a>
-                            <a href="#" class="debit">Delete</a>
+                            <span class="delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Ik Oghene</td>
+                        <td>001122006</td>
+                        <td>
+                            <span class="delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Retina Jay</td>
+                        <td>001122007</td>
+                        <td>
+                            <span class="delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
                         </td>
                     </tr>
 

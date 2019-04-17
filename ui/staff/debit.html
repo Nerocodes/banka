@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Staff Dashboard</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body class="dashboard staff">
     <header class="main-header">
@@ -15,30 +16,36 @@
         <nav>
             <ul>
                 <li>
-                    <div class="min-img">
-                        <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
+                    <div class="dropdown">
+                        <div class="flex">
+                            <div class="min-img">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-links hide">
+                        <a href="../signin.html">Logout</a>
                     </div>
                 </li>
-                <li><a href="../index.html" class="link">Logout</a></li>
             </ul>
         </nav>
     </header>
     <main class="dashboard-main">
         <div class="left">
-            <div class="img">
-                <img src="https://via.placeholder.com/210/A62639/FFFFFF/?text=Placeholder" alt="">
-            </div>
             <nav>
                 <ul>
-                    <a href="dashboard.html"><li>Bank Accounts</li></a>
-                    <a href="credit.html"><li>Credit Account</li></a>
-                    <a href="debit.html"><li class="active">Debit Account</li></a>
+                    <a href="dashboard.html"><li><i class="fas fa-university"></i> Bank Accounts</li></a>
+                    <a href="credit.html"><li><i class="fas fa-exchange-alt"></i> Credit Account</li></a>
+                    <a href="debit.html"><li class="active"><i class="fas fa-exchange-alt"></i> Debit Account</li></a>
                 </ul>
             </nav>
         </div>
         <div class="right credit-debit">
-            <form>
-                <h2 class="text-center m-0">DEBIT ACCOUNT</h2>
+            <form class="create-acc-form">
+                <h2 class="text-center m-0 mb-1">DEBIT ACCOUNT</h2>
                 <div class="form-group">
                     <input type="text" name="acc_name" id="accName" placeholder="Account Name">
                 </div>
