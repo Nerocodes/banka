@@ -69,11 +69,15 @@ label{
     padding: 1rem;
 }
 
-.table1 tr{
+.table1 tbody tr{
     cursor: pointer;
 }
 
-.table1 tr:nth-of-type(odd){
+.table1 tbody tr:hover{
+    color: #A62639ee;
+}
+
+.table1 tbody tr:nth-of-type(odd){
     background-color: #eeeeee;
 }
 
@@ -93,12 +97,32 @@ label{
     padding: 1rem;
 }
 
-.table2 tr{
+.table2 tbody tr:hover{
+    color: #A62639ee;
+}
+
+.table2 tbody tr{
     cursor: pointer;
 }
 
-.table2 tr:nth-of-type(odd){
+.table2 tbody tr:nth-of-type(odd){
     background-color: #eeeeee;
+}
+
+.filter{
+    display: flex;
+    justify-content: flex-end;
+    color: #511C29;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.filter select{
+    background-color: #ffffff;
+    color: #511C29;
+    border: 1px solid #511C29;
+    padding: 0.5rem;
+    margin-left: 0.5rem;
 }
   
 
