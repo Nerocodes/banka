@@ -15,17 +15,15 @@ if (process.env.NODE_ENV === 'DEV') {
 }
 
 if (!process.env.NODE_ENV) {
-  DATABASE_URL = process.env.TESTPG;
+  DATABASE_URL = 'postgres://ysfjltsj:nOu1tZuIJf0D5K6oehu26V44fYTZmEqu@isilo.db.elephantsql.com:5432/ysfjltsj';
 }
 
-console.log(`connected to the db: ${DATABASE_URL} , ${process.env.NODE_ENV}`);
 
 const pool = new Pool({
   connectionString: DATABASE_URL,
 });
 
 pool.on('connect', () => {
-  console.log(`connected to the db: ${DATABASE_URL} , ${process.env.NODE_ENV}`);
 });
 
 export default pool;
