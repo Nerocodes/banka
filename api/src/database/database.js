@@ -14,6 +14,8 @@ if (process.env.NODE_ENV === 'DEV') {
   DATABASE_URL = process.env.TESTPG;
 }
 
+console.log(`connected to the db: ${DATABASE_URL} , ${process.env.NODE_ENV}`);
+
 const pool = new Pool({
   connectionString: DATABASE_URL,
 });
