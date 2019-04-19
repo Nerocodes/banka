@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
@@ -18,6 +19,7 @@ const pool = new Pool({
 });
 
 pool.on('connect', () => {
+  console.log(`connected to the db: ${DATABASE_URL} , ${process.env.NODE_ENV}`);
 });
 
 export default pool;
