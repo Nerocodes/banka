@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import User from '../models/user.model';
 import pool from '../database/database';
 
@@ -9,6 +10,8 @@ const UserService = {
   async addUser(user) {
     let newUser = new User();
     newUser = { ...user };
+    const hashedPassword = bcrypt.hashSync(newUser.password, 8);
+    newUser.password = hashedPassword;
     const sql = `
     INSERT INTO Users(
       firstName,
@@ -30,7 +33,12 @@ const UserService = {
     const client = await pool.connect();
     try {
       await client.query(sql);
-      return this.signIn(newUser);
+      return this.signIn(user);
+    } catch (err) {
+      if (err.code === '23505') {
+        return { error: 'An account with this email already exists' };
+      }
+      return { error: err.detail };
     } finally {
       client.release();
     }
@@ -51,6 +59,10 @@ const UserService = {
         isadmin: isAdmin,
         ...data
       } = res.rows[0];
+      const validPassword = bcrypt.compareSync(user.password, data.password);
+      if (!validPassword) {
+        return { error: 'Wrong password' };
+      }
       const token = jwt.sign({ id }, secret, {
         expiresIn: 86400, // expires in 24 hours
       });
@@ -60,10 +72,11 @@ const UserService = {
         firstName,
         lastName,
         email: data.email,
-        password: data.password,
         type: data.type,
         isAdmin,
       };
+    } catch (err) {
+      return { error: err };
     } finally {
       client.release();
     }

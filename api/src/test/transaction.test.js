@@ -56,6 +56,23 @@ describe('Testing credit transaction', () => {
       });
   });
 
+  it('should not credit account if amount is not a number', async () => {
+    const amount = {
+      amount: 'different',
+    };
+    const token = await getStaffToken();
+    chai.request(app)
+      .post(`${transactionUrl}${accountNumber}/credit`)
+      .set('x-access-token', token)
+      .send(amount)
+      .end((errorStaff, responseStaff) => {
+        responseStaff.body.should.have.status(400);
+        responseStaff.body.should.be.a('object');
+        responseStaff
+          .body.error.should.equal('Amount must be a number and is required');
+      });
+  });
+
   it('should not credit account if user is not cashier', async () => {
     const amount = {
       amount: 80000,
@@ -110,6 +127,23 @@ describe('Testing debit transaction', () => {
         debitRes.body.data.should.have.property('cashier');
         debitRes.body.data.should.have.property('transactionType');
         debitRes.body.data.should.have.property('accountBalance');
+      });
+  });
+
+  it('should not debit account if amount is not a number', async () => {
+    const amount = {
+      amount: 'different',
+    };
+    const token = await getStaffToken();
+    chai.request(app)
+      .post(`${transactionUrl}${accountNumber}/debit`)
+      .set('x-access-token', token)
+      .send(amount)
+      .end((errorStaff, responseStaff) => {
+        responseStaff.body.should.have.status(400);
+        responseStaff.body.should.be.a('object');
+        responseStaff
+          .body.error.should.equal('Amount must be a number and is required');
       });
   });
 

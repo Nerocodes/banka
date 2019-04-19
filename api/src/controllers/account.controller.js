@@ -42,21 +42,6 @@ const AccountController = {
     });
   },
 
-  // fetchAllAccounts(req, res) {
-  //   const allAccounts = AccountService.fetchAllAccounts(req);
-  //   if (allAccounts.error) {
-  //     return res.json({
-  //       status: 401,
-  //       error: allAccounts.error,
-  //     });
-  //   }
-  //   // eslint-disable-next-line array-callback-return
-  //   return res.json({
-  //     status: 200,
-  //     data: allAccounts,
-  //   });
-  // },
-
   async deleteAnAccount(req, res) {
     const deleteAccount = await AccountService.deleteAccount(req, req.params);
     if (deleteAccount.error) {

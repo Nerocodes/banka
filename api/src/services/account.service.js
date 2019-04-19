@@ -10,15 +10,13 @@ const AccountService = {
       return { error: 'An account cannot be created for this user' };
     }
     const sql = `
-        SELECT accountNumber FROM Accounts;
+        SELECT accountNumber FROM Accounts ORDER BY id DESC LIMIT 1;
       `;
 
     const client = await pool.connect();
     try {
       const res = await client.query(sql);
-      const rowNum = res.rowCount;
-      const lastAccNo = res.rows[rowNum - 1];
-      const newAccNo = lastAccNo.accountnumber + 1;
+      const newAccNo = res.rows[0].accountnumber + 1;
       account.accountNumber = newAccNo;
       account.owner = user.id;
       account.type = accountType;
@@ -58,6 +56,11 @@ const AccountService = {
         type,
         openingBalance,
       };
+    } catch (err) {
+      if (err.code === '23505') {
+        return { error: err.detail };
+      }
+      return { error: err.detail };
     } finally {
       client.release();
     }
@@ -87,23 +90,6 @@ const AccountService = {
     }
   },
 
-  // fetchAllAccounts({ userId }) {
-  //   const user = UserService.getAUser(userId);
-  //   if (user.type === 'client') return { error: 'Unauthorized user' };
-  //   const validAccounts = dummyData.accounts.map((singleAccount) => {
-  //     const newAccount = new Account();
-  //     newAccount.id = singleAccount.id;
-  //     newAccount.accountNumber = singleAccount.accountNumber;
-  //     newAccount.createdOn = singleAccount.createdOn;
-  //     newAccount.owner = singleAccount.owner;
-  //     newAccount.type = singleAccount.type;
-  //     newAccount.status = singleAccount.status;
-  //     newAccount.balance = singleAccount.balance;
-  //     return newAccount;
-  //   });
-  //   return validAccounts;
-  // },
-
   async deleteAccount({ userId }, { accountNumber }) {
     const user = await UserService.getAUser(userId);
     if (user.type === 'client') return { error: 'Unauthorized user' };
@@ -121,12 +107,6 @@ const AccountService = {
       client.release();
     }
   },
-
-  // getAnAccount(accountNumber) {
-  //   const account = dummyData.accounts
-  //     .find(singleAccount => singleAccount.accountNumber == accountNumber);
-  //   return account || {};
-  // },
 };
 
 export default AccountService;

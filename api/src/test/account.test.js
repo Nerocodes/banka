@@ -67,6 +67,22 @@ describe('Testing user creating an account', () => {
       });
   });
 
+  it('should not create an account if account type is not savings or current', async () => {
+    const accType = {
+      type: 'different',
+    };
+    const token = await getClientToken();
+    chai.request(app)
+      .post(createAccUrl)
+      .set('x-access-token', token)
+      .send(accType)
+      .end((error, response) => {
+        response.body.should.have.status(400);
+        response.body.should.be.a('object');
+        response.body.error.should.equal('Account type must be savings or current and is required');
+      });
+  });
+
   it('should not create an account if user is not a client', async () => {
     const accType = {
       type: 'savings',
@@ -101,6 +117,22 @@ describe('Testing admin or staff activating and deactivating account', () => {
         responseStaff.body.should.be.a('object');
         responseStaff.body.data.should.have.property('accountNumber');
         responseStaff.body.data.should.have.property('status');
+      });
+  });
+
+  it('should not change account status if status is not active or dormant', async () => {
+    const accStatus = {
+      status: 'different',
+    };
+    const token = await getStaffToken();
+    chai.request(app)
+      .patch(`${accStatusUrl}${accountNumber}`)
+      .set('x-access-token', token)
+      .send(accStatus)
+      .end((errorStaff, responseStaff) => {
+        responseStaff.body.should.have.status(400);
+        responseStaff.body.should.be.a('object');
+        responseStaff.body.error.should.equal('Status must be active or dormant and is required');
       });
   });
 

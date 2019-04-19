@@ -12,14 +12,8 @@
     "test": "set NODE_ENV='TEST' && npm run migrations && npm run seeders && nyc mocha --timeout=20000 --require @babel/register ./src/test/ --exit || true",
     "singleTest": "set NODE_ENV='TEST' && nyc mocha --timeout=20000 --require @babel/register ./src/test/account.test.js --exit || true",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
-    "migrateUser": "babel-node ./src/database/migrations/user createUserTable",
-    "migrateAccount": "babel-node ./src/database/migrations/account createAccountTable",
-    "migrateTransaction": "babel-node ./src/database/migrations/transaction createTransactionTable",
-    "migrations": "npm run migrateUser && npm run migrateAccount && npm run migrateTransaction",
-    "seedUser": "babel-node ./src/database/seeders/user insertUserTable",
-    "seedAccount": "babel-node ./src/database/seeders/account insertAccountTable",
-    "seedTransaction": "babel-node ./src/database/seeders/transaction insertTransactionTable",
-    "seeders": "npm run seedUser && npm run seedAccount && npm run seedTransaction"
+    "migrations": "babel-node ./src/database/migrations/createTables createAllTables",
+    "seeders": "babel-node ./src/database/seeders/insertTableData insertAllTables"
   },
   "repository": {
     "type": "git",
