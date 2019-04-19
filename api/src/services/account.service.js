@@ -1,94 +1,132 @@
-/* eslint-disable eqeqeq */
-import dummyData from '../utils/dummyData';
 import Account from '../models/account.model';
 import UserService from './user.service';
+import pool from '../database/database';
 
 const AccountService = {
-  createAccount(userId, accountType) {
+  async createAccount(userId, accountType) {
     const account = new Account();
-    const accountResponse = {};
-    const user = UserService.getAUser(userId);
+    const user = await UserService.getAUser(userId);
     if (user.type !== 'client') {
       return { error: 'An account cannot be created for this user' };
     }
-    const oldAccount = dummyData.accounts
-      .find(singleAccount => singleAccount.owner == user.id);
-    if (oldAccount) {
-      return { error2: 'User already has an account' };
+    const sql = `
+        SELECT accountNumber FROM Accounts;
+      `;
+
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      const rowNum = res.rowCount;
+      const lastAccNo = res.rows[rowNum - 1];
+      const newAccNo = lastAccNo.accountnumber + 1;
+      account.accountNumber = newAccNo;
+      account.owner = user.id;
+      account.type = accountType;
+      account.status = 'draft';
+      account.balance = 0.00;
+      const sql2 = `
+      INSERT INTO Accounts(
+        accountNumber,
+        owner,
+        type,
+        status,
+        balance
+        ) 
+        VALUES (
+          '${account.accountNumber}',
+          '${account.owner}',
+          '${account.type}',
+          '${account.status}',
+          '${account.balance}'
+          );
+    `;
+      await client.query(sql2);
+      const sql3 = `
+        SELECT * FROM Accounts WHERE accountNumber=${account.accountNumber}; 
+      `;
+      const res3 = await client.query(sql3);
+      const {
+        accountnumber: accountNumber,
+        type,
+        balance: openingBalance,
+      } = res3.rows[0];
+      return {
+        accountNumber,
+        firstName: user.firstname,
+        lastName: user.lastname,
+        email: user.email,
+        type,
+        openingBalance,
+      };
+    } finally {
+      client.release();
     }
-    const accountLength = dummyData.accounts.length;
-    const lastId = dummyData.accounts[accountLength - 1].id;
-    const lastAccountNumber = dummyData.accounts[accountLength - 1].accountNumber;
-    const newAccountNumber = lastAccountNumber + 1;
-    const newId = lastId + 1;
-    account.id = newId;
-    account.accountNumber = newAccountNumber;
-    account.createdOn = new Date();
-    account.owner = user.id;
-    account.type = accountType;
-    account.status = 'draft';
-    account.balance = 0.00;
-    dummyData.accounts.push(account);
-    accountResponse.accountNumber = account.accountNumber;
-    accountResponse.firstName = user.firstName;
-    accountResponse.lastName = user.lastName;
-    accountResponse.email = user.email;
-    accountResponse.type = account.type;
-    accountResponse.openingBalance = 0.00;
-    return accountResponse;
   },
 
-  accountStatus({ userId }, { accountNumber }, { status }) {
-    const user = UserService.getAUser(userId);
+  async accountStatus({ userId }, { accountNumber }, { status }) {
+    const user = await UserService.getAUser(userId);
     if (user.type === 'client') return { error: 'Unauthorized user' };
-    const account = dummyData.accounts
-      .find(singleAccount => singleAccount.accountNumber == accountNumber);
-    if (!account) return { error2: 'No account found' };
-    account.status = status;
-    return account;
+    const sql = `
+        SELECT * FROM Accounts WHERE accountNumber=${accountNumber};
+      `;
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      const account = res.rows[0];
+      if (!account) return { error2: 'No account found' };
+      const sql2 = `
+        UPDATE Accounts SET status = '${status}' WHERE accountNumber = ${accountNumber};
+      `;
+      await client.query(sql2);
+      return {
+        accountNumber,
+        status,
+      };
+    } finally {
+      client.release();
+    }
   },
 
-  fetchAllAccounts({ userId }) {
-    const user = UserService.getAUser(userId);
+  // fetchAllAccounts({ userId }) {
+  //   const user = UserService.getAUser(userId);
+  //   if (user.type === 'client') return { error: 'Unauthorized user' };
+  //   const validAccounts = dummyData.accounts.map((singleAccount) => {
+  //     const newAccount = new Account();
+  //     newAccount.id = singleAccount.id;
+  //     newAccount.accountNumber = singleAccount.accountNumber;
+  //     newAccount.createdOn = singleAccount.createdOn;
+  //     newAccount.owner = singleAccount.owner;
+  //     newAccount.type = singleAccount.type;
+  //     newAccount.status = singleAccount.status;
+  //     newAccount.balance = singleAccount.balance;
+  //     return newAccount;
+  //   });
+  //   return validAccounts;
+  // },
+
+  async deleteAccount({ userId }, { accountNumber }) {
+    const user = await UserService.getAUser(userId);
     if (user.type === 'client') return { error: 'Unauthorized user' };
-    const validAccounts = dummyData.accounts.map((singleAccount) => {
-      const newAccount = new Account();
-      newAccount.id = singleAccount.id;
-      newAccount.accountNumber = singleAccount.accountNumber;
-      newAccount.createdOn = singleAccount.createdOn;
-      newAccount.owner = singleAccount.owner;
-      newAccount.type = singleAccount.type;
-      newAccount.status = singleAccount.status;
-      newAccount.balance = singleAccount.balance;
-      return newAccount;
-    });
-    return validAccounts;
+    const sql = `
+        DELETE FROM Accounts WHERE accountNumber='${accountNumber}';
+      `;
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      if (res.rowCount < 1) return { error2: 'No account found' };
+      return {
+        deleted: 'Account successfully deleted',
+      };
+    } finally {
+      client.release();
+    }
   },
 
-  deleteAccount({ userId }, { accountNumber }) {
-    const user = UserService.getAUser(userId);
-    if (user.type === 'client') return { error: 'Unauthorized user' };
-    const accountIndex = dummyData.accounts
-      .findIndex(account => account.accountNumber == accountNumber);
-    if (!accountIndex) return { error2: 'No account found' };
-    dummyData.accounts.splice(accountIndex, 1);
-    const validAccounts = dummyData.accounts.map((account) => {
-      const newAccount = new Account();
-      newAccount.id = account.id;
-      newAccount.name = account.name;
-      newAccount.description = account.description;
-      newAccount.price = account.price;
-      return newAccount;
-    });
-
-    return validAccounts;
-  },
-
-  getAnAccount(accountNumber) {
-    const account = dummyData.accounts
-      .find(singleAccount => singleAccount.accountNumber == accountNumber);
-    return account || {};
-  },
+  // getAnAccount(accountNumber) {
+  //   const account = dummyData.accounts
+  //     .find(singleAccount => singleAccount.accountNumber == accountNumber);
+  //   return account || {};
+  // },
 };
 
 export default AccountService;

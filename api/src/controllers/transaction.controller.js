@@ -1,8 +1,8 @@
 import TransactionService from '../services/transaction.service';
 
 const TransactionController = {
-  debitAnAccount(req, res) {
-    const transaction = TransactionService.debitAccount(req, req.params, req.body);
+  async debitAnAccount(req, res) {
+    const transaction = await TransactionService.debitAccount(req, req.params, req.body);
     if (transaction.error) {
       return res.json({
         status: 401,
@@ -27,8 +27,8 @@ const TransactionController = {
     }).status(200);
   },
 
-  creditAnAccount(req, res) {
-    const transaction = TransactionService.creditAccount(req, req.params, req.body);
+  async creditAnAccount(req, res) {
+    const transaction = await TransactionService.creditAccount(req, req.params, req.body);
     if (transaction.error) {
       return res.json({
         status: 401,

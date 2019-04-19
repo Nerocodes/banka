@@ -1,43 +1,86 @@
-/* eslint-disable eqeqeq */
-/* eslint no-param-reassign: ["error", { "props": false }] */
-
-import dummyData from '../utils/dummyData';
+import jwt from 'jsonwebtoken';
 import User from '../models/user.model';
+import pool from '../database/database';
+
+const secret = process.env.SECRET || 'supersecret';
+
 
 const UserService = {
-
-  fetchAllUsers() {
-    const validUsers = dummyData.users.map((user) => {
-      const newUser = new User();
-      newUser.id = user.id;
-      newUser.email = user.email;
-      newUser.firstName = user.firstName;
-      newUser.lastName = user.lastName;
-      newUser.password = user.password;
-      newUser.type = user.type;
-      newUser.isAdmin = user.isAdmin;
-      return newUser;
-    });
-    return validUsers;
+  async addUser(user) {
+    let newUser = new User();
+    newUser = { ...user };
+    const sql = `
+    INSERT INTO Users(
+      firstName,
+      lastName,
+      email,
+      password,
+      type,
+      isAdmin
+      ) 
+      VALUES (
+        '${newUser.firstName}',
+        '${newUser.lastName}',
+        '${newUser.email}',
+        '${newUser.password}',
+        '${newUser.type}',
+        '${newUser.isAdmin}'
+        );
+    `;
+    const client = await pool.connect();
+    try {
+      await client.query(sql);
+      return this.signIn(newUser);
+    } finally {
+      client.release();
+    }
   },
 
-  addUser(user) {
-    const userLength = dummyData.users.length;
-    const lastId = dummyData.users[userLength - 1].id;
-    const newId = lastId + 1;
-    user.id = newId;
-    dummyData.users.push(user);
-    return user;
+  async signIn(user) {
+    const sql = `
+        SELECT * FROM Users WHERE email='${user.email}';
+      `;
+
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      const {
+        id,
+        firstname: firstName,
+        lastname: lastName,
+        isadmin: isAdmin,
+        ...data
+      } = res.rows[0];
+      const token = jwt.sign({ id }, secret, {
+        expiresIn: 86400, // expires in 24 hours
+      });
+      return {
+        token,
+        id,
+        firstName,
+        lastName,
+        email: data.email,
+        password: data.password,
+        type: data.type,
+        isAdmin,
+      };
+    } finally {
+      client.release();
+    }
   },
 
-  signIn(user) {
-    const foundUser = dummyData.users.find(singleUser => singleUser.email == user.email);
-    return foundUser || {};
-  },
+  async getAUser(id) {
+    const sql = `
+        SELECT * FROM Users WHERE id='${id}';
+      `;
 
-  getAUser(id) {
-    const user = dummyData.users.find(singleUser => singleUser.id == id);
-    return user || {};
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      return res.rows[0];
+    } finally {
+      client.release();
+    }
   },
 
 };

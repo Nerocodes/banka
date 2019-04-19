@@ -13,7 +13,7 @@ describe('Testing user signup', () => {
     const user = {
       firstName: 'Oghenero',
       lastName: 'Paul-Ejukorlem',
-      email: 'neropaulej@gmail.com',
+      email: 'paulej@gmail.com',
       password: 'password',
     };
     chai.request(app)
@@ -116,7 +116,7 @@ describe('Testing user signin', () => {
   const signInUrl = '/api/v1/auth/signin';
   it('should sign in a user when all required fields are given', (done) => {
     const user = {
-      email: 'neropaulej@gmail.com',
+      email: 'paulej@gmail.com',
       password: 'password',
     };
     chai.request(app)

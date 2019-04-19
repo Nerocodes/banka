@@ -2,8 +2,8 @@ import AccountService from '../services/account.service';
 
 
 const AccountController = {
-  createAnAccount(req, res) {
-    const createdAccount = AccountService.createAccount(req.userId, req.body.type);
+  async createAnAccount(req, res) {
+    const createdAccount = await AccountService.createAccount(req.userId, req.body.type);
     if (createdAccount.error) {
       return res.json({
         status: 401,
@@ -22,8 +22,8 @@ const AccountController = {
     });
   },
 
-  accountStatus(req, res) {
-    const modifiedAccount = AccountService.accountStatus(req, req.params, req.body);
+  async accountStatus(req, res) {
+    const modifiedAccount = await AccountService.accountStatus(req, req.params, req.body);
     if (modifiedAccount.error) {
       return res.json({
         status: 401,
@@ -42,33 +42,33 @@ const AccountController = {
     });
   },
 
-  fetchAllAccounts(req, res) {
-    const allAccounts = AccountService.fetchAllAccounts(req);
-    if (allAccounts.error) {
-      return res.json({
-        status: 401,
-        error: allAccounts.error,
-      });
-    }
-    // eslint-disable-next-line array-callback-return
-    return res.json({
-      status: 200,
-      data: allAccounts,
-    });
-  },
+  // fetchAllAccounts(req, res) {
+  //   const allAccounts = AccountService.fetchAllAccounts(req);
+  //   if (allAccounts.error) {
+  //     return res.json({
+  //       status: 401,
+  //       error: allAccounts.error,
+  //     });
+  //   }
+  //   // eslint-disable-next-line array-callback-return
+  //   return res.json({
+  //     status: 200,
+  //     data: allAccounts,
+  //   });
+  // },
 
-  deleteAnAccount(req, res) {
-    const deleteAccount = AccountService.deleteAccount(req, req.params);
+  async deleteAnAccount(req, res) {
+    const deleteAccount = await AccountService.deleteAccount(req, req.params);
     if (deleteAccount.error) {
       return res.json({
-        status: 401,
+        status: 403,
         error: deleteAccount.error,
       });
     }
 
     if (deleteAccount.error2) {
       return res.json({
-        status: 404,
+        status: 400,
         error: deleteAccount.error2,
       });
     }
