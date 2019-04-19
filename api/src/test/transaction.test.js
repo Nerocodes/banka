@@ -147,7 +147,7 @@ describe('Testing debit transaction', () => {
 
   it('should not debit account if account balance is not enough', async () => {
     const amount = {
-      amount: 80000,
+      amount: 800000,
     };
     const token = await getStaffToken();
     chai.request(app)
