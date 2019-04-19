@@ -28,7 +28,6 @@ const UserService = {
         );
     `;
     const client = await pool.connect();
-    console.log(client);
     try {
       await client.query(sql);
       return this.signIn(newUser);
