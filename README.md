@@ -62,8 +62,9 @@ npm run test
 ### API
 Heroku: [Banka-Web-App](https://banka-web-app.herokuapp.com/)
 Documentation: [Banka-Docs](https://documenter.getpostman.com/view/6692772/S1ENyyf9#0d24455e-8a99-4123-8990-b008622679d9)
+
 | Endpoints | Functionality |
-| --- | ---|
+| --- | --- |
 | POST /auth/signup | Create user account |
 | POST /auth/signin | Login a user |
 | POST /accounts | Create a bank account |
