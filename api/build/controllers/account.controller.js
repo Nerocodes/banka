@@ -126,20 +126,6 @@ var AccountController = {
 
     return accountStatus;
   }(),
-  // fetchAllAccounts(req, res) {
-  //   const allAccounts = AccountService.fetchAllAccounts(req);
-  //   if (allAccounts.error) {
-  //     return res.json({
-  //       status: 401,
-  //       error: allAccounts.error,
-  //     });
-  //   }
-  //   // eslint-disable-next-line array-callback-return
-  //   return res.json({
-  //     status: 200,
-  //     data: allAccounts,
-  //   });
-  // },
   deleteAnAccount: function () {
     var _deleteAnAccount = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/

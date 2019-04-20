@@ -49,8 +49,7 @@ describe('Testing user signup', function () {
       // console.log(res.body);
       res.body.should.have.status(400);
       res.body.should.be.a('object');
-      res.body.error.name.should.equal('ValidationError');
-      res.body.error.should.have.property('details');
+      res.body.error.should.equal('First Name is required');
       done();
     });
   });
@@ -65,8 +64,8 @@ describe('Testing user signup', function () {
       // console.log(res.body);
       res.body.should.have.status(400);
       res.body.should.be.a('object');
-      res.body.error.name.should.equal('ValidationError');
-      res.body.error.should.have.property('details');
+      res.body.should.be.a('object');
+      res.body.error.should.equal('Last Name is required');
       done();
     });
   });
@@ -81,8 +80,8 @@ describe('Testing user signup', function () {
       // console.log(res.body);
       res.body.should.have.status(400);
       res.body.should.be.a('object');
-      res.body.error.name.should.equal('ValidationError');
-      res.body.error.should.have.property('details');
+      res.body.should.be.a('object');
+      res.body.error.should.equal('A valid email address is required');
       done();
     });
   });
@@ -97,8 +96,8 @@ describe('Testing user signup', function () {
       // console.log(res.body);
       res.body.should.have.status(400);
       res.body.should.be.a('object');
-      res.body.error.name.should.equal('ValidationError');
-      res.body.error.should.have.property('details');
+      res.body.should.be.a('object');
+      res.body.error.should.equal('Password is required');
       done();
     });
   });
@@ -135,8 +134,8 @@ describe('Testing user signin', function () {
       // console.log(res.body);
       res.body.should.have.status(400);
       res.body.should.be.a('object');
-      res.body.error.name.should.equal('ValidationError');
-      res.body.error.should.have.property('details');
+      res.body.should.be.a('object');
+      res.body.error.should.equal('A valid email address is required');
       done();
     });
   });
@@ -149,8 +148,8 @@ describe('Testing user signin', function () {
       // console.log(res.body);
       res.body.should.have.status(400);
       res.body.should.be.a('object');
-      res.body.error.name.should.equal('ValidationError');
-      res.body.error.should.have.property('details');
+      res.body.should.be.a('object');
+      res.body.error.should.equal('Password is required');
       done();
     });
   });

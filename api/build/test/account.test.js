@@ -142,7 +142,7 @@ describe('Testing user creating an account', function () {
       }
     }, _callee3);
   })));
-  it('should not create an account if user is not a client',
+  it('should not create an account if account type is not savings or current',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
@@ -153,18 +153,18 @@ describe('Testing user creating an account', function () {
         switch (_context4.prev = _context4.next) {
           case 0:
             accType = {
-              type: 'savings'
+              type: 'different'
             };
             _context4.next = 3;
-            return getStaffToken();
+            return getClientToken();
 
           case 3:
             token = _context4.sent;
 
             _chai["default"].request(_index["default"]).post(createAccUrl).set('x-access-token', token).send(accType).end(function (error, response) {
-              response.body.should.have.status(401);
+              response.body.should.have.status(400);
               response.body.should.be.a('object');
-              response.body.error.should.equal('An account cannot be created for this user');
+              response.body.error.should.equal('Account type must be savings or current and is required');
             });
 
           case 5:
@@ -174,6 +174,38 @@ describe('Testing user creating an account', function () {
       }
     }, _callee4);
   })));
+  it('should not create an account if user is not a client',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee5() {
+    var accType, token;
+    return _regenerator["default"].wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            accType = {
+              type: 'savings'
+            };
+            _context5.next = 3;
+            return getStaffToken();
+
+          case 3:
+            token = _context5.sent;
+
+            _chai["default"].request(_index["default"]).post(createAccUrl).set('x-access-token', token).send(accType).end(function (error, response) {
+              response.body.should.have.status(401);
+              response.body.should.be.a('object');
+              response.body.error.should.equal('An account cannot be created for this user');
+            });
+
+          case 5:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5);
+  })));
 }); // Test Admin/Staff activate or deactivate account
 
 describe('Testing admin or staff activating and deactivating account', function () {
@@ -182,20 +214,20 @@ describe('Testing admin or staff activating and deactivating account', function 
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
-  _regenerator["default"].mark(function _callee5() {
+  _regenerator["default"].mark(function _callee6() {
     var accStatus, tokenStaff;
-    return _regenerator["default"].wrap(function _callee5$(_context5) {
+    return _regenerator["default"].wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
             accStatus = {
               status: 'active'
             };
-            _context5.next = 3;
+            _context6.next = 3;
             return getStaffToken();
 
           case 3:
-            tokenStaff = _context5.sent;
+            tokenStaff = _context6.sent;
 
             _chai["default"].request(_index["default"]).patch("".concat(accStatusUrl).concat(accountNumber)).set('x-access-token', tokenStaff).send(accStatus).end(function (errorStaff, responseStaff) {
               responseStaff.body.should.have.status(200);
@@ -206,44 +238,12 @@ describe('Testing admin or staff activating and deactivating account', function 
 
           case 5:
           case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5);
-  })));
-  it('should not change account status if user is not staff',
-  /*#__PURE__*/
-  (0, _asyncToGenerator2["default"])(
-  /*#__PURE__*/
-  _regenerator["default"].mark(function _callee6() {
-    var accStatus, token;
-    return _regenerator["default"].wrap(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            accStatus = {
-              status: 'active'
-            };
-            _context6.next = 3;
-            return getClientToken();
-
-          case 3:
-            token = _context6.sent;
-
-            _chai["default"].request(_index["default"]).patch("".concat(accStatusUrl).concat(accountNumber)).set('x-access-token', token).send(accStatus).end(function (errorStaff, responseStaff) {
-              responseStaff.body.should.have.status(401);
-              responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('Unauthorized user');
-            });
-
-          case 5:
-          case "end":
             return _context6.stop();
         }
       }
     }, _callee6);
   })));
-  it('should not change account status if account is not found',
+  it('should not change account status if status is not active or dormant',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
@@ -254,7 +254,7 @@ describe('Testing admin or staff activating and deactivating account', function 
         switch (_context7.prev = _context7.next) {
           case 0:
             accStatus = {
-              status: 'active'
+              status: 'different'
             };
             _context7.next = 3;
             return getStaffToken();
@@ -262,10 +262,10 @@ describe('Testing admin or staff activating and deactivating account', function 
           case 3:
             token = _context7.sent;
 
-            _chai["default"].request(_index["default"]).patch("".concat(accStatusUrl, "123456")).set('x-access-token', token).send(accStatus).end(function (errorStaff, responseStaff) {
-              responseStaff.body.should.have.status(404);
+            _chai["default"].request(_index["default"]).patch("".concat(accStatusUrl).concat(accountNumber)).set('x-access-token', token).send(accStatus).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(400);
               responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('No account found');
+              responseStaff.body.error.should.equal('Status must be active or dormant and is required');
             });
 
           case 5:
@@ -275,69 +275,75 @@ describe('Testing admin or staff activating and deactivating account', function 
       }
     }, _callee7);
   })));
-}); // Test for Admin/Staff delete account
-
-describe('Testing admin or staff deleting account', function () {
-  var delAccUrl = '/api/v1/accounts/';
-  it('should delete account if all parameters are given',
+  it('should not change account status if user is not staff',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
   _regenerator["default"].mark(function _callee8() {
-    var token;
+    var accStatus, token;
     return _regenerator["default"].wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            _context8.next = 2;
-            return getStaffToken();
+            accStatus = {
+              status: 'active'
+            };
+            _context8.next = 3;
+            return getClientToken();
 
-          case 2:
+          case 3:
             token = _context8.sent;
 
-            _chai["default"].request(_index["default"])["delete"]("".concat(delAccUrl).concat(accountNumber + 1)).set('x-access-token', token).end(function (errorStaff, responseStaff) {
-              responseStaff.body.should.have.status(200);
+            _chai["default"].request(_index["default"]).patch("".concat(accStatusUrl).concat(accountNumber)).set('x-access-token', token).send(accStatus).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(401);
               responseStaff.body.should.be.a('object');
-              responseStaff.body.message.should.equal('Account successfully deleted');
+              responseStaff.body.error.should.equal('Unauthorized user');
             });
 
-          case 4:
+          case 5:
           case "end":
             return _context8.stop();
         }
       }
     }, _callee8);
   })));
-  it('should not delete account if user is not staff',
+  it('should not change account status if account is not found',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
   _regenerator["default"].mark(function _callee9() {
-    var token;
+    var accStatus, token;
     return _regenerator["default"].wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            _context9.next = 2;
-            return getClientToken();
+            accStatus = {
+              status: 'active'
+            };
+            _context9.next = 3;
+            return getStaffToken();
 
-          case 2:
+          case 3:
             token = _context9.sent;
 
-            _chai["default"].request(_index["default"])["delete"]("".concat(delAccUrl).concat(accountNumber + 2)).set('x-access-token', token).end(function (errorStaff, responseStaff) {
-              responseStaff.body.should.have.status(403);
+            _chai["default"].request(_index["default"]).patch("".concat(accStatusUrl, "123456")).set('x-access-token', token).send(accStatus).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(404);
               responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('Unauthorized user');
+              responseStaff.body.error.should.equal('No account found');
             });
 
-          case 4:
+          case 5:
           case "end":
             return _context9.stop();
         }
       }
     }, _callee9);
   })));
-  it('should not delete account if account does not exist',
+}); // Test for Admin/Staff delete account
+
+describe('Testing admin or staff deleting account', function () {
+  var delAccUrl = '/api/v1/accounts/';
+  it('should delete account if all parameters are given',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
@@ -353,10 +359,10 @@ describe('Testing admin or staff deleting account', function () {
           case 2:
             token = _context10.sent;
 
-            _chai["default"].request(_index["default"])["delete"]("".concat(delAccUrl, "123456")).set('x-access-token', token).end(function (errorStaff, responseStaff) {
-              responseStaff.body.should.have.status(400);
+            _chai["default"].request(_index["default"])["delete"]("".concat(delAccUrl).concat(accountNumber + 1)).set('x-access-token', token).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(200);
               responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('No account found');
+              responseStaff.body.message.should.equal('Account successfully deleted');
             });
 
           case 4:
@@ -365,6 +371,64 @@ describe('Testing admin or staff deleting account', function () {
         }
       }
     }, _callee10);
+  })));
+  it('should not delete account if user is not staff',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee11() {
+    var token;
+    return _regenerator["default"].wrap(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            _context11.next = 2;
+            return getClientToken();
+
+          case 2:
+            token = _context11.sent;
+
+            _chai["default"].request(_index["default"])["delete"]("".concat(delAccUrl).concat(accountNumber + 2)).set('x-access-token', token).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(403);
+              responseStaff.body.should.be.a('object');
+              responseStaff.body.error.should.equal('Unauthorized user');
+            });
+
+          case 4:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, _callee11);
+  })));
+  it('should not delete account if account does not exist',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee12() {
+    var token;
+    return _regenerator["default"].wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.next = 2;
+            return getStaffToken();
+
+          case 2:
+            token = _context12.sent;
+
+            _chai["default"].request(_index["default"])["delete"]("".concat(delAccUrl, "123456")).set('x-access-token', token).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(400);
+              responseStaff.body.should.be.a('object');
+              responseStaff.body.error.should.equal('No account found');
+            });
+
+          case 4:
+          case "end":
+            return _context12.stop();
+        }
+      }
+    }, _callee12);
   })));
 }); // Test for getting all bank accounts
 // describe('Testing fetch all bank accounts', () => {

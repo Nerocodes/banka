@@ -134,7 +134,7 @@ describe('Testing credit transaction', function () {
       }
     }, _callee3);
   })));
-  it('should not credit account if user is not cashier',
+  it('should not credit account if amount is not a number',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
@@ -145,18 +145,18 @@ describe('Testing credit transaction', function () {
         switch (_context4.prev = _context4.next) {
           case 0:
             amount = {
-              amount: 80000
+              amount: 'different'
             };
             _context4.next = 3;
-            return getClientToken();
+            return getStaffToken();
 
           case 3:
             token = _context4.sent;
 
             _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/credit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
-              responseStaff.body.should.have.status(401);
+              responseStaff.body.should.have.status(400);
               responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('Unauthorized user');
+              responseStaff.body.error.should.equal('Amount must be a number and is required');
             });
 
           case 5:
@@ -166,7 +166,7 @@ describe('Testing credit transaction', function () {
       }
     }, _callee4);
   })));
-  it('should not credit account if account number does not exist',
+  it('should not credit account if user is not cashier',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
@@ -180,15 +180,15 @@ describe('Testing credit transaction', function () {
               amount: 80000
             };
             _context5.next = 3;
-            return getStaffToken();
+            return getClientToken();
 
           case 3:
             token = _context5.sent;
 
-            _chai["default"].request(_index["default"]).post("".concat(transactionUrl, "123456/credit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
-              responseStaff.body.should.have.status(404);
+            _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/credit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(401);
               responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('Account number does not match our records');
+              responseStaff.body.error.should.equal('Unauthorized user');
             });
 
           case 5:
@@ -198,6 +198,38 @@ describe('Testing credit transaction', function () {
       }
     }, _callee5);
   })));
+  it('should not credit account if account number does not exist',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee6() {
+    var amount, token;
+    return _regenerator["default"].wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            amount = {
+              amount: 80000
+            };
+            _context6.next = 3;
+            return getStaffToken();
+
+          case 3:
+            token = _context6.sent;
+
+            _chai["default"].request(_index["default"]).post("".concat(transactionUrl, "123456/credit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(404);
+              responseStaff.body.should.be.a('object');
+              responseStaff.body.error.should.equal('Account number does not match our records');
+            });
+
+          case 5:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6);
+  })));
 }); // Test for debit transactions
 
 describe('Testing debit transaction', function () {
@@ -206,20 +238,20 @@ describe('Testing debit transaction', function () {
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
-  _regenerator["default"].mark(function _callee6() {
+  _regenerator["default"].mark(function _callee7() {
     var debitAmount, token;
-    return _regenerator["default"].wrap(function _callee6$(_context6) {
+    return _regenerator["default"].wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
             debitAmount = {
               amount: 40000
             };
-            _context6.next = 3;
+            _context7.next = 3;
             return getStaffToken();
 
           case 3:
-            token = _context6.sent;
+            token = _context7.sent;
 
             _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/debit")).set('x-access-token', token).send(debitAmount).end(function (debitErr, debitRes) {
               debitRes.body.should.have.status(200);
@@ -234,44 +266,12 @@ describe('Testing debit transaction', function () {
 
           case 5:
           case "end":
-            return _context6.stop();
-        }
-      }
-    }, _callee6);
-  })));
-  it('should not debit account if user is not cashier',
-  /*#__PURE__*/
-  (0, _asyncToGenerator2["default"])(
-  /*#__PURE__*/
-  _regenerator["default"].mark(function _callee7() {
-    var amount, token;
-    return _regenerator["default"].wrap(function _callee7$(_context7) {
-      while (1) {
-        switch (_context7.prev = _context7.next) {
-          case 0:
-            amount = {
-              amount: 80000
-            };
-            _context7.next = 3;
-            return getClientToken();
-
-          case 3:
-            token = _context7.sent;
-
-            _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/debit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
-              responseStaff.body.should.have.status(401);
-              responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('Unauthorized user');
-            });
-
-          case 5:
-          case "end":
             return _context7.stop();
         }
       }
     }, _callee7);
   })));
-  it('should not debit account if account number does not exist',
+  it('should not debit account if amount is not a number',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
@@ -282,7 +282,7 @@ describe('Testing debit transaction', function () {
         switch (_context8.prev = _context8.next) {
           case 0:
             amount = {
-              amount: 80000
+              amount: 'different'
             };
             _context8.next = 3;
             return getStaffToken();
@@ -290,10 +290,10 @@ describe('Testing debit transaction', function () {
           case 3:
             token = _context8.sent;
 
-            _chai["default"].request(_index["default"]).post("".concat(transactionUrl, "123456/debit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
-              responseStaff.body.should.have.status(404);
+            _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/debit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(400);
               responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('Account number does not match our records');
+              responseStaff.body.error.should.equal('Amount must be a number and is required');
             });
 
           case 5:
@@ -303,7 +303,7 @@ describe('Testing debit transaction', function () {
       }
     }, _callee8);
   })));
-  it('should not debit account if account balance is not enough',
+  it('should not debit account if user is not cashier',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
@@ -317,10 +317,74 @@ describe('Testing debit transaction', function () {
               amount: 80000
             };
             _context9.next = 3;
-            return getStaffToken();
+            return getClientToken();
 
           case 3:
             token = _context9.sent;
+
+            _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/debit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(401);
+              responseStaff.body.should.be.a('object');
+              responseStaff.body.error.should.equal('Unauthorized user');
+            });
+
+          case 5:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, _callee9);
+  })));
+  it('should not debit account if account number does not exist',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee10() {
+    var amount, token;
+    return _regenerator["default"].wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            amount = {
+              amount: 80000
+            };
+            _context10.next = 3;
+            return getStaffToken();
+
+          case 3:
+            token = _context10.sent;
+
+            _chai["default"].request(_index["default"]).post("".concat(transactionUrl, "123456/debit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(404);
+              responseStaff.body.should.be.a('object');
+              responseStaff.body.error.should.equal('Account number does not match our records');
+            });
+
+          case 5:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, _callee10);
+  })));
+  it('should not debit account if account balance is not enough',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee11() {
+    var amount, token;
+    return _regenerator["default"].wrap(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            amount = {
+              amount: 800000
+            };
+            _context11.next = 3;
+            return getStaffToken();
+
+          case 3:
+            token = _context11.sent;
 
             _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/debit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
               responseStaff.body.should.have.status(400);
@@ -330,10 +394,10 @@ describe('Testing debit transaction', function () {
 
           case 5:
           case "end":
-            return _context9.stop();
+            return _context11.stop();
         }
       }
-    }, _callee9);
+    }, _callee11);
   })));
 });
 //# sourceMappingURL=transaction.test.js.map

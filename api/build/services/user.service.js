@@ -17,6 +17,8 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
+var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
+
 var _user = _interopRequireDefault(require("../models/user.model"));
 
 var _database = _interopRequireDefault(require("../database/database"));
@@ -27,37 +29,57 @@ var UserService = {
     var _addUser = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
     _regenerator["default"].mark(function _callee(user) {
-      var newUser, sql, client;
+      var newUser, hashedPassword, sql, client;
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               newUser = new _user["default"]();
               newUser = (0, _objectSpread2["default"])({}, user);
+              hashedPassword = _bcryptjs["default"].hashSync(newUser.password, 8);
+              newUser.password = hashedPassword;
               sql = "\n    INSERT INTO Users(\n      firstName,\n      lastName,\n      email,\n      password,\n      type,\n      isAdmin\n      ) \n      VALUES (\n        '".concat(newUser.firstName, "',\n        '").concat(newUser.lastName, "',\n        '").concat(newUser.email, "',\n        '").concat(newUser.password, "',\n        '").concat(newUser.type, "',\n        '").concat(newUser.isAdmin, "'\n        );\n    ");
-              _context.next = 5;
+              _context.next = 7;
               return _database["default"].connect();
 
-            case 5:
+            case 7:
               client = _context.sent;
-              _context.prev = 6;
-              _context.next = 9;
+              _context.prev = 8;
+              _context.next = 11;
               return client.query(sql);
 
-            case 9:
-              return _context.abrupt("return", this.signIn(newUser));
+            case 11:
+              return _context.abrupt("return", this.signIn(user));
 
-            case 10:
-              _context.prev = 10;
+            case 14:
+              _context.prev = 14;
+              _context.t0 = _context["catch"](8);
+
+              if (!(_context.t0.code === '23505')) {
+                _context.next = 18;
+                break;
+              }
+
+              return _context.abrupt("return", {
+                error: 'An account with this email already exists'
+              });
+
+            case 18:
+              return _context.abrupt("return", {
+                error: _context.t0.detail
+              });
+
+            case 19:
+              _context.prev = 19;
               client.release();
-              return _context.finish(10);
+              return _context.finish(19);
 
-            case 13:
+            case 22:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, this, [[6,, 10, 13]]);
+      }, _callee, this, [[8, 14, 19, 22]]);
     }));
 
     function addUser(_x) {
@@ -70,7 +92,7 @@ var UserService = {
     var _signIn = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
     _regenerator["default"].mark(function _callee2(user) {
-      var sql, client, res, _res$rows$, id, firstName, lastName, isAdmin, data, token;
+      var sql, client, res, _res$rows$, id, firstName, lastName, isAdmin, data, validPassword, token;
 
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) {
@@ -89,6 +111,18 @@ var UserService = {
             case 7:
               res = _context2.sent;
               _res$rows$ = res.rows[0], id = _res$rows$.id, firstName = _res$rows$.firstname, lastName = _res$rows$.lastname, isAdmin = _res$rows$.isadmin, data = (0, _objectWithoutProperties2["default"])(_res$rows$, ["id", "firstname", "lastname", "isadmin"]);
+              validPassword = _bcryptjs["default"].compareSync(user.password, data.password);
+
+              if (validPassword) {
+                _context2.next = 12;
+                break;
+              }
+
+              return _context2.abrupt("return", {
+                error: 'Wrong password'
+              });
+
+            case 12:
               token = _jsonwebtoken["default"].sign({
                 id: id
               }, secret, {
@@ -101,22 +135,28 @@ var UserService = {
                 firstName: firstName,
                 lastName: lastName,
                 email: data.email,
-                password: data.password,
                 type: data.type,
                 isAdmin: isAdmin
               });
 
-            case 11:
-              _context2.prev = 11;
-              client.release();
-              return _context2.finish(11);
+            case 16:
+              _context2.prev = 16;
+              _context2.t0 = _context2["catch"](4);
+              return _context2.abrupt("return", {
+                error: _context2.t0
+              });
 
-            case 14:
+            case 19:
+              _context2.prev = 19;
+              client.release();
+              return _context2.finish(19);
+
+            case 22:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[4,, 11, 14]]);
+      }, _callee2, null, [[4, 16, 19, 22]]);
     }));
 
     function signIn(_x2) {

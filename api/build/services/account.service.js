@@ -22,7 +22,7 @@ var AccountService = {
     var _createAccount = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
     _regenerator["default"].mark(function _callee(userId, accountType) {
-      var account, user, sql, client, res, rowNum, lastAccNo, newAccNo, sql2, sql3, res3, _res3$rows$, accountNumber, type, openingBalance;
+      var account, user, sql, client, res, newAccNo, sql2, sql3, res3, _res3$rows$, accountNumber, type, openingBalance;
 
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) {
@@ -45,7 +45,7 @@ var AccountService = {
               });
 
             case 6:
-              sql = "\n        SELECT accountNumber FROM Accounts;\n      ";
+              sql = "\n        SELECT accountNumber FROM Accounts ORDER BY id DESC LIMIT 1;\n      ";
               _context.next = 9;
               return _database["default"].connect();
 
@@ -57,24 +57,22 @@ var AccountService = {
 
             case 13:
               res = _context.sent;
-              rowNum = res.rowCount;
-              lastAccNo = res.rows[rowNum - 1];
-              newAccNo = lastAccNo.accountnumber + 1;
+              newAccNo = res.rows[0].accountnumber + 1;
               account.accountNumber = newAccNo;
               account.owner = user.id;
               account.type = accountType;
               account.status = 'draft';
               account.balance = 0.00;
               sql2 = "\n      INSERT INTO Accounts(\n        accountNumber,\n        owner,\n        type,\n        status,\n        balance\n        ) \n        VALUES (\n          '".concat(account.accountNumber, "',\n          '").concat(account.owner, "',\n          '").concat(account.type, "',\n          '").concat(account.status, "',\n          '").concat(account.balance, "'\n          );\n    ");
-              _context.next = 25;
+              _context.next = 23;
               return client.query(sql2);
 
-            case 25:
+            case 23:
               sql3 = "\n        SELECT * FROM Accounts WHERE accountNumber=".concat(account.accountNumber, "; \n      ");
-              _context.next = 28;
+              _context.next = 26;
               return client.query(sql3);
 
-            case 28:
+            case 26:
               res3 = _context.sent;
               _res3$rows$ = res3.rows[0], accountNumber = _res3$rows$.accountnumber, type = _res3$rows$.type, openingBalance = _res3$rows$.balance;
               return _context.abrupt("return", {
@@ -88,15 +86,33 @@ var AccountService = {
 
             case 31:
               _context.prev = 31;
-              client.release();
-              return _context.finish(31);
+              _context.t0 = _context["catch"](10);
 
-            case 34:
+              if (!(_context.t0.code === '23505')) {
+                _context.next = 35;
+                break;
+              }
+
+              return _context.abrupt("return", {
+                error: _context.t0.detail
+              });
+
+            case 35:
+              return _context.abrupt("return", {
+                error: _context.t0.detail
+              });
+
+            case 36:
+              _context.prev = 36;
+              client.release();
+              return _context.finish(36);
+
+            case 39:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[10,, 31, 34]]);
+      }, _callee, null, [[10, 31, 36, 39]]);
     }));
 
     function createAccount(_x, _x2) {
@@ -186,22 +202,6 @@ var AccountService = {
 
     return accountStatus;
   }(),
-  // fetchAllAccounts({ userId }) {
-  //   const user = UserService.getAUser(userId);
-  //   if (user.type === 'client') return { error: 'Unauthorized user' };
-  //   const validAccounts = dummyData.accounts.map((singleAccount) => {
-  //     const newAccount = new Account();
-  //     newAccount.id = singleAccount.id;
-  //     newAccount.accountNumber = singleAccount.accountNumber;
-  //     newAccount.createdOn = singleAccount.createdOn;
-  //     newAccount.owner = singleAccount.owner;
-  //     newAccount.type = singleAccount.type;
-  //     newAccount.status = singleAccount.status;
-  //     newAccount.balance = singleAccount.balance;
-  //     return newAccount;
-  //   });
-  //   return validAccounts;
-  // },
   deleteAccount: function () {
     var _deleteAccount = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
