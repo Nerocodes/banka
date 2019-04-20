@@ -1,114 +1,124 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
-var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _user = _interopRequireDefault(require("../services/user.service"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var secret = process.env.SECRET || 'supersecret';
 var UserController = {
-  fetchAllUsers: function fetchAllUsers(req, res) {
-    var allUsers = _user["default"].fetchAllUsers(); // eslint-disable-next-line array-callback-return
+  addAUser: function () {
+    var _addAUser = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee(req, res) {
+      var newUser, createdUser;
+      return _regenerator["default"].wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              newUser = req.body;
 
+              if (!newUser.type && !newUser.isAdmin) {
+                newUser.type = 'client';
+                newUser.isAdmin = false;
+              }
 
-    allUsers.map(function (userObj) {
-      Object.defineProperty(userObj, 'password', {
-        enumerable: false,
-        writable: true
-      });
-    });
-    return res.json({
-      status: 200,
-      data: allUsers
-    }).status(200);
-  },
-  addAUser: function addAUser(req, res) {
-    var newUser = req.body;
+              _context.next = 4;
+              return _user["default"].addUser(newUser);
 
-    if (!newUser.type && !newUser.isAdmin) {
-      newUser.type = 'client';
-      newUser.isAdmin = false;
+            case 4:
+              createdUser = _context.sent;
+
+              if (!createdUser.error) {
+                _context.next = 7;
+                break;
+              }
+
+              return _context.abrupt("return", res.json({
+                status: 400,
+                data: createdUser.error
+              }));
+
+            case 7:
+              return _context.abrupt("return", res.json({
+                status: 201,
+                data: createdUser
+              }));
+
+            case 8:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    function addAUser(_x, _x2) {
+      return _addAUser.apply(this, arguments);
     }
 
-    var hashedPassword = _bcryptjs["default"].hashSync(newUser.password, 8);
+    return addAUser;
+  }(),
+  signIn: function () {
+    var _signIn = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee2(req, res) {
+      var oldUser, foundUser;
+      return _regenerator["default"].wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              oldUser = req.body;
+              _context2.next = 3;
+              return _user["default"].signIn(oldUser);
 
-    newUser.password = hashedPassword;
+            case 3:
+              foundUser = _context2.sent;
 
-    var createdUser = _user["default"].addUser(newUser);
+              if (foundUser.email) {
+                _context2.next = 6;
+                break;
+              }
 
-    var token = _jsonwebtoken["default"].sign({
-      id: createdUser.id
-    }, secret, {
-      expiresIn: 86400
-    });
+              return _context2.abrupt("return", res.json({
+                status: 404,
+                error: 'no user with this email'
+              }));
 
-    createdUser.token = token;
-    Object.defineProperty(createdUser, 'password', {
-      enumerable: false,
-      writable: true
-    });
-    return res.json({
-      status: 201,
-      data: createdUser
-    }).status(201);
-  },
-  signIn: function signIn(req, res) {
-    var oldUser = req.body;
+            case 6:
+              if (foundUser.error) {
+                res.json({
+                  status: 400,
+                  error: 'wrong password'
+                });
+              }
 
-    var foundUser = _user["default"].signIn(oldUser);
+              return _context2.abrupt("return", res.json({
+                status: 201,
+                data: foundUser
+              }));
 
-    if (!foundUser.email) {
-      return res.json({
-        status: 404,
-        error: 'no user with this email'
-      }).status(404);
+            case 8:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function signIn(_x3, _x4) {
+      return _signIn.apply(this, arguments);
     }
 
-    var validPassword = _bcryptjs["default"].compareSync(oldUser.password, foundUser.password);
-
-    if (!validPassword) {
-      return res.json({
-        status: 401,
-        error: 'wrong password'
-      }).status(401);
-    }
-
-    Object.defineProperty(foundUser, 'password', {
-      enumerable: false,
-      writable: true
-    });
-
-    var token = _jsonwebtoken["default"].sign({
-      id: foundUser.id
-    }, secret, {
-      expiresIn: 86400 // expires in 24 hours
-
-    });
-
-    foundUser.token = token;
-    return res.json({
-      status: 201,
-      data: foundUser
-    }).status(201);
-  },
-  getSingleUser: function getSingleUser(req, res) {
-    var id = req.params.id;
-
-    var foundUser = _user["default"].getAUser(id);
-
-    return res.json({
-      status: 201,
-      data: foundUser
-    }).status(200);
-  }
+    return signIn;
+  }()
 };
 var _default = UserController;
 exports["default"] = _default;

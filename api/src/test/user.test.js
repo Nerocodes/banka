@@ -13,7 +13,7 @@ describe('Testing user signup', () => {
     const user = {
       firstName: 'Oghenero',
       lastName: 'Paul-Ejukorlem',
-      email: 'neropaulej@gmail.com',
+      email: 'paulej@gmail.com',
       password: 'password',
     };
     chai.request(app)
@@ -47,8 +47,7 @@ describe('Testing user signup', () => {
         // console.log(res.body);
         res.body.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.error.name.should.equal('ValidationError');
-        res.body.error.should.have.property('details');
+        res.body.error.should.equal('First Name is required');
         done();
       });
   });
@@ -66,8 +65,8 @@ describe('Testing user signup', () => {
         // console.log(res.body);
         res.body.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.error.name.should.equal('ValidationError');
-        res.body.error.should.have.property('details');
+        res.body.should.be.a('object');
+        res.body.error.should.equal('Last Name is required');
         done();
       });
   });
@@ -85,8 +84,8 @@ describe('Testing user signup', () => {
         // console.log(res.body);
         res.body.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.error.name.should.equal('ValidationError');
-        res.body.error.should.have.property('details');
+        res.body.should.be.a('object');
+        res.body.error.should.equal('A valid email address is required');
         done();
       });
   });
@@ -104,8 +103,8 @@ describe('Testing user signup', () => {
         // console.log(res.body);
         res.body.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.error.name.should.equal('ValidationError');
-        res.body.error.should.have.property('details');
+        res.body.should.be.a('object');
+        res.body.error.should.equal('Password is required');
         done();
       });
   });
@@ -116,7 +115,7 @@ describe('Testing user signin', () => {
   const signInUrl = '/api/v1/auth/signin';
   it('should sign in a user when all required fields are given', (done) => {
     const user = {
-      email: 'neropaulej@gmail.com',
+      email: 'paulej@gmail.com',
       password: 'password',
     };
     chai.request(app)
@@ -148,8 +147,8 @@ describe('Testing user signin', () => {
         // console.log(res.body);
         res.body.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.error.name.should.equal('ValidationError');
-        res.body.error.should.have.property('details');
+        res.body.should.be.a('object');
+        res.body.error.should.equal('A valid email address is required');
         done();
       });
   });
@@ -165,8 +164,8 @@ describe('Testing user signin', () => {
         // console.log(res.body);
         res.body.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.error.name.should.equal('ValidationError');
-        res.body.error.should.have.property('details');
+        res.body.should.be.a('object');
+        res.body.error.should.equal('Password is required');
         done();
       });
   });

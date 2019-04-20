@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -16,8 +18,6 @@ var _user = _interopRequireDefault(require("./routes/user.route"));
 var _account = _interopRequireDefault(require("./routes/account.route"));
 
 var _transaction = _interopRequireDefault(require("./routes/transaction.route"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // routes
 _dotenv["default"].config();
