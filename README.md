@@ -68,10 +68,10 @@ Documentation: [Banka-Docs](https://documenter.getpostman.com/view/6692772/S1ENy
 | POST /auth/signup | Create user account |
 | POST /auth/signin | Login a user |
 | POST /accounts | Create a bank account |
-| PATCH  /account/<account-number> | Activate or deactivate an account |
-| DELETE  /accounts/<account-number> | Delete a specific bank account |
-| POST  /transactions/<account-number>/debit | Debit a bank account |
-| POST  /transactions/<account-number>/credit | Credit a bank account |
+| PATCH  /account/:account-number | Activate or deactivate an account |
+| DELETE  /accounts/:account-number | Delete a specific bank account |
+| POST  /transactions/:account-number/debit | Debit a bank account |
+| POST  /transactions/:account-number/credit | Credit a bank account |
 
 #### UI
 You can view the user interface here [Banka](https://nerocodes.github.io/banka/ui/)
