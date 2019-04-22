@@ -211,7 +211,7 @@ describe('Testing admin or staff deleting account', () => {
 
 // Test for account transaction history
 describe('Testing get transaction history', () => {
-  const historyUrl = `/api/v1/accounts/${accountNumber}/transactions`;
+  let historyUrl = `/api/v1/accounts/${accountNumber}/transactions`;
   it('should get all transaction history belonging to specified account number', async () => {
     const token = await getAdminToken();
     chai.request(app)
@@ -228,6 +228,19 @@ describe('Testing get transaction history', () => {
         response.body.data[0].should.have.property('amount');
         response.body.data[0].should.have.property('oldBalance');
         response.body.data[0].should.have.property('newBalance');
+      });
+  });
+
+  it('should not get all transaction history account does not have transactions', async () => {
+    historyUrl = `/api/v1/accounts/${accountNumber + 4}/transactions`;
+    const token = await getAdminToken();
+    chai.request(app)
+      .get(historyUrl)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(400);
+        response.body.should.be.a('object');
+        response.body.error.should.equal('No transaction history');
       });
   });
 });
