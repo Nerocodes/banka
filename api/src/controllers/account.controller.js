@@ -83,6 +83,20 @@ const AccountController = {
       data: transactionHistory,
     });
   },
+
+  async getSingleAccount(req, res) {
+    const account = await AccountService.getSingleAccount(req.params);
+    if (account.error) {
+      return res.json({
+        status: 400,
+        error: account.error,
+      });
+    }
+    return res.json({
+      status: 200,
+      data: account,
+    });
+  },
 };
 
 export default AccountController;

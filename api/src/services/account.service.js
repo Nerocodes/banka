@@ -147,6 +147,37 @@ const AccountService = {
       client.release();
     }
   },
+
+  async getSingleAccount({ accountNumber }) {
+    const sql = `
+        SELECT * FROM Accounts WHERE accountNumber=${accountNumber};
+      `;
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      if (res.rowCount < 1) return { error: 'No account with this account number' };
+      const {
+        createdon: createdOn,
+        owner: userId,
+        type,
+        status,
+        balance,
+      } = res.rows[0];
+      const user = await UserService.getAUser(userId);
+      return {
+        createdOn,
+        accountNumber,
+        ownerEmail: user.email,
+        type,
+        status,
+        balance,
+      };
+    } catch (err) {
+      return { error: err.detail };
+    } finally {
+      client.release();
+    }
+  },
 };
 
 export default AccountService;

@@ -239,7 +239,7 @@ describe('Testing get user accounts', () => {
       .set('x-access-token', token)
       .end((err, res) => {
         res.body.should.have.status(400);
-        res.body.data.should.be.a('object');
+        res.body.should.be.a('object');
         res.body.error.should.equal('No user with this email');
       });
   });
