@@ -15,4 +15,8 @@ router.post('/:accountNumber/credit',
   routeHelper.validateBody(routeHelper.schemas.debitCreditSchema),
   TransactionController.creditAnAccount);
 
+router.get('/:transactionId',
+  verifyToken.verify,
+  TransactionController.getATransaction);
+
 export default router;

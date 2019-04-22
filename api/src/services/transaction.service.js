@@ -67,6 +67,8 @@ const TransactionService = {
         transactionType,
         accountBalance,
       };
+    } catch (err) {
+      return { error: err.detail };
     } finally {
       client.release();
     }
@@ -134,6 +136,43 @@ const TransactionService = {
         transactionType,
         accountBalance,
       };
+    } catch (err) {
+      return { error: err.detail };
+    } finally {
+      client.release();
+    }
+  },
+
+  async getATransaction({ transactionId }) {
+    const sql = `
+        SELECT * FROM Transactions WHERE id='${transactionId}';
+      `;
+
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      if (res.rowCount < 1) {
+        return { error: 'No transaction with this id' };
+      }
+      const {
+        createdon: createdOn,
+        type,
+        accountnumber: accountNumber,
+        amount,
+        oldbalance: oldBalance,
+        newbalance: newBalance,
+      } = res.rows[0];
+      return {
+        transactionId,
+        createdOn,
+        type,
+        accountNumber,
+        amount,
+        oldBalance,
+        newBalance,
+      };
+    } catch (err) {
+      return { error: err.detail };
     } finally {
       client.release();
     }

@@ -196,3 +196,38 @@ describe('Testing debit transaction', () => {
       });
   });
 });
+
+// Testing for get single transaction
+describe('Testing get single transaction', () => {
+  const singleAccUrl = '/api/v1/transactions/';
+  it('should get single account', async () => {
+    const token = await getClientToken();
+    chai.request(app)
+      .get(`${singleAccUrl}2`)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(200);
+        response.body.data.should.be.a('array');
+        response.body.data[0].should.be.a('object');
+        response.body.data[0].should.have.property('transactionId');
+        response.body.data[0].should.have.property('createdOn');
+        response.body.data[0].should.have.property('type');
+        response.body.data[0].should.have.property('accountNumber');
+        response.body.data[0].should.have.property('amount');
+        response.body.data[0].should.have.property('oldBalance');
+        response.body.data[0].should.have.property('newBalance');
+      });
+  });
+
+  it('should not get single account if transaction does not exist', async () => {
+    const token = await getClientToken();
+    chai.request(app)
+      .get(`${singleAccUrl}9`)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(400);
+        response.body.should.be.a('object');
+        response.body.error.should.equal('No transaction with this id');
+      });
+  });
+});
