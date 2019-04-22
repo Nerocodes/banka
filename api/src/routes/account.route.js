@@ -17,8 +17,8 @@ router.delete('/:accountNumber',
   verifyToken.verify,
   AccountController.deleteAnAccount);
 
-// router.get('/',
-//   verifyToken.verify,
-//   AccountController.fetchAllAccounts);
+router.get('/:accountNumber/transactions',
+  verifyToken.verify,
+  AccountController.getTransactionHistory);
 
 export default router;

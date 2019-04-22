@@ -18,10 +18,10 @@ const staff = {
   password: 'password',
 };
 
-// const admin = {
-//   email: 'yoshiyama@gmail.com',
-//   password: 'password',
-// };
+const admin = {
+  email: 'yoshiyama@gmail.com',
+  password: 'password',
+};
 
 const getClientToken = async () => {
   const clientSignIn = await UserService.signIn(client);
@@ -35,11 +35,11 @@ const getStaffToken = async () => {
   return staffToken;
 };
 
-// const getAdminToken = async () => {
-//   const adminSignIn = await UserService.signIn(admin);
-//   const adminToken = adminSignIn.token;
-//   return adminToken;
-// };
+const getAdminToken = async () => {
+  const adminSignIn = await UserService.signIn(admin);
+  const adminToken = adminSignIn.token;
+  return adminToken;
+};
 
 const accountNumber = 23402001;
 
@@ -209,57 +209,25 @@ describe('Testing admin or staff deleting account', () => {
   });
 });
 
-// Test for getting all bank accounts
-// describe('Testing fetch all bank accounts', () => {
-//   const signInUrl = '/api/v1/auth/signin';
-//   const fetchAccUrl = '/api/v1/accounts';
-//   it('should fetch all bank accounts', (done) => {
-//     const user = {
-//       email: 'nerocodes@gmail.com',
-//       password: 'password',
-//     };
-//     chai.request(app)
-//       .post(signInUrl)
-//       .send(user)
-//       .end((err, res) => {
-//         res.body.should.have.status(201);
-//         res.body.should.be.a('object');
-//         res.body.data.should.have.property('token');
-//         const { token } = res.body.data;
-//         chai.request(app)
-//           .get(fetchAccUrl)
-//           .set('x-access-token', token)
-//           .end((error, response) => {
-//             response.body.should.have.status(200);
-//             response.body.should.be.a('object');
-//             response.body.should.have.property('data');
-//             done();
-//           });
-//       });
-//   });
-
-//   it('should not fetch accounts if user is not staff', (done) => {
-//     const user = {
-//       email: 'yoshiyama@gmail.com',
-//       password: 'password',
-//     };
-//     chai.request(app)
-//       .post(signInUrl)
-//       .send(user)
-//       .end((err, res) => {
-//         res.body.should.have.status(201);
-//         res.body.should.be.a('object');
-//         res.body.data.should.have.property('token');
-//         const { token } = res.body.data;
-//         chai.request(app)
-//           .get(fetchAccUrl)
-//           .set('x-access-token', token)
-//           .end((error, response) => {
-//             response.body.should.have.status(401);
-//             response.body.should.be.a('object');
-//             response.body.error.should.equal('Unauthorized user');
-//             done();
-//           });
-//       });
-//   });
-// });
+// Test for account transaction history
+describe('Testing get transaction history', () => {
+  const historyUrl = `/api/v1/accounts/${accountNumber}/transactions`;
+  it('should get all transaction history belonging to specified account number', async () => {
+    const token = await getAdminToken();
+    chai.request(app)
+      .get(historyUrl)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(200);
+        response.body.data.should.be.a('array');
+        response.body.data[0].should.be.a('object');
+        response.body.data[0].should.have.property('transactionId');
+        response.body.data[0].should.have.property('createdOn');
+        response.body.data[0].should.have.property('type');
+        response.body.data[0].should.have.property('accountNumber');
+        response.body.data[0].should.have.property('amount');
+        response.body.data[0].should.have.property('oldBalance');
+        response.body.data[0].should.have.property('newBalance');
+      });
+  });
+});

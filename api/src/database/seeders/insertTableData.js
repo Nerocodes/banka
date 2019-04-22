@@ -42,7 +42,6 @@ const insertAllTables = () => {
 
   INSERT INTO Accounts(
     accountNumber,
-    createdOn,
     owner,
     type,
     status,
@@ -50,7 +49,6 @@ const insertAllTables = () => {
     ) 
     VALUES (
       23402001,
-      '04/08/2019',
       '1',
       'savings',
       'active',
@@ -58,7 +56,6 @@ const insertAllTables = () => {
       ),
       (
         23402002,
-        '09/03/2019',
         '2',
         'savings',
         'dormant',
@@ -66,7 +63,6 @@ const insertAllTables = () => {
       ),
       (
         23402003,
-        '01/09/2019',
         '1',
         'current',
         'dormant',
@@ -76,7 +72,6 @@ const insertAllTables = () => {
       TRUNCATE Transactions;
 
   INSERT INTO Transactions(
-    createdOn,
     type,
     accountNumber,
     cashier,
@@ -85,7 +80,6 @@ const insertAllTables = () => {
     newBalance
     ) 
     VALUES (
-      '04/08/2019',
       'credit',
       23402001,
       '2',
@@ -94,7 +88,6 @@ const insertAllTables = () => {
       '250000'
       ),
       (
-        '02/03/2019',
         'debit',
         23402002,
         '2',
@@ -103,7 +96,6 @@ const insertAllTables = () => {
         '150000'
       ),
       (
-        '09/09/2019',
         'credit',
         23402001,
         '2',

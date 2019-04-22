@@ -57,9 +57,6 @@ const AccountService = {
         openingBalance,
       };
     } catch (err) {
-      if (err.code === '23505') {
-        return { error: err.detail };
-      }
       return { error: err.detail };
     } finally {
       client.release();
@@ -85,6 +82,8 @@ const AccountService = {
         accountNumber,
         status,
       };
+    } catch (err) {
+      return { error: err.detail };
     } finally {
       client.release();
     }
@@ -103,6 +102,47 @@ const AccountService = {
       return {
         deleted: 'Account successfully deleted',
       };
+    } catch (err) {
+      return { error: err.detail };
+    } finally {
+      client.release();
+    }
+  },
+
+  async transactionHistory({ accountNumber }) {
+    const sql = `
+    SELECT * FROM Transactions WHERE accountNumber='${accountNumber}' ORDER BY createdOn DESC;
+    `;
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      if (res.rowCount < 1) {
+        return { error1: 'No transaction history' };
+      }
+      const history = [];
+      res.rows.map((transaction) => {
+        const {
+          id: transactionId,
+          createdon: createdOn,
+          type,
+          amount,
+          oldbalance: oldBalance,
+          newbalance: newBalance,
+        } = transaction;
+        const transactionRes = {
+          transactionId,
+          createdOn,
+          type,
+          accountNumber,
+          amount,
+          oldBalance,
+          newBalance,
+        };
+        return history.push(transactionRes);
+      });
+      return history;
+    } catch (err) {
+      return { error: err.detail };
     } finally {
       client.release();
     }

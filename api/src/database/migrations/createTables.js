@@ -20,7 +20,7 @@ const createAllTables = () => {
   CREATE TABLE Accounts(
     id SERIAL PRIMARY KEY,
     accountNumber INT UNIQUE NOT NULL,
-    createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
+    createdOn TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     owner INT NOT NULL,
     type VARCHAR NOT NULL,
     status VARCHAR NOT NULL,
@@ -31,7 +31,7 @@ const createAllTables = () => {
 
   CREATE TABLE Transactions(
     id SERIAL PRIMARY KEY,
-    createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
+    createdOn TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     type VARCHAR NOT NULL,
     accountNumber INT NOT NULL,
     cashier INT NOT NULL,

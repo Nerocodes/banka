@@ -63,6 +63,26 @@ const AccountController = {
       message: 'Account successfully deleted',
     });
   },
+
+  async getTransactionHistory(req, res) {
+    const transactionHistory = await AccountService.transactionHistory(req.params);
+    if (transactionHistory.error) {
+      return res.json({
+        status: 400,
+        error: transactionHistory.error,
+      });
+    }
+    if (transactionHistory.error1) {
+      return res.json({
+        status: 400,
+        error: transactionHistory.error1,
+      });
+    }
+    return res.json({
+      status: 200,
+      data: transactionHistory,
+    });
+  },
 };
 
 export default AccountController;
