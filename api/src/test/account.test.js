@@ -211,7 +211,7 @@ describe('Testing admin or staff deleting account', () => {
 
 // Test for account transaction history
 describe('Testing get transaction history', () => {
-  let historyUrl = `/api/v1/accounts/${accountNumber}/transactions`;
+  const historyUrl = `/api/v1/accounts/${accountNumber}/transactions`;
   it('should get all transaction history belonging to specified account number', async () => {
     const token = await getAdminToken();
     chai.request(app)
@@ -230,17 +230,37 @@ describe('Testing get transaction history', () => {
         response.body.data[0].should.have.property('newBalance');
       });
   });
+});
 
-  it('should not get all transaction history account does not have transactions', async () => {
-    historyUrl = `/api/v1/accounts/${accountNumber + 4}/transactions`;
-    const token = await getAdminToken();
+describe('Testing get account details', () => {
+  let getAccUrl = '/api/v1/accounts/23402004';
+  it('should get account details', async () => {
+    const token = await getClientToken();
     chai.request(app)
-      .get(historyUrl)
+      .get(getAccUrl)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(200);
+        response.body.should.be.a('object');
+        response.body.data.should.have.property('createdOn');
+        response.body.data.should.have.property('accountNumber');
+        response.body.data.should.have.property('ownerEmail');
+        response.body.data.should.have.property('type');
+        response.body.data.should.have.property('status');
+        response.body.data.should.have.property('balance');
+      });
+  });
+
+  it('should not get account details if account number is wrong', async () => {
+    getAccUrl = '/api/v1/accounts/2340200';
+    const token = await getClientToken();
+    chai.request(app)
+      .get(getAccUrl)
       .set('x-access-token', token)
       .end((error, response) => {
         response.body.should.have.status(400);
         response.body.should.be.a('object');
-        response.body.error.should.equal('No transaction history');
+        response.body.error.should.equal('No account with this account number');
       });
   });
 });
