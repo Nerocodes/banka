@@ -96,6 +96,48 @@ const UserService = {
     }
   },
 
+  async getUserAccounts({ email }) {
+    const sql = `
+        SELECT * FROM Users WHERE email='${email}';
+      `;
+
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      if (res.rowCount < 1) {
+        return { error: 'No user with this email' };
+      }
+      const { id } = res.rows[0];
+      const sql2 = `
+        SELECT * FROM Accounts WHERE owner='${id}';
+      `;
+      const res2 = await client.query(sql2);
+      if (res2.rowCount < 1) {
+        return { error: 'User does not have any account' };
+      }
+      const accounts = [];
+      res2.rows.map((account) => {
+        const {
+          createdon: createdOn,
+          accountnumber: accountNumber,
+          type,
+          status,
+          balance,
+        } = account;
+        return accounts.push({
+          createdOn,
+          accountNumber,
+          type,
+          status,
+          balance,
+        });
+      });
+      return accounts;
+    } finally {
+      client.release();
+    }
+  },
+
 };
 
 export default UserService;

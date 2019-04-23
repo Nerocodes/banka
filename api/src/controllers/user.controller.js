@@ -31,15 +31,23 @@ const UserController = {
         error: 'no user with this email',
       });
     }
-    if (foundUser.error) {
-      res.json({
-        status: 400,
-        error: 'wrong password',
-      });
-    }
     return res.json({
       status: 201,
       data: foundUser,
+    });
+  },
+
+  async getUserAccounts(req, res) {
+    const accounts = await UserService.getUserAccounts(req.params);
+    if (accounts.error) {
+      return res.json({
+        status: 400,
+        error: accounts.error,
+      });
+    }
+    return res.json({
+      status: 200,
+      data: accounts,
     });
   },
 };

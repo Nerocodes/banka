@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => res.send('The api is working'));
 
 // handle routes
-app.use('/api/v1/auth', userRoutes);
+app.use('/api/v1', userRoutes);
 app.use('/api/v1/accounts', accountRoutes);
 app.use('/api/v1/transactions', transactionRoutes);
 
