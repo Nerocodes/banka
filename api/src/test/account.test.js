@@ -280,7 +280,7 @@ describe('Testing get account details', () => {
 // Test for get all accounts
 describe('Testing get account details', () => {
   const getAccUrl = '/api/v1/accounts';
-  it('should get account details', async () => {
+  it('should get all accounts', async () => {
     const token = await getStaffToken();
     chai.request(app)
       .get(getAccUrl)
@@ -298,7 +298,45 @@ describe('Testing get account details', () => {
       });
   });
 
-  it('should not get account details if user is not a staff', async () => {
+  it('should get all active accounts', async () => {
+    const getActiveAccUrl = '/api/v1/accounts?status=active';
+    const token = await getStaffToken();
+    chai.request(app)
+      .get(getActiveAccUrl)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(200);
+        response.body.should.be.a('object');
+        response.body.data.should.be.a('array');
+        response.body.data[0].should.have.property('createdOn');
+        response.body.data[0].should.have.property('accountNumber');
+        response.body.data[0].should.have.property('ownerEmail');
+        response.body.data[0].should.have.property('type');
+        response.body.data[0].should.have.property('status');
+        response.body.data[0].should.have.property('balance');
+      });
+  });
+
+  it('should get all dormant accounts', async () => {
+    const getDormantAccUrl = '/api/v1/accounts?status=dormant';
+    const token = await getStaffToken();
+    chai.request(app)
+      .get(getDormantAccUrl)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(200);
+        response.body.should.be.a('object');
+        response.body.data.should.be.a('array');
+        response.body.data[0].should.have.property('createdOn');
+        response.body.data[0].should.have.property('accountNumber');
+        response.body.data[0].should.have.property('ownerEmail');
+        response.body.data[0].should.have.property('type');
+        response.body.data[0].should.have.property('status');
+        response.body.data[0].should.have.property('balance');
+      });
+  });
+
+  it('should not get accounts if user is not a staff', async () => {
     const token = await getClientToken();
     chai.request(app)
       .get(getAccUrl)
