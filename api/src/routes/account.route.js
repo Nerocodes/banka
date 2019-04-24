@@ -25,4 +25,8 @@ router.get('/:accountNumber/transactions',
   verifyToken.verify,
   AccountController.getTransactionHistory);
 
+router.get('/', verifyToken.verify,
+  verifyToken.verify,
+  AccountController.getAllAccounts);
+
 export default router;

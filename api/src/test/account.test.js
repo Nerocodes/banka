@@ -232,6 +232,7 @@ describe('Testing get transaction history', () => {
   });
 });
 
+// Test for get account details
 describe('Testing get account details', () => {
   let getAccUrl = '/api/v1/accounts/23402004';
   it('should get account details', async () => {
@@ -261,6 +262,51 @@ describe('Testing get account details', () => {
         response.body.should.have.status(400);
         response.body.should.be.a('object');
         response.body.error.should.equal('No account with this account number');
+      });
+  });
+
+  it('should not get account details if no token', async () => {
+    getAccUrl = '/api/v1/accounts/2340200';
+    chai.request(app)
+      .get(getAccUrl)
+      .end((error, response) => {
+        response.body.should.have.status(403);
+        response.body.should.be.a('object');
+        response.body.error.should.equal('No token provided.');
+      });
+  });
+});
+
+// Test for get all accounts
+describe('Testing get account details', () => {
+  const getAccUrl = '/api/v1/accounts';
+  it('should get account details', async () => {
+    const token = await getStaffToken();
+    chai.request(app)
+      .get(getAccUrl)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(200);
+        response.body.should.be.a('object');
+        response.body.data.should.be.a('array');
+        response.body.data[0].should.have.property('createdOn');
+        response.body.data[0].should.have.property('accountNumber');
+        response.body.data[0].should.have.property('ownerEmail');
+        response.body.data[0].should.have.property('type');
+        response.body.data[0].should.have.property('status');
+        response.body.data[0].should.have.property('balance');
+      });
+  });
+
+  it('should not get account details if user is not a staff', async () => {
+    const token = await getClientToken();
+    chai.request(app)
+      .get(getAccUrl)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(403);
+        response.body.should.be.a('object');
+        response.body.error.should.equal('Unauthorized user');
       });
   });
 });

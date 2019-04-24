@@ -97,6 +97,20 @@ const AccountController = {
       data: account,
     });
   },
+
+  async getAllAccounts(req, res) {
+    const accounts = await AccountService.getAllAccounts(req);
+    if (accounts.error) {
+      return res.json({
+        status: 403,
+        error: accounts.error,
+      });
+    }
+    return res.json({
+      status: 200,
+      data: accounts,
+    });
+  },
 };
 
 export default AccountController;
