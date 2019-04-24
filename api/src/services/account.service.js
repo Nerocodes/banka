@@ -178,6 +178,44 @@ const AccountService = {
       client.release();
     }
   },
+
+  async getAllAccounts({ userId }) {
+    const staff = await UserService.getAUser(userId);
+    if (staff.type === 'client') return { error: 'Unauthorized user' };
+    const sql = `
+        SELECT * FROM Accounts;
+      `;
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      const accounts = [];
+      const accountsPromise = res.rows.map(async (account) => {
+        const {
+          createdon: createdOn,
+          owner: id,
+          type,
+          accountnumber: accountNumber,
+          status,
+          balance,
+        } = account;
+        const user = await UserService.getAUser(id);
+        return accounts.push({
+          createdOn,
+          accountNumber,
+          ownerEmail: user.email,
+          type,
+          status,
+          balance,
+        });
+      });
+      await Promise.all(accountsPromise);
+      return accounts;
+    } catch (err) {
+      return { error: err.detail };
+    } finally {
+      client.release();
+    }
+  },
 };
 
 export default AccountService;
