@@ -179,12 +179,19 @@ const AccountService = {
     }
   },
 
-  async getAllAccounts({ userId }) {
+  async getAllAccounts({ userId, query }) {
     const staff = await UserService.getAUser(userId);
     if (staff.type === 'client') return { error: 'Unauthorized user' };
-    const sql = `
+    let sql = '';
+    if (query.status) {
+      sql = `
+        SELECT * FROM Accounts Where status='${query.status}';
+      `;
+    } else {
+      sql = `
         SELECT * FROM Accounts;
       `;
+    }
     const client = await pool.connect();
     try {
       const res = await client.query(sql);
