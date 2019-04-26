@@ -7,16 +7,19 @@ const router = Router();
 
 router.post('/:accountNumber/debit',
   verifyToken.verify,
+  routeHelper.validateParams(routeHelper.schemas.accNoSchema),
   routeHelper.validateBody(routeHelper.schemas.debitCreditSchema),
   TransactionController.debitAnAccount);
 
 router.post('/:accountNumber/credit',
   verifyToken.verify,
+  routeHelper.validateParams(routeHelper.schemas.accNoSchema),
   routeHelper.validateBody(routeHelper.schemas.debitCreditSchema),
   TransactionController.creditAnAccount);
 
 router.get('/:transactionId',
   verifyToken.verify,
+  routeHelper.validateParams(routeHelper.schemas.idSchema),
   TransactionController.getATransaction);
 
 export default router;

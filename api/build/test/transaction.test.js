@@ -156,7 +156,7 @@ describe('Testing credit transaction', function () {
             _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/credit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
               responseStaff.body.should.have.status(400);
               responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('Amount must be a number and is required');
+              responseStaff.body.error.should.equal('Amount must be a positive number and is required');
             });
 
           case 5:
@@ -293,7 +293,7 @@ describe('Testing debit transaction', function () {
             _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/debit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
               responseStaff.body.should.have.status(400);
               responseStaff.body.should.be.a('object');
-              responseStaff.body.error.should.equal('Amount must be a number and is required');
+              responseStaff.body.error.should.equal('Amount must be a positive number and is required');
             });
 
           case 5:
@@ -367,7 +367,7 @@ describe('Testing debit transaction', function () {
       }
     }, _callee10);
   })));
-  it('should not debit account if account balance is not enough',
+  it('should not debit account if account number is not an integer',
   /*#__PURE__*/
   (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
@@ -378,13 +378,45 @@ describe('Testing debit transaction', function () {
         switch (_context11.prev = _context11.next) {
           case 0:
             amount = {
-              amount: 800000
+              amount: 80000
             };
             _context11.next = 3;
             return getStaffToken();
 
           case 3:
             token = _context11.sent;
+
+            _chai["default"].request(_index["default"]).post("".concat(transactionUrl, "123456.4/debit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
+              responseStaff.body.should.have.status(400);
+              responseStaff.body.should.be.a('object');
+              responseStaff.body.error.should.equal('Account number must be an integer');
+            });
+
+          case 5:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, _callee11);
+  })));
+  it('should not debit account if account balance is not enough',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee12() {
+    var amount, token;
+    return _regenerator["default"].wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            amount = {
+              amount: 800000
+            };
+            _context12.next = 3;
+            return getStaffToken();
+
+          case 3:
+            token = _context12.sent;
 
             _chai["default"].request(_index["default"]).post("".concat(transactionUrl).concat(accountNumber, "/debit")).set('x-access-token', token).send(amount).end(function (errorStaff, responseStaff) {
               responseStaff.body.should.have.status(400);
@@ -394,10 +426,130 @@ describe('Testing debit transaction', function () {
 
           case 5:
           case "end":
-            return _context11.stop();
+            return _context12.stop();
         }
       }
-    }, _callee11);
+    }, _callee12);
+  })));
+}); // Testing for get single transaction
+
+describe('Testing get single transaction', function () {
+  var singleAccUrl = '/api/v1/transactions/';
+  it('should get single account',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee13() {
+    var token;
+    return _regenerator["default"].wrap(function _callee13$(_context13) {
+      while (1) {
+        switch (_context13.prev = _context13.next) {
+          case 0:
+            _context13.next = 2;
+            return getClientToken();
+
+          case 2:
+            token = _context13.sent;
+
+            _chai["default"].request(_index["default"]).get("".concat(singleAccUrl, "2")).set('x-access-token', token).end(function (error, response) {
+              response.body.should.have.status(200);
+              response.body.data.should.be.a('array');
+              response.body.data[0].should.be.a('object');
+              response.body.data[0].should.have.property('transactionId');
+              response.body.data[0].should.have.property('createdOn');
+              response.body.data[0].should.have.property('type');
+              response.body.data[0].should.have.property('accountNumber');
+              response.body.data[0].should.have.property('amount');
+              response.body.data[0].should.have.property('oldBalance');
+              response.body.data[0].should.have.property('newBalance');
+            });
+
+          case 4:
+          case "end":
+            return _context13.stop();
+        }
+      }
+    }, _callee13);
+  })));
+  it('should not get single account if transaction does not exist',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee14() {
+    var token;
+    return _regenerator["default"].wrap(function _callee14$(_context14) {
+      while (1) {
+        switch (_context14.prev = _context14.next) {
+          case 0:
+            _context14.next = 2;
+            return getClientToken();
+
+          case 2:
+            token = _context14.sent;
+
+            _chai["default"].request(_index["default"]).get("".concat(singleAccUrl, "9")).set('x-access-token', token).end(function (error, response) {
+              response.body.should.have.status(400);
+              response.body.should.be.a('object');
+              response.body.error.should.equal('No transaction with this id');
+            });
+
+          case 4:
+          case "end":
+            return _context14.stop();
+        }
+      }
+    }, _callee14);
+  })));
+  it('should not get single account if transaction id is not an integer',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee15() {
+    var token;
+    return _regenerator["default"].wrap(function _callee15$(_context15) {
+      while (1) {
+        switch (_context15.prev = _context15.next) {
+          case 0:
+            _context15.next = 2;
+            return getClientToken();
+
+          case 2:
+            token = _context15.sent;
+
+            _chai["default"].request(_index["default"]).get("".concat(singleAccUrl, "2.2")).set('x-access-token', token).end(function (error, response) {
+              response.body.should.have.status(400);
+              response.body.should.be.a('object');
+              response.body.error.should.equal('Transaction ID must be an integer');
+            });
+
+          case 4:
+          case "end":
+            return _context15.stop();
+        }
+      }
+    }, _callee15);
+  })));
+  it('should not get single account if token is wrong',
+  /*#__PURE__*/
+  (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee16() {
+    return _regenerator["default"].wrap(function _callee16$(_context16) {
+      while (1) {
+        switch (_context16.prev = _context16.next) {
+          case 0:
+            _chai["default"].request(_index["default"]).get("".concat(singleAccUrl, "2.2")).set('x-access-token', 'nksfnjnsdbjhbecsk').end(function (error, response) {
+              response.body.should.have.status(500);
+              response.body.should.be.a('object');
+              response.body.error.should.equal('Failed to authenticate token.');
+            });
+
+          case 1:
+          case "end":
+            return _context16.stop();
+        }
+      }
+    }, _callee16);
   })));
 });
 //# sourceMappingURL=transaction.test.js.map

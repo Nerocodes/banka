@@ -17,11 +17,11 @@ var _token = _interopRequireDefault(require("../controllers/middleware/token.con
 
 var router = (0, _express.Router)();
 router.post('/', _token["default"].verify, _route["default"].validateBody(_route["default"].schemas.createAccountSchema), _account["default"].createAnAccount);
-router.patch('/:accountNumber', _token["default"].verify, _route["default"].validateBody(_route["default"].schemas.accountStatusSchema), _account["default"].accountStatus);
-router["delete"]('/:accountNumber', _token["default"].verify, _account["default"].deleteAnAccount); // router.get('/',
-//   verifyToken.verify,
-//   AccountController.fetchAllAccounts);
-
+router.patch('/:accountNumber', _token["default"].verify, _route["default"].validateParams(_route["default"].schemas.accNoSchema), _route["default"].validateBody(_route["default"].schemas.accountStatusSchema), _account["default"].accountStatus);
+router["delete"]('/:accountNumber', _token["default"].verify, _route["default"].validateParams(_route["default"].schemas.accNoSchema), _account["default"].deleteAnAccount);
+router.get('/:accountNumber', _token["default"].verify, _route["default"].validateParams(_route["default"].schemas.accNoSchema), _account["default"].getSingleAccount);
+router.get('/:accountNumber/transactions', _token["default"].verify, _route["default"].validateParams(_route["default"].schemas.accNoSchema), _account["default"].getTransactionHistory);
+router.get('/', _token["default"].verify, _token["default"].verify, _account["default"].getAllAccounts);
 var _default = router;
 exports["default"] = _default;
 //# sourceMappingURL=account.route.js.map

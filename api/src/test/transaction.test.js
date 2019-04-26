@@ -69,7 +69,7 @@ describe('Testing credit transaction', () => {
         responseStaff.body.should.have.status(400);
         responseStaff.body.should.be.a('object');
         responseStaff
-          .body.error.should.equal('Amount must be a number and is required');
+          .body.error.should.equal('Amount must be a positive number and is required');
       });
   });
 
@@ -143,7 +143,7 @@ describe('Testing debit transaction', () => {
         responseStaff.body.should.have.status(400);
         responseStaff.body.should.be.a('object');
         responseStaff
-          .body.error.should.equal('Amount must be a number and is required');
+          .body.error.should.equal('Amount must be a positive number and is required');
       });
   });
 
@@ -176,6 +176,22 @@ describe('Testing debit transaction', () => {
         responseStaff.body.should.have.status(404);
         responseStaff.body.should.be.a('object');
         responseStaff.body.error.should.equal('Account number does not match our records');
+      });
+  });
+
+  it('should not debit account if account number is not an integer', async () => {
+    const amount = {
+      amount: 80000,
+    };
+    const token = await getStaffToken();
+    chai.request(app)
+      .post(`${transactionUrl}123456.4/debit`)
+      .set('x-access-token', token)
+      .send(amount)
+      .end((errorStaff, responseStaff) => {
+        responseStaff.body.should.have.status(400);
+        responseStaff.body.should.be.a('object');
+        responseStaff.body.error.should.equal('Account number must be an integer');
       });
   });
 
@@ -228,6 +244,29 @@ describe('Testing get single transaction', () => {
         response.body.should.have.status(400);
         response.body.should.be.a('object');
         response.body.error.should.equal('No transaction with this id');
+      });
+  });
+
+  it('should not get single account if transaction id is not an integer', async () => {
+    const token = await getClientToken();
+    chai.request(app)
+      .get(`${singleAccUrl}2.2`)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(400);
+        response.body.should.be.a('object');
+        response.body.error.should.equal('Transaction ID must be an integer');
+      });
+  });
+
+  it('should not get single account if token is wrong', async () => {
+    chai.request(app)
+      .get(`${singleAccUrl}2.2`)
+      .set('x-access-token', 'nksfnjnsdbjhbecsk')
+      .end((error, response) => {
+        response.body.should.have.status(500);
+        response.body.should.be.a('object');
+        response.body.error.should.equal('Failed to authenticate token.');
       });
   });
 });

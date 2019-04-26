@@ -10,19 +10,24 @@ router.post('/', verifyToken.verify,
   AccountController.createAnAccount);
 
 router.patch('/:accountNumber',
-  verifyToken.verify, routeHelper.validateBody(routeHelper.schemas.accountStatusSchema),
+  verifyToken.verify,
+  routeHelper.validateParams(routeHelper.schemas.accNoSchema),
+  routeHelper.validateBody(routeHelper.schemas.accountStatusSchema),
   AccountController.accountStatus);
 
 router.delete('/:accountNumber',
   verifyToken.verify,
+  routeHelper.validateParams(routeHelper.schemas.accNoSchema),
   AccountController.deleteAnAccount);
 
 router.get('/:accountNumber',
   verifyToken.verify,
+  routeHelper.validateParams(routeHelper.schemas.accNoSchema),
   AccountController.getSingleAccount);
 
 router.get('/:accountNumber/transactions',
   verifyToken.verify,
+  routeHelper.validateParams(routeHelper.schemas.accNoSchema),
   AccountController.getTransactionHistory);
 
 router.get('/', verifyToken.verify,

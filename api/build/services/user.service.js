@@ -206,6 +206,93 @@ var UserService = {
     }
 
     return getAUser;
+  }(),
+  getUserAccounts: function () {
+    var _getUserAccounts = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee4(_ref) {
+      var email, sql, client, res, id, sql2, res2, accounts;
+      return _regenerator["default"].wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              email = _ref.email;
+              sql = "\n        SELECT * FROM Users WHERE email='".concat(email, "';\n      ");
+              _context4.next = 4;
+              return _database["default"].connect();
+
+            case 4:
+              client = _context4.sent;
+              _context4.prev = 5;
+              _context4.next = 8;
+              return client.query(sql);
+
+            case 8:
+              res = _context4.sent;
+
+              if (!(res.rowCount < 1)) {
+                _context4.next = 11;
+                break;
+              }
+
+              return _context4.abrupt("return", {
+                error: 'No user with this email'
+              });
+
+            case 11:
+              id = res.rows[0].id;
+              sql2 = "\n        SELECT * FROM Accounts WHERE owner='".concat(id, "';\n      ");
+              _context4.next = 15;
+              return client.query(sql2);
+
+            case 15:
+              res2 = _context4.sent;
+
+              if (!(res2.rowCount < 1)) {
+                _context4.next = 18;
+                break;
+              }
+
+              return _context4.abrupt("return", {
+                error: 'User does not have any account'
+              });
+
+            case 18:
+              accounts = [];
+              res2.rows.map(function (account) {
+                var createdOn = account.createdon,
+                    accountNumber = account.accountnumber,
+                    type = account.type,
+                    status = account.status,
+                    balance = account.balance;
+                return accounts.push({
+                  createdOn: createdOn,
+                  accountNumber: accountNumber,
+                  type: type,
+                  status: status,
+                  balance: balance
+                });
+              });
+              return _context4.abrupt("return", accounts);
+
+            case 21:
+              _context4.prev = 21;
+              client.release();
+              return _context4.finish(21);
+
+            case 24:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, null, [[5,, 21, 24]]);
+    }));
+
+    function getUserAccounts(_x4) {
+      return _getUserAccounts.apply(this, arguments);
+    }
+
+    return getUserAccounts;
   }()
 };
 var _default = UserService;

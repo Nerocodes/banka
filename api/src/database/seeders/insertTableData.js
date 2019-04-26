@@ -113,9 +113,4 @@ const insertAllTables = () => {
     });
 };
 
-module.exports = {
-  insertAllTables,
-};
-
-// eslint-disable-next-line import/first
-require('make-runnable');
+insertAllTables();
