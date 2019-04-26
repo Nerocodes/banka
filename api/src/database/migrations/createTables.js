@@ -49,9 +49,4 @@ const createAllTables = () => {
     });
 };
 
-module.exports = {
-  createAllTables,
-};
-
-// eslint-disable-next-line import/first
-require('make-runnable');
+createAllTables();

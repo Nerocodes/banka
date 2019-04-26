@@ -37,7 +37,7 @@ var TransactionController = {
               return _context.abrupt("return", res.json({
                 status: 401,
                 error: transaction.error
-              }).status(401));
+              }));
 
             case 5:
               if (!transaction.error1) {
@@ -48,7 +48,7 @@ var TransactionController = {
               return _context.abrupt("return", res.json({
                 status: 404,
                 error: transaction.error1
-              }).status(404));
+              }));
 
             case 7:
               if (!transaction.error2) {
@@ -59,13 +59,13 @@ var TransactionController = {
               return _context.abrupt("return", res.json({
                 status: 400,
                 error: transaction.error2
-              }).status(400));
+              }));
 
             case 9:
               return _context.abrupt("return", res.json({
                 status: 200,
                 data: transaction
-              }).status(200));
+              }));
 
             case 10:
             case "end":
@@ -104,7 +104,7 @@ var TransactionController = {
               return _context2.abrupt("return", res.json({
                 status: 401,
                 error: transaction.error
-              }).status(401));
+              }));
 
             case 5:
               if (!transaction.error1) {
@@ -115,13 +115,13 @@ var TransactionController = {
               return _context2.abrupt("return", res.json({
                 status: 404,
                 error: transaction.error1
-              }).status(404));
+              }));
 
             case 7:
               return _context2.abrupt("return", res.json({
                 status: 200,
                 data: transaction
-              }).status(200));
+              }));
 
             case 8:
             case "end":
@@ -136,6 +136,51 @@ var TransactionController = {
     }
 
     return creditAnAccount;
+  }(),
+  getATransaction: function () {
+    var _getATransaction = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee3(req, res) {
+      var transaction;
+      return _regenerator["default"].wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _transaction["default"].getATransaction(req.params);
+
+            case 2:
+              transaction = _context3.sent;
+
+              if (!transaction.error) {
+                _context3.next = 5;
+                break;
+              }
+
+              return _context3.abrupt("return", res.json({
+                status: 400,
+                error: transaction.error
+              }));
+
+            case 5:
+              return _context3.abrupt("return", res.json({
+                status: 200,
+                data: [transaction]
+              }));
+
+            case 6:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function getATransaction(_x5, _x6) {
+      return _getATransaction.apply(this, arguments);
+    }
+
+    return getATransaction;
   }()
 };
 var _default = TransactionController;

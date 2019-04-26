@@ -118,17 +118,24 @@ var TransactionService = {
                 accountBalance: accountBalance
               });
 
-            case 41:
-              _context.prev = 41;
-              client.release();
-              return _context.finish(41);
+            case 43:
+              _context.prev = 43;
+              _context.t0 = _context["catch"](13);
+              return _context.abrupt("return", {
+                error: _context.t0.detail
+              });
 
-            case 44:
+            case 46:
+              _context.prev = 46;
+              client.release();
+              return _context.finish(46);
+
+            case 49:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[13,, 41, 44]]);
+      }, _callee, null, [[13, 43, 46, 49]]);
     }));
 
     function debitAccount(_x, _x2, _x3) {
@@ -225,17 +232,24 @@ var TransactionService = {
                 accountBalance: accountBalance
               });
 
-            case 39:
-              _context2.prev = 39;
-              client.release();
-              return _context2.finish(39);
+            case 41:
+              _context2.prev = 41;
+              _context2.t0 = _context2["catch"](13);
+              return _context2.abrupt("return", {
+                error: _context2.t0.detail
+              });
 
-            case 42:
+            case 44:
+              _context2.prev = 44;
+              client.release();
+              return _context2.finish(44);
+
+            case 47:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[13,, 39, 42]]);
+      }, _callee2, null, [[13, 41, 44, 47]]);
     }));
 
     function creditAccount(_x4, _x5, _x6) {
@@ -243,6 +257,77 @@ var TransactionService = {
     }
 
     return creditAccount;
+  }(),
+  getATransaction: function () {
+    var _getATransaction = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee3(_ref7) {
+      var transactionId, sql, client, res, _res$rows$, createdOn, type, accountNumber, amount, oldBalance, newBalance;
+
+      return _regenerator["default"].wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              transactionId = _ref7.transactionId;
+              sql = "\n        SELECT * FROM Transactions WHERE id='".concat(transactionId, "';\n      ");
+              _context3.next = 4;
+              return _database["default"].connect();
+
+            case 4:
+              client = _context3.sent;
+              _context3.prev = 5;
+              _context3.next = 8;
+              return client.query(sql);
+
+            case 8:
+              res = _context3.sent;
+
+              if (!(res.rowCount < 1)) {
+                _context3.next = 11;
+                break;
+              }
+
+              return _context3.abrupt("return", {
+                error: 'No transaction with this id'
+              });
+
+            case 11:
+              _res$rows$ = res.rows[0], createdOn = _res$rows$.createdon, type = _res$rows$.type, accountNumber = _res$rows$.accountnumber, amount = _res$rows$.amount, oldBalance = _res$rows$.oldbalance, newBalance = _res$rows$.newbalance;
+              return _context3.abrupt("return", {
+                transactionId: transactionId,
+                createdOn: createdOn,
+                type: type,
+                accountNumber: accountNumber,
+                amount: amount,
+                oldBalance: oldBalance,
+                newBalance: newBalance
+              });
+
+            case 15:
+              _context3.prev = 15;
+              _context3.t0 = _context3["catch"](5);
+              return _context3.abrupt("return", {
+                error: _context3.t0.detail
+              });
+
+            case 18:
+              _context3.prev = 18;
+              client.release();
+              return _context3.finish(18);
+
+            case 21:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, null, [[5, 15, 18, 21]]);
+    }));
+
+    function getATransaction(_x7) {
+      return _getATransaction.apply(this, arguments);
+    }
+
+    return getATransaction;
   }()
 };
 var _default = TransactionService;

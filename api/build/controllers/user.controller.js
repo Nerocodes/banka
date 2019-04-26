@@ -93,19 +93,12 @@ var UserController = {
               }));
 
             case 6:
-              if (foundUser.error) {
-                res.json({
-                  status: 400,
-                  error: 'wrong password'
-                });
-              }
-
               return _context2.abrupt("return", res.json({
                 status: 201,
                 data: foundUser
               }));
 
-            case 8:
+            case 7:
             case "end":
               return _context2.stop();
           }
@@ -118,6 +111,51 @@ var UserController = {
     }
 
     return signIn;
+  }(),
+  getUserAccounts: function () {
+    var _getUserAccounts = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee3(req, res) {
+      var accounts;
+      return _regenerator["default"].wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _user["default"].getUserAccounts(req.params);
+
+            case 2:
+              accounts = _context3.sent;
+
+              if (!accounts.error) {
+                _context3.next = 5;
+                break;
+              }
+
+              return _context3.abrupt("return", res.json({
+                status: 400,
+                error: accounts.error
+              }));
+
+            case 5:
+              return _context3.abrupt("return", res.json({
+                status: 200,
+                data: accounts
+              }));
+
+            case 6:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function getUserAccounts(_x5, _x6) {
+      return _getUserAccounts.apply(this, arguments);
+    }
+
+    return getUserAccounts;
   }()
 };
 var _default = UserController;

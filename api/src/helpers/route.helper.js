@@ -14,6 +14,19 @@ const routeHelper = {
     return next();
   },
 
+  validateParams: schema => (req, res, next) => {
+    const result = Joi.validate(req.params, schema);
+    if (result.error) {
+      return res.json({
+        status: 400,
+        error: result.error.details[0].message,
+      }).status(400);
+    }
+
+    req.params = result.value;
+    return next();
+  },
+
   schemas: {
     authSchema: Joi.object().keys({
       email: Joi.string().email().required()
@@ -60,9 +73,21 @@ const routeHelper = {
         })),
     }),
     debitCreditSchema: Joi.object().keys({
-      amount: Joi.number().required()
+      amount: Joi.number().positive().required()
         .error(() => ({
-          message: 'Amount must be a number and is required',
+          message: 'Amount must be a positive number and is required',
+        })),
+    }),
+    idSchema: Joi.object().keys({
+      transactionId: Joi.number().integer().required()
+        .error(() => ({
+          message: 'Transaction ID must be an integer',
+        })),
+    }),
+    accNoSchema: Joi.object().keys({
+      accountNumber: Joi.number().integer().required()
+        .error(() => ({
+          message: 'Account number must be an integer',
         })),
     }),
   },

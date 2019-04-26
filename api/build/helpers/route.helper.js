@@ -25,6 +25,21 @@ var routeHelper = {
       return next();
     };
   },
+  validateParams: function validateParams(schema) {
+    return function (req, res, next) {
+      var result = _joi["default"].validate(req.params, schema);
+
+      if (result.error) {
+        return res.json({
+          status: 400,
+          error: result.error.details[0].message
+        }).status(400);
+      }
+
+      req.params = result.value;
+      return next();
+    };
+  },
   schemas: {
     authSchema: _joi["default"].object().keys({
       email: _joi["default"].string().email().required().error(function () {
@@ -77,9 +92,23 @@ var routeHelper = {
       })
     }),
     debitCreditSchema: _joi["default"].object().keys({
-      amount: _joi["default"].number().required().error(function () {
+      amount: _joi["default"].number().positive().required().error(function () {
         return {
-          message: 'Amount must be a number and is required'
+          message: 'Amount must be a positive number and is required'
+        };
+      })
+    }),
+    idSchema: _joi["default"].object().keys({
+      transactionId: _joi["default"].number().integer().required().error(function () {
+        return {
+          message: 'Transaction ID must be an integer'
+        };
+      })
+    }),
+    accNoSchema: _joi["default"].object().keys({
+      accountNumber: _joi["default"].number().integer().required().error(function () {
+        return {
+          message: 'Account number must be an integer'
         };
       })
     })
