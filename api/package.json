@@ -6,6 +6,7 @@
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel -d ./build ./src -s",
+    "copy": "babel ./src/utils --out-dir ./build/utils --copy-files --ignore ./src/utils/swaggerDoc.js",
     "build": "npm run clean && npm run build-server",
     "start": "set NODE_ENV='PROD' && node ./build/index.js",
     "dev-start": "nodemon --exec babel-node ./src/index.js",
