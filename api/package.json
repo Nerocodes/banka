@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-server": "babel -d ./build ./src -s",
+    "build-server": "babel ./src --out-dir ./build -s  --copy-files",
     "copy": "babel ./src/utils --out-dir ./build/utils --copy-files --ignore ./src/utils/swaggerDoc.js",
     "build": "npm run clean && npm run build-server",
     "start": "set NODE_ENV='PROD' && node ./build/index.js",
