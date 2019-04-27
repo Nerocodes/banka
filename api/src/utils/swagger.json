@@ -121,12 +121,6 @@
         ],
         "parameters": [
           {
-            "name": "x-access-token",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "email",
             "in": "path",
             "description": "Email of accounts to return",
@@ -135,10 +129,18 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": "successful operation"
+          "400": {
+            "description": "Invalid Email supplied"
+          },
+          "404": {
+            "description": "No accounts found"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       }
     },
     "/accounts": {
@@ -149,32 +151,35 @@
         "summary": "Create bank account",
         "description": "",
         "operationId": "createAcc",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "x-access-token",
-            "in": "header",
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "type",
-            "in": "formData",
-            "description": "Bank account type",
-            "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "default": {
             "description": "successful operation"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -188,22 +193,21 @@
         ],
         "parameters": [
           {
-            "name": "x-access-token",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "status",
             "in": "query",
             "type": "string"
           }
         ],
         "responses": {
-          "default": {
-            "description": "successful operation"
+          "400": {
+            "description": "Invalid input"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       }
     },
     "/accounts/{accountNumber}": {
@@ -219,12 +223,6 @@
         ],
         "parameters": [
           {
-            "name": "x-access-token",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "accountNumber",
             "in": "path",
             "description": "Account number of account details to return",
@@ -233,10 +231,15 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": "successful operation"
+          "400": {
+            "description": "Invalid input"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       },
       "patch": {
         "tags": [
@@ -245,19 +248,10 @@
         "summary": "Get single bank account",
         "description": "",
         "operationId": "modifyAccStatus",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
         "produces": [
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "x-access-token",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "accountNumber",
             "in": "path",
@@ -266,18 +260,30 @@
             "type": "number"
           },
           {
-            "name": "status",
-            "in": "formData",
-            "description": "Account status to modify to",
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "default": {
             "description": "successful operation"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -291,12 +297,6 @@
         ],
         "parameters": [
           {
-            "name": "x-access-token",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "accountNumber",
             "in": "path",
             "description": "Account number of account details to return",
@@ -305,10 +305,15 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": "successful operation"
+          "400": {
+            "description": "Invalid input"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       }
     },
     "/accounts/{accountNumber}/transactions": {
@@ -324,12 +329,6 @@
         ],
         "parameters": [
           {
-            "name": "x-access-token",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "accountNumber",
             "in": "path",
             "description": "Account number of account details to return",
@@ -338,10 +337,15 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": "successful operation"
+          "400": {
+            "description": "Invalid input"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       }
     },
     "/transactions/{accountNumber}/debit": {
@@ -352,19 +356,10 @@
         "summary": "Debit account",
         "description": "",
         "operationId": "debitAcc",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
         "produces": [
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "x-access-token",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "accountNumber",
             "in": "path",
@@ -373,18 +368,30 @@
             "type": "number"
           },
           {
-            "name": "amount",
-            "in": "formData",
-            "description": "Amount to debit",
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
             "required": true,
-            "type": "number"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "number"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "default": {
             "description": "successful operation"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       }
     },
     "/transactions/{accountNumber}/credit": {
@@ -395,19 +402,10 @@
         "summary": "Debit account",
         "description": "",
         "operationId": "creditAcc",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
         "produces": [
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "x-access-token",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "accountNumber",
             "in": "path",
@@ -416,18 +414,30 @@
             "type": "number"
           },
           {
-            "name": "amount",
-            "in": "formData",
-            "description": "Amount to credit",
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
             "required": true,
-            "type": "number"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "number"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "default": {
             "description": "successful operation"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       }
     },
     "/transactions/{transactionId}": {
@@ -443,12 +453,6 @@
         ],
         "parameters": [
           {
-            "name": "x-access-token",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "transactionId",
             "in": "path",
             "description": "Transaction ID of transaction details to return",
@@ -457,11 +461,23 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": "successful operation"
+          "400": {
+            "description": "Invalid input"
           }
-        }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
       }
+    }
+  },
+  "securityDefinitions": {
+    "token": {
+      "type": "apiKey",
+      "name": "x-access-token",
+      "in": "header"
     }
   }
 }

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import UserController from '../controllers/user.controller';
 import routeHelper from '../helpers/route.helper';
 import verifyToken from '../controllers/middleware/token.controller';
+import permissions from '../controllers/middleware/roles.controller';
 
 const router = Router();
 
@@ -15,6 +16,8 @@ router.post('/auth/signin',
 
 router.get('/user/:email/accounts',
   verifyToken.verify,
+  routeHelper.validateParams(routeHelper.schemas.emailSchema),
+  permissions.staffAndClientOwn,
   UserController.getUserAccounts);
 
 export default router;

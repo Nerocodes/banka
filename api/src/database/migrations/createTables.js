@@ -43,9 +43,6 @@ const createAllTables = () => {
   pool.query(sql)
     .then(() => {
       pool.end();
-    })
-    .catch(() => {
-      pool.end();
     });
 };
 

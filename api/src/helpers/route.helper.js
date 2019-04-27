@@ -27,17 +27,30 @@ const routeHelper = {
     return next();
   },
 
+  validateQuery: schema => (req, res, next) => {
+    const result = Joi.validate(req.query, schema);
+    if (result.error) {
+      return res.json({
+        status: 400,
+        error: result.error.details[0].message,
+      }).status(400);
+    }
+
+    req.query = result.value;
+    return next();
+  },
+
   schemas: {
     authSchema: Joi.object().keys({
       email: Joi.string().email().required()
         .error(() => ({
           message: 'A valid email address is required',
         })),
-      firstName: Joi.string().required()
+      firstName: Joi.string().regex(/^[a-zA-Z]*$/).required()
         .error(() => ({
           message: 'First Name is required',
         })),
-      lastName: Joi.string().required()
+      lastName: Joi.string().regex(/^[a-zA-Z\\-]*$/).required()
         .error(() => ({
           message: 'Last Name is required',
         })),
@@ -49,7 +62,7 @@ const routeHelper = {
       isAdmin: Joi.boolean(),
     }),
     authLoginSchema: Joi.object().keys({
-      email: Joi.string().email().required()
+      email: Joi.string().regex(/\S+@\S+\.\S+/).required()
         .error(() => ({
           message: 'A valid email address is required',
         })),
@@ -88,6 +101,19 @@ const routeHelper = {
       accountNumber: Joi.number().integer().required()
         .error(() => ({
           message: 'Account number must be an integer',
+        })),
+    }),
+    emailSchema: Joi.object().keys({
+      email: Joi.string().regex(/\S+@\S+\.\S+/).required()
+        .error(() => ({
+          message: 'A valid email address is required',
+        })),
+    }),
+    statusSchema: Joi.object().keys({
+      status: Joi.string()
+        .valid(['active', 'dormant', 'draft'])
+        .error(() => ({
+          message: 'Status must be active or dormant',
         })),
     }),
   },

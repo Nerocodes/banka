@@ -6,9 +6,6 @@ const AccountService = {
   async createAccount(userId, accountType) {
     const account = new Account();
     const user = await UserService.getAUser(userId);
-    if (user.type !== 'client') {
-      return { error: 'An account cannot be created for this user' };
-    }
     const sql = `
         SELECT accountNumber FROM Accounts ORDER BY id DESC LIMIT 1;
       `;
@@ -49,23 +46,23 @@ const AccountService = {
         balance: openingBalance,
       } = res3.rows[0];
       return {
-        accountNumber,
-        firstName: user.firstname,
-        lastName: user.lastname,
-        email: user.email,
-        type,
-        openingBalance,
+        status: 201,
+        message: 'Account created successfully',
+        data: {
+          accountNumber,
+          firstName: user.firstname,
+          lastName: user.lastname,
+          email: user.email,
+          type,
+          openingBalance: openingBalance.toFixed(2),
+        },
       };
-    } catch (err) {
-      return { error: err.detail };
     } finally {
       client.release();
     }
   },
 
-  async accountStatus({ userId }, { accountNumber }, { status }) {
-    const user = await UserService.getAUser(userId);
-    if (user.type === 'client') return { error: 'Unauthorized user' };
+  async accountStatus({ accountNumber }, { status }) {
     const sql = `
         SELECT * FROM Accounts WHERE accountNumber=${accountNumber};
       `;
@@ -73,51 +70,81 @@ const AccountService = {
     try {
       const res = await client.query(sql);
       const account = res.rows[0];
-      if (!account) return { error2: 'No account found' };
+      if (!account) {
+        return {
+          status: 400,
+          error: 'No account found',
+        };
+      }
       const sql2 = `
         UPDATE Accounts SET status = '${status}' WHERE accountNumber = ${accountNumber};
       `;
       await client.query(sql2);
       return {
-        accountNumber,
-        status,
+        status: 200,
+        message: 'Request Successful',
+        data: {
+          accountNumber,
+          status,
+        },
       };
-    } catch (err) {
-      return { error: err.detail };
     } finally {
       client.release();
     }
   },
 
-  async deleteAccount({ userId }, { accountNumber }) {
-    const user = await UserService.getAUser(userId);
-    if (user.type === 'client') return { error: 'Unauthorized user' };
+  async deleteAccount({ accountNumber }) {
     const sql = `
         DELETE FROM Accounts WHERE accountNumber='${accountNumber}';
       `;
     const client = await pool.connect();
     try {
       const res = await client.query(sql);
-      if (res.rowCount < 1) return { error2: 'No account found' };
+      if (res.rowCount < 1) {
+        return {
+          status: 400,
+          error: 'No account found',
+        };
+      }
       return {
-        deleted: 'Account successfully deleted',
+        status: 200,
+        message: 'Account successfully deleted',
       };
-    } catch (err) {
-      return { error: err.detail };
     } finally {
       client.release();
     }
   },
 
-  async transactionHistory({ accountNumber }) {
+  async transactionHistory({ userId, userType }, { accountNumber }) {
+    const sql1 = `
+        SELECT * FROM Accounts WHERE accountNumber=${accountNumber};
+      `;
     const sql = `
     SELECT * FROM Transactions WHERE accountNumber='${accountNumber}' ORDER BY createdOn DESC;
     `;
     const client = await pool.connect();
     try {
+      const res1 = await client.query(sql1);
+      if (res1.rowCount < 1) {
+        return {
+          status: 400,
+          error: 'No account with this account number',
+        };
+      }
+      if (userType === 'client') {
+        if (userId !== res1.rows[0].owner) {
+          return {
+            status: 403,
+            error: 'Unauthorized Access',
+          };
+        }
+      }
       const res = await client.query(sql);
       if (res.rowCount < 1) {
-        return { error1: 'No transaction history' };
+        return {
+          status: 400,
+          error: 'No transaction history',
+        };
       }
       const history = [];
       res.rows.map((transaction) => {
@@ -134,54 +161,69 @@ const AccountService = {
           createdOn,
           type,
           accountNumber,
-          amount,
-          oldBalance,
-          newBalance,
+          amount: amount.toFixed(2),
+          oldBalance: oldBalance.toFixed(2),
+          newBalance: newBalance.toFixed(2),
         };
         return history.push(transactionRes);
       });
-      return history;
-    } catch (err) {
-      return { error: err.detail };
+      return {
+        status: 200,
+        message: 'Request Successful',
+        data: history,
+      };
     } finally {
       client.release();
     }
   },
 
-  async getSingleAccount({ accountNumber }) {
+  async getSingleAccount({ userId, userType }, { accountNumber }) {
     const sql = `
         SELECT * FROM Accounts WHERE accountNumber=${accountNumber};
       `;
     const client = await pool.connect();
     try {
       const res = await client.query(sql);
-      if (res.rowCount < 1) return { error: 'No account with this account number' };
+      if (res.rowCount < 1) {
+        return {
+          status: 400,
+          error: 'No account with this account number',
+        };
+      }
       const {
         createdon: createdOn,
-        owner: userId,
+        owner: id,
         type,
         status,
         balance,
       } = res.rows[0];
-      const user = await UserService.getAUser(userId);
+      if (userType === 'client') {
+        if (userId !== id) {
+          return {
+            status: 403,
+            error: 'Unauthorized Access',
+          };
+        }
+      }
+      const user = await UserService.getAUser(id);
       return {
-        createdOn,
-        accountNumber,
-        ownerEmail: user.email,
-        type,
-        status,
-        balance,
+        status: 200,
+        message: 'Request Successful',
+        data: {
+          createdOn,
+          accountNumber,
+          ownerEmail: user.email,
+          type,
+          status,
+          balance: balance.toFixed(2),
+        },
       };
-    } catch (err) {
-      return { error: err.detail };
     } finally {
       client.release();
     }
   },
 
-  async getAllAccounts({ userId, query }) {
-    const staff = await UserService.getAUser(userId);
-    if (staff.type === 'client') return { error: 'Unauthorized user' };
+  async getAllAccounts({ query }) {
     let sql = '';
     if (query.status) {
       sql = `
@@ -212,13 +254,15 @@ const AccountService = {
           ownerEmail: user.email,
           type,
           status,
-          balance,
+          balance: balance.toFixed(2),
         });
       });
       await Promise.all(accountsPromise);
-      return accounts;
-    } catch (err) {
-      return { error: err.detail };
+      return {
+        status: 200,
+        message: 'Request Successful',
+        data: accounts,
+      };
     } finally {
       client.release();
     }

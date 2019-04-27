@@ -11,7 +11,7 @@
     "start": "set NODE_ENV='PROD' && node ./build/index.js",
     "dev-start": "nodemon --exec babel-node ./src/index.js",
     "test": "set NODE_ENV='TEST' && npm run migrations && npm run seeders && nyc mocha --timeout=50000 --require @babel/register ./src/test/ --exit || true",
-    "singleTest": "set NODE_ENV='TEST' && nyc mocha --timeout=20000 --require @babel/register ./src/test/account.test.js --exit || true",
+    "singleTest": "set NODE_ENV='TEST' && npm run migrations && npm run seeders && nyc mocha --timeout=20000 --require @babel/register ./src/test/transaction.test.js --exit || true",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "migrations": "babel-node ./src/database/migrations/createTables createAllTables",
     "seeders": "babel-node ./src/database/seeders/insertTableData insertAllTables"

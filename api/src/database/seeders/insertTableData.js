@@ -107,9 +107,6 @@ const insertAllTables = () => {
   pool.query(sql)
     .then(() => {
       pool.end();
-    })
-    .catch(() => {
-      pool.end();
     });
 };
 

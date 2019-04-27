@@ -36,9 +36,15 @@ const UserService = {
       return this.signIn(user);
     } catch (err) {
       if (err.code === '23505') {
-        return { error: 'An account with this email already exists' };
+        return {
+          status: 409,
+          error: 'An account with this email already exists',
+        };
       }
-      return { error: err.detail };
+      return {
+        status: 400,
+        error: err.detail,
+      };
     } finally {
       client.release();
     }
@@ -61,22 +67,34 @@ const UserService = {
       } = res.rows[0];
       const validPassword = bcrypt.compareSync(user.password, data.password);
       if (!validPassword) {
-        return { error: 'Wrong password' };
+        return {
+          status: 400,
+          error: 'Wrong password',
+        };
       }
-      const token = jwt.sign({ id }, secret, {
+      const token = jwt.sign({
+        id, firstName, lastName, email: data.email, type: data.type, isAdmin,
+      }, secret, {
         expiresIn: 86400, // expires in 24 hours
       });
       return {
-        token,
-        id,
-        firstName,
-        lastName,
-        email: data.email,
-        type: data.type,
-        isAdmin,
+        status: 200,
+        message: 'Signin successful',
+        data: {
+          token,
+          id,
+          firstName,
+          lastName,
+          email: data.email,
+          type: data.type,
+          isAdmin,
+        },
       };
     } catch (err) {
-      return { error: err };
+      return {
+        status: 400,
+        error: 'Request failed: Invalid Email or Password',
+      };
     } finally {
       client.release();
     }
@@ -105,7 +123,10 @@ const UserService = {
     try {
       const res = await client.query(sql);
       if (res.rowCount < 1) {
-        return { error: 'No user with this email' };
+        return {
+          status: 400,
+          error: 'No user with this email',
+        };
       }
       const { id } = res.rows[0];
       const sql2 = `
@@ -113,7 +134,10 @@ const UserService = {
       `;
       const res2 = await client.query(sql2);
       if (res2.rowCount < 1) {
-        return { error: 'User does not have any account' };
+        return {
+          status: 400,
+          error: 'User does not have any account',
+        };
       }
       const accounts = [];
       res2.rows.map((account) => {
@@ -129,10 +153,14 @@ const UserService = {
           accountNumber,
           type,
           status,
-          balance,
+          balance: balance.toFixed(2),
         });
       });
-      return accounts;
+      return {
+        status: 200,
+        message: 'Request successful',
+        data: accounts,
+      };
     } finally {
       client.release();
     }

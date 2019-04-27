@@ -1,12 +1,12 @@
 /* eslint-disable eqeqeq */
 import Transaction from '../models/transaction.model';
 import UserService from './user.service';
+import AccountService from './account.service';
 import pool from '../database/database';
 
 const TransactionService = {
   async debitAccount({ userId }, { accountNumber }, { amount }) {
     const user = await UserService.getAUser(userId);
-    if (user.type !== 'staff' || user.isAdmin == true) return { error: 'Unauthorized user' };
     const transaction = new Transaction();
     const sql = `
         SELECT * FROM Accounts WHERE accountNumber=${accountNumber};
@@ -15,14 +15,24 @@ const TransactionService = {
     const client = await pool.connect();
     try {
       const res = await client.query(sql);
-      if (res.rowCount < 1) return { error1: 'Account number does not match our records' };
+      if (res.rowCount < 1) {
+        return {
+          status: 400,
+          error: 'Account number does not match our records',
+        };
+      }
       const account = res.rows[0];
       transaction.type = 'debit';
       transaction.accountNumber = account.accountnumber;
       transaction.cashier = user.id;
       transaction.amount = amount;
       transaction.oldBalance = account.balance;
-      if (account.balance - amount < 0) return { error2: 'Transaction declined: Insufficient funds' };
+      if (account.balance - amount < 0) {
+        return {
+          status: 400,
+          error: 'Transaction declined: Insufficient funds',
+        };
+      }
       transaction.newBalance = account.balance - amount;
       account.balance = transaction.newBalance;
       const sql2 = `
@@ -60,15 +70,17 @@ const TransactionService = {
         newbalance: accountBalance,
       } = res4.rows[0];
       return {
-        transactionId,
-        accountNumber,
-        amount,
-        cashier,
-        transactionType,
-        accountBalance,
+        status: 200,
+        message: 'Transaction Successful',
+        data: {
+          transactionId,
+          accountNumber,
+          amount: amount.toFixed(2),
+          cashier,
+          transactionType,
+          accountBalance: accountBalance.toFixed(2),
+        },
       };
-    } catch (err) {
-      return { error: err.detail };
     } finally {
       client.release();
     }
@@ -76,7 +88,6 @@ const TransactionService = {
 
   async creditAccount({ userId }, { accountNumber }, { amount }) {
     const user = await UserService.getAUser(userId);
-    if (user.type !== 'staff' || user.isAdmin == true) return { error: 'Unauthorized user' };
     const transaction = new Transaction();
     const sql = `
         SELECT * FROM Accounts WHERE accountNumber=${accountNumber};
@@ -85,7 +96,12 @@ const TransactionService = {
     const client = await pool.connect();
     try {
       const res = await client.query(sql);
-      if (res.rowCount < 1) return { error1: 'Account number does not match our records' };
+      if (res.rowCount < 1) {
+        return {
+          status: 400,
+          error: 'Account number does not match our records',
+        };
+      }
       const account = res.rows[0];
       transaction.type = 'credit';
       transaction.accountNumber = account.accountnumber;
@@ -129,21 +145,23 @@ const TransactionService = {
         newbalance: accountBalance,
       } = res4.rows[0];
       return {
-        transactionId,
-        accountNumber,
-        amount,
-        cashier,
-        transactionType,
-        accountBalance,
+        status: 200,
+        message: 'Transaction Successful',
+        data: {
+          transactionId,
+          accountNumber,
+          amount: amount.toFixed(2),
+          cashier,
+          transactionType,
+          accountBalance: accountBalance.toFixed(2),
+        },
       };
-    } catch (err) {
-      return { error: err.detail };
     } finally {
       client.release();
     }
   },
 
-  async getATransaction({ transactionId }) {
+  async getATransaction({ userId, userType }, { transactionId }) {
     const sql = `
         SELECT * FROM Transactions WHERE id='${transactionId}';
       `;
@@ -152,7 +170,10 @@ const TransactionService = {
     try {
       const res = await client.query(sql);
       if (res.rowCount < 1) {
-        return { error: 'No transaction with this id' };
+        return {
+          status: 400,
+          error: 'No transaction with this id',
+        };
       }
       const {
         createdon: createdOn,
@@ -162,17 +183,28 @@ const TransactionService = {
         oldbalance: oldBalance,
         newbalance: newBalance,
       } = res.rows[0];
+
+      const authorize = await AccountService
+        .getSingleAccount({ userId, userType }, { accountNumber });
+      if (authorize.error) {
+        return {
+          status: 403,
+          error: 'Unauthorized Access',
+        };
+      }
       return {
-        transactionId,
-        createdOn,
-        type,
-        accountNumber,
-        amount,
-        oldBalance,
-        newBalance,
+        status: 200,
+        message: 'Request Successful',
+        data: {
+          transactionId,
+          createdOn,
+          type,
+          accountNumber,
+          amount: amount.toFixed(2),
+          oldBalance: oldBalance.toFixed(2),
+          newBalance: newBalance.toFixed(2),
+        },
       };
-    } catch (err) {
-      return { error: err.detail };
     } finally {
       client.release();
     }

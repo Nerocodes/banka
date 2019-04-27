@@ -25,19 +25,19 @@ const admin = {
 
 const getClientToken = async () => {
   const clientSignIn = await UserService.signIn(client);
-  const clientToken = clientSignIn.token;
+  const clientToken = clientSignIn.data.token;
   return clientToken;
 };
 
 const getStaffToken = async () => {
   const staffSignIn = await UserService.signIn(staff);
-  const staffToken = staffSignIn.token;
+  const staffToken = staffSignIn.data.token;
   return staffToken;
 };
 
 const getAdminToken = async () => {
   const adminSignIn = await UserService.signIn(admin);
-  const adminToken = adminSignIn.token;
+  const adminToken = adminSignIn.data.token;
   return adminToken;
 };
 
@@ -80,22 +80,6 @@ describe('Testing user creating an account', () => {
         response.body.should.have.status(400);
         response.body.should.be.a('object');
         response.body.error.should.equal('Account type must be savings or current and is required');
-      });
-  });
-
-  it('should not create an account if user is not a client', async () => {
-    const accType = {
-      type: 'savings',
-    };
-    const token = await getStaffToken();
-    chai.request(app)
-      .post(createAccUrl)
-      .set('x-access-token', token)
-      .send(accType)
-      .end((error, response) => {
-        response.body.should.have.status(401);
-        response.body.should.be.a('object');
-        response.body.error.should.equal('An account cannot be created for this user');
       });
   });
 });
@@ -146,9 +130,9 @@ describe('Testing admin or staff activating and deactivating account', () => {
       .set('x-access-token', token)
       .send(accStatus)
       .end((errorStaff, responseStaff) => {
-        responseStaff.body.should.have.status(401);
+        responseStaff.body.should.have.status(403);
         responseStaff.body.should.be.a('object');
-        responseStaff.body.error.should.equal('Unauthorized user');
+        responseStaff.body.error.should.equal('Unauthorized Access');
       });
   });
 
@@ -162,7 +146,7 @@ describe('Testing admin or staff activating and deactivating account', () => {
       .set('x-access-token', token)
       .send(accStatus)
       .end((errorStaff, responseStaff) => {
-        responseStaff.body.should.have.status(404);
+        responseStaff.body.should.have.status(400);
         responseStaff.body.should.be.a('object');
         responseStaff.body.error.should.equal('No account found');
       });
@@ -192,7 +176,7 @@ describe('Testing admin or staff deleting account', () => {
       .end((errorStaff, responseStaff) => {
         responseStaff.body.should.have.status(403);
         responseStaff.body.should.be.a('object');
-        responseStaff.body.error.should.equal('Unauthorized user');
+        responseStaff.body.error.should.equal('Unauthorized Access');
       });
   });
 
@@ -278,7 +262,7 @@ describe('Testing get account details', () => {
 });
 
 // Test for get all accounts
-describe('Testing get account details', () => {
+describe('Testing get all accounts', () => {
   const getAccUrl = '/api/v1/accounts';
   it('should get all accounts', async () => {
     const token = await getStaffToken();
@@ -336,6 +320,19 @@ describe('Testing get account details', () => {
       });
   });
 
+  it('should not get all active/dormant accounts if status is wrong', async () => {
+    const getDormantAccUrl = '/api/v1/accounts?status=mant';
+    const token = await getStaffToken();
+    chai.request(app)
+      .get(getDormantAccUrl)
+      .set('x-access-token', token)
+      .end((error, response) => {
+        response.body.should.have.status(400);
+        response.body.should.be.a('object');
+        response.body.error.should.equal('Status must be active or dormant');
+      });
+  });
+
   it('should not get accounts if user is not a staff', async () => {
     const token = await getClientToken();
     chai.request(app)
@@ -344,7 +341,7 @@ describe('Testing get account details', () => {
       .end((error, response) => {
         response.body.should.have.status(403);
         response.body.should.be.a('object');
-        response.body.error.should.equal('Unauthorized user');
+        response.body.error.should.equal('Unauthorized Access');
       });
   });
 });
