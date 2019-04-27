@@ -20,13 +20,13 @@ const staff = {
 
 const getClientToken = async () => {
   const clientSignIn = await UserService.signIn(client);
-  const clientToken = clientSignIn.token;
+  const clientToken = clientSignIn.data.token;
   return clientToken;
 };
 
 const getStaffToken = async () => {
   const staffSignIn = await UserService.signIn(staff);
-  const staffToken = staffSignIn.token;
+  const staffToken = staffSignIn.data.token;
   return staffToken;
 };
 
@@ -83,9 +83,9 @@ describe('Testing credit transaction', () => {
       .set('x-access-token', token)
       .send(amount)
       .end((errorStaff, responseStaff) => {
-        responseStaff.body.should.have.status(401);
+        responseStaff.body.should.have.status(403);
         responseStaff.body.should.be.a('object');
-        responseStaff.body.error.should.equal('Unauthorized user');
+        responseStaff.body.error.should.equal('Unauthorized Access');
       });
   });
 
@@ -99,7 +99,7 @@ describe('Testing credit transaction', () => {
       .set('x-access-token', token)
       .send(amount)
       .end((errorStaff, responseStaff) => {
-        responseStaff.body.should.have.status(404);
+        responseStaff.body.should.have.status(400);
         responseStaff.body.should.be.a('object');
         responseStaff.body.error.should.equal('Account number does not match our records');
       });
@@ -157,9 +157,9 @@ describe('Testing debit transaction', () => {
       .set('x-access-token', token)
       .send(amount)
       .end((errorStaff, responseStaff) => {
-        responseStaff.body.should.have.status(401);
+        responseStaff.body.should.have.status(403);
         responseStaff.body.should.be.a('object');
-        responseStaff.body.error.should.equal('Unauthorized user');
+        responseStaff.body.error.should.equal('Unauthorized Access');
       });
   });
 
@@ -173,7 +173,7 @@ describe('Testing debit transaction', () => {
       .set('x-access-token', token)
       .send(amount)
       .end((errorStaff, responseStaff) => {
-        responseStaff.body.should.have.status(404);
+        responseStaff.body.should.have.status(400);
         responseStaff.body.should.be.a('object');
         responseStaff.body.error.should.equal('Account number does not match our records');
       });
@@ -219,19 +219,18 @@ describe('Testing get single transaction', () => {
   it('should get single account', async () => {
     const token = await getClientToken();
     chai.request(app)
-      .get(`${singleAccUrl}2`)
+      .get(`${singleAccUrl}1`)
       .set('x-access-token', token)
       .end((error, response) => {
         response.body.should.have.status(200);
-        response.body.data.should.be.a('array');
-        response.body.data[0].should.be.a('object');
-        response.body.data[0].should.have.property('transactionId');
-        response.body.data[0].should.have.property('createdOn');
-        response.body.data[0].should.have.property('type');
-        response.body.data[0].should.have.property('accountNumber');
-        response.body.data[0].should.have.property('amount');
-        response.body.data[0].should.have.property('oldBalance');
-        response.body.data[0].should.have.property('newBalance');
+        response.body.data.should.be.a('object');
+        response.body.data.should.have.property('transactionId');
+        response.body.data.should.have.property('createdOn');
+        response.body.data.should.have.property('type');
+        response.body.data.should.have.property('accountNumber');
+        response.body.data.should.have.property('amount');
+        response.body.data.should.have.property('oldBalance');
+        response.body.data.should.have.property('newBalance');
       });
   });
 

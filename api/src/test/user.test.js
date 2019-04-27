@@ -14,8 +14,19 @@ const client = {
 
 const getClientToken = async () => {
   const clientSignIn = await UserService.signIn(client);
-  const clientToken = clientSignIn.token;
+  const clientToken = clientSignIn.data.token;
   return clientToken;
+};
+
+const admin = {
+  email: 'yoshiyama@gmail.com',
+  password: 'password',
+};
+
+const getAdminToken = async () => {
+  const adminSignIn = await UserService.signIn(admin);
+  const adminToken = adminSignIn.data.token;
+  return adminToken;
 };
 
 // Test user sign up
@@ -32,8 +43,7 @@ describe('Testing user signup', () => {
       .post(signUpUrl)
       .send(user)
       .end((err, res) => {
-        // console.log(res.body);
-        res.body.should.have.status(201);
+        res.body.should.have.status(200);
         res.body.should.be.a('object');
         res.body.data.should.have.property('id');
         res.body.data.should.have.property('email');
@@ -60,7 +70,7 @@ describe('Testing user signup', () => {
       .send(user)
       .end((err, res) => {
         // console.log(res.body);
-        res.body.should.have.status(201);
+        res.body.should.have.status(200);
         res.body.should.be.a('object');
         res.body.data.should.have.property('id');
         res.body.data.should.have.property('email');
@@ -162,7 +172,7 @@ describe('Testing user signin', () => {
       .send(user)
       .end((err, res) => {
         // console.log(res.body);
-        res.body.should.have.status(201);
+        res.body.should.have.status(200);
         res.body.should.be.a('object');
         res.body.data.should.have.property('id');
         res.body.data.should.have.property('email');
@@ -200,11 +210,25 @@ describe('Testing user signin', () => {
       .post(signInUrl)
       .send(user)
       .end((err, res) => {
-        // console.log(res.body);
         res.body.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.should.be.a('object');
         res.body.error.should.equal('Password is required');
+        done();
+      });
+  });
+
+  it('should not sign in user if user is invalid', (done) => {
+    const user = {
+      email: 'ner@d.c',
+      password: 'pa',
+    };
+    chai.request(app)
+      .post(signInUrl)
+      .send(user)
+      .end((err, res) => {
+        res.body.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.error.should.equal('Request failed: Invalid Email or Password');
         done();
       });
   });
@@ -231,8 +255,8 @@ describe('Testing get user accounts', () => {
       });
   });
 
-  it('should not get all accounts if email does not exist', async () => {
-    userUrl = '/api/v1/user/neropaule@gmail.com/accounts';
+  it('should not get all accounts if email is wrong', async () => {
+    userUrl = '/api/v1/user/neropaulegmailcom/accounts';
     const token = await getClientToken();
     chai.request(app)
       .get(userUrl)
@@ -240,13 +264,26 @@ describe('Testing get user accounts', () => {
       .end((err, res) => {
         res.body.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.error.should.equal('No user with this email');
+        res.body.error.should.equal('A valid email address is required');
+      });
+  });
+
+  it('should not get all accounts if email is not user email', async () => {
+    userUrl = '/api/v1/user/yetundegeorge@gmail.com/accounts';
+    const token = await getClientToken();
+    chai.request(app)
+      .get(userUrl)
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.body.should.have.status(403);
+        res.body.should.be.a('object');
+        res.body.error.should.equal('Unauthorized Access');
       });
   });
 
   it('should not get all accounts if user does not have accounts', async () => {
     userUrl = '/api/v1/user/yoshiyama@gmail.com/accounts';
-    const token = await getClientToken();
+    const token = await getAdminToken();
     chai.request(app)
       .get(userUrl)
       .set('x-access-token', token)

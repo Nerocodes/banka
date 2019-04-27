@@ -2,6 +2,7 @@ import { Router } from 'express';
 import AccountController from '../controllers/account.controller';
 import routeHelper from '../helpers/route.helper';
 import verifyToken from '../controllers/middleware/token.controller';
+import permissions from '../controllers/middleware/roles.controller';
 
 const router = Router();
 
@@ -11,12 +12,14 @@ router.post('/', verifyToken.verify,
 
 router.patch('/:accountNumber',
   verifyToken.verify,
+  permissions.staffAndAdmin,
   routeHelper.validateParams(routeHelper.schemas.accNoSchema),
   routeHelper.validateBody(routeHelper.schemas.accountStatusSchema),
   AccountController.accountStatus);
 
 router.delete('/:accountNumber',
   verifyToken.verify,
+  permissions.staffAndAdmin,
   routeHelper.validateParams(routeHelper.schemas.accNoSchema),
   AccountController.deleteAnAccount);
 
@@ -32,6 +35,8 @@ router.get('/:accountNumber/transactions',
 
 router.get('/', verifyToken.verify,
   verifyToken.verify,
+  permissions.staffAndAdmin,
+  routeHelper.validateQuery(routeHelper.schemas.statusSchema),
   AccountController.getAllAccounts);
 
 export default router;

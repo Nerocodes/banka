@@ -1,4 +1,5 @@
 import UserService from '../services/user.service';
+import responseHelper from '../helpers/response.helper';
 
 
 const UserController = {
@@ -10,45 +11,18 @@ const UserController = {
       newUser.isAdmin = false;
     }
     const createdUser = await UserService.addUser(newUser);
-    if (createdUser.error) {
-      return res.json({
-        status: 400,
-        data: createdUser.error,
-      });
-    }
-    return res.json({
-      status: 201,
-      data: createdUser,
-    });
+    responseHelper(res, createdUser);
   },
 
   async signIn(req, res) {
     const oldUser = req.body;
     const foundUser = await UserService.signIn(oldUser);
-    if (!foundUser.email) {
-      return res.json({
-        status: 404,
-        error: 'no user with this email',
-      });
-    }
-    return res.json({
-      status: 201,
-      data: foundUser,
-    });
+    responseHelper(res, foundUser);
   },
 
   async getUserAccounts(req, res) {
     const accounts = await UserService.getUserAccounts(req.params);
-    if (accounts.error) {
-      return res.json({
-        status: 400,
-        error: accounts.error,
-      });
-    }
-    return res.json({
-      status: 200,
-      data: accounts,
-    });
+    responseHelper(res, accounts);
   },
 };
 
