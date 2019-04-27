@@ -138,7 +138,8 @@ label{
 }
 
 .modal-content{
-    min-width: 400px;
+    max-width: 400px;
+    width: 80%;
     height: auto;
     background-color: #ffffff;
     border-radius: 5px;
@@ -860,14 +861,6 @@ footer{
         grid-template-columns: 1fr;
     }
 
-    .dashboard-main .img{
-        display: none;
-    }
-
-    .dashboard .min-img{
-        display: block;
-    }
-
     .dashboard-main nav ul{
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -878,6 +871,12 @@ footer{
         grid-template-columns: 1fr 1fr 1fr;
     }
 
+    .dashboard-main nav ul li{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .staff .dashboard-main nav ul li{
         padding: 0.5rem;
     }
@@ -885,6 +884,10 @@ footer{
     .admin .dashboard-main nav ul li{
         height: 2.5rem;
         padding: 0.5rem;
+    }
+
+    .dashboard-main nav ul li i{
+        margin-right: 0.5rem;
     }
 
     .transactions .flex{
@@ -985,5 +988,13 @@ footer{
 
     .main .left{
         font-size: 2.8rem;
+    }
+
+    .dashboard-main nav ul{
+        font-size: 14px;
+    }
+
+    .create-acc-form, .credit-debit form {
+        width: 160px;
     }
 }

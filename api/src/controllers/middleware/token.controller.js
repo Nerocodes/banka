@@ -21,6 +21,11 @@ const verifyToken = {
       }
       // if everything good, save to request for use in other routes
       req.userId = decoded.id;
+      req.firstName = decoded.firstName;
+      req.lastName = decoded.lastName;
+      req.email = decoded.email;
+      req.userType = decoded.type;
+      req.isAdmin = decoded.isAdmin;
       return next();
     });
   },
