@@ -29,7 +29,7 @@ if (location.pathname == '/banka/ui/client/dashboard.html') {
         if (res.status == 201) {
           const signedUp = new Message(res.message);
           setTimeout(() => {
-            location.assign('/client/dashboard-active.html');
+            location.assign('/banka/ui/client/dashboard-active.html');
           }, 2000);
           return signedUp.alertMessage('success');
         }
