@@ -48,6 +48,12 @@ const login = () => {
       const signedIn = new Message(res.message);
       if (res.data.type == 'client') {
         sessionStorage.setItem('user', user);
+        get(`${api}user/${res.data.email}/accounts`, `${res.data.token}`).then((res) => {
+          console.log(res);
+          if (res.data) {
+            location.assign('/client/dashboard-active.html');
+          }
+        }).catch(err => console.log(err));
         setTimeout(() => {
           location.assign('/client/dashboard.html');
         }, 2000);

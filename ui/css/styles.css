@@ -53,6 +53,10 @@ label{
     position: relative;
 }
 
+.name{
+    text-transform: capitalize;
+}
+
 .success{
     color: #ffffff;
     text-align: center;
@@ -250,6 +254,7 @@ label{
     animation-duration: 1.6s;
 }
 
+/* Main Styles */
 .main-header{
     display: flex;
     justify-content: space-between;
@@ -1002,9 +1007,8 @@ footer{
         font-size: 2.8rem;
     }
 
-    footer{
-        position: relative;
-        bottom: 0;
+    .dashboard-main {
+        margin-bottom: 3rem;
     }
 
 }
