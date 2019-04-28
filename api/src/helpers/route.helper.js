@@ -43,14 +43,20 @@ const routeHelper = {
   schemas: {
     authSchema: Joi.object().keys({
       email: Joi.string().email().required()
+        .trim()
+        .lowercase()
         .error(() => ({
           message: 'A valid email address is required',
         })),
       firstName: Joi.string().regex(/^[a-zA-Z]*$/).required()
+        .trim()
+        .lowercase()
         .error(() => ({
           message: 'First Name is required',
         })),
       lastName: Joi.string().regex(/^[a-zA-Z\\-]*$/).required()
+        .trim()
+        .lowercase()
         .error(() => ({
           message: 'Last Name is required',
         })),
@@ -58,11 +64,13 @@ const routeHelper = {
         .error(() => ({
           message: 'Password is required',
         })),
-      type: Joi.string(),
+      type: Joi.string().trim().lowercase(),
       isAdmin: Joi.boolean(),
     }),
     authLoginSchema: Joi.object().keys({
       email: Joi.string().regex(/\S+@\S+\.\S+/).required()
+        .trim()
+        .lowercase()
         .error(() => ({
           message: 'A valid email address is required',
         })),
@@ -73,6 +81,8 @@ const routeHelper = {
     }),
     createAccountSchema: Joi.object().keys({
       type: Joi.string().required()
+        .trim()
+        .lowercase()
         .valid(['savings', 'current'])
         .error(() => ({
           message: 'Account type must be savings or current and is required',
@@ -80,6 +90,8 @@ const routeHelper = {
     }),
     accountStatusSchema: Joi.object().keys({
       status: Joi.string().required()
+        .trim()
+        .lowercase()
         .valid(['active', 'dormant'])
         .error(() => ({
           message: 'Status must be active or dormant and is required',
@@ -105,12 +117,16 @@ const routeHelper = {
     }),
     emailSchema: Joi.object().keys({
       email: Joi.string().regex(/\S+@\S+\.\S+/).required()
+        .trim()
+        .lowercase()
         .error(() => ({
           message: 'A valid email address is required',
         })),
     }),
     statusSchema: Joi.object().keys({
       status: Joi.string()
+        .trim()
+        .lowercase()
         .valid(['active', 'dormant', 'draft'])
         .error(() => ({
           message: 'Status must be active or dormant',
