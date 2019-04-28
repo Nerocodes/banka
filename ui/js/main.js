@@ -19,15 +19,6 @@ formLabel('lastName');
 formLabel('email');
 formLabel('password');
 
-// Handle login
-const loginBtn = document.querySelector('#login');
-if(loginBtn){
-  loginBtn.addEventListener('click', () => {
-    const user = document.querySelector('#user').value;
-    window.location.href = `${user}/dashboard.html`;
-  });
-}
-
 // dropdown 
 const dropdown = document.querySelector('.dropdown');
 const dropdownLinks = document.querySelector('.dropdown-links');
@@ -41,7 +32,7 @@ if(dropdown) {
 footerRelative = () => {
   const footer = document.querySelector('footer');
   const windowHeight = window.innerHeight;
-  const documentHeight = document.body.clientHeight + 50;
+  const documentHeight = document.body.clientHeight + 100;
 
   if( documentHeight > windowHeight) {
     footer.classList.add('fr');
