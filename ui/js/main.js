@@ -86,3 +86,43 @@ if(accountTrs){
     });
   }
 }
+
+// Global variables
+// Api URL
+const api = 'http://localhost:9000/api/v1/';
+
+// Post function
+const post = (url = ``, data = {}, token = ``) => {
+  return fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'omit',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token':  `${token}`,
+    },
+    body: JSON.stringify(data),
+
+  })
+  .then(res => res.json());
+};
+
+// Alert message
+class Message {
+  constructor(message) {
+    this.message = message
+  }
+
+  alertMessage(status) {
+    const displayMessage = document.querySelector('#displayMessage');
+    displayMessage.setAttribute('style', 'display: block;');
+    displayMessage.innerHTML = this.message;
+    displayMessage.removeAttribute('class');
+    displayMessage.classList.add(`${status}`);
+    displayMessage.classList.add('fade-out-delay');
+    setTimeout(() => {
+      displayMessage.setAttribute('style', 'display: none;');
+    }, 4000);
+  }
+}

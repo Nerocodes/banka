@@ -397,6 +397,10 @@ label{
 }
 
 /* Dashboard */
+#welcomeText{
+    color: #A62639;
+}
+
 .dashboard{
     background: #ffffff;
     color: #56494E;
