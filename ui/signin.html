@@ -14,6 +14,9 @@
         <form>
             <h1 class="text-center"><a href="index.html">BA₦KA</a></h1>
             <h2 class="text-center">Login</h2>
+            <div id="displayMessage">
+
+            </div>
             <div class="form-group">
                 <label for="email" class="mb-1 hide">Email:</label>
                 <input type="text" name="email" id="email" placeholder="Email">
@@ -21,13 +24,6 @@
             <div class="form-group">
                 <label for="password" class="mb-1 hide">Password:</label>
                 <input type="password" name="password" id="password" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <select name="type_of_account" id="user">
-                    <option value="client" selected>Client</option>
-                    <option value="staff">Staff</option>
-                    <option value="admin">Admin</option>
-                </select>
             </div>
             <div class="submit-btn">
                 <p id="login" class="link-btn">LOGIN</p>
@@ -43,5 +39,6 @@
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
 </body>
 </html>

@@ -130,7 +130,7 @@ const UserService = {
       }
       const { id } = res.rows[0];
       const sql2 = `
-        SELECT * FROM Accounts WHERE owner='${id}';
+        SELECT * FROM Accounts WHERE owner='${id}' ORDER BY accountnumber ASC;
       `;
       const res2 = await client.query(sql2);
       if (res2.rowCount < 1) {

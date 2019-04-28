@@ -19,15 +19,6 @@ formLabel('lastName');
 formLabel('email');
 formLabel('password');
 
-// Handle login
-const loginBtn = document.querySelector('#login');
-if(loginBtn){
-  loginBtn.addEventListener('click', () => {
-    const user = document.querySelector('#user').value;
-    window.location.href = `${user}/dashboard.html`;
-  });
-}
-
 // dropdown 
 const dropdown = document.querySelector('.dropdown');
 const dropdownLinks = document.querySelector('.dropdown-links');
@@ -41,7 +32,7 @@ if(dropdown) {
 footerRelative = () => {
   const footer = document.querySelector('footer');
   const windowHeight = window.innerHeight;
-  const documentHeight = document.body.clientHeight + 50;
+  const documentHeight = document.body.clientHeight + 100;
 
   if( documentHeight > windowHeight) {
     footer.classList.add('fr');
@@ -52,23 +43,47 @@ footerRelative = () => {
 
 window.onload = footerRelative();
 
-// Transaction modal
-const trs = document.querySelectorAll('.transactions tbody tr');
-const modal = document.querySelector('.bg-modal');
-const closeBtn = document.querySelector('.close');
-if(trs){
-  for( tr of trs) {
-    tr.addEventListener('click', () => {
-      modal.classList.remove('hide');
-    });
-  }
-}
+// Date format
+const formatDate = (getDate) => {
+    const d = new Date(getDate);
+    let weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
 
-if(closeBtn){
-  closeBtn.addEventListener('click', () => {
-    modal.classList.add('hide');
-  });
-}
+    let day = weekday[d.getDay()];
+    let date = d.getDate();
+    let month = d.getMonth() + 1;
+    let hour = d.getHours();
+    let minutes = d.getMinutes();
+    let ampm = 'am';
+    if (date < 10) {
+      date = `0${date}`;
+    }
+    if (month < 10) {
+    month = `0${month}`;
+    }
+    if(hour > 12){
+      ampm = 'pm';
+      hour = hour - 12;
+    }
+    if (hour < 10) {
+      hour = `0${hour}`;
+    }
+    if (minutes < 10) {
+      minutes = `0${minutes}`;
+    }
+
+    let year = d.getFullYear();
+
+    return `${day} ${date}/${month}/${year} ${hour}:${minutes}${ampm}`;
+};
+
+// Transaction modal
 
 // User Modal
 const addUserBtn = document.querySelector('.add-btn');
@@ -93,5 +108,68 @@ if(accountTrs){
     tr.addEventListener('click', () => {
       window.location.href = 'account-record.html';
     });
+  }
+}
+
+// Global variables
+// Api URL
+const api = 'http://banka-web-app.herokuapp.com/api/v1/';
+
+// Post function
+const post = (url = ``, data = {}, token = ``) => {
+  return fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'omit',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token':  `${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+  .then(res => res.json());
+};
+
+// Get function
+const get = (url = ``, token = ``) => {
+  return fetch(url, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'omit',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token':  `${token}`,
+    },
+  })
+  .then(res => res.json());
+};
+
+// Alert message
+class Message {
+  constructor(message) {
+    this.message = message
+  }
+
+  alertMessage(status) {
+    const displayMessage = document.querySelector('#displayMessage');
+    displayMessage.setAttribute('style', 'display: block;');
+    displayMessage.innerHTML = this.message;
+    displayMessage.removeAttribute('class');
+    displayMessage.classList.add(`${status}`);
+    displayMessage.classList.add('fade-out-delay');
+    setTimeout(() => {
+      displayMessage.setAttribute('style', 'display: none;');
+    }, 4000);
+  }
+
+  displayMessage(status) {
+    const displayMessage = document.querySelector('#displayMessage');
+    displayMessage.setAttribute('style', 'display: block;');
+    displayMessage.innerHTML = this.message;
+    displayMessage.removeAttribute('class');
+    displayMessage.classList.add(`${status}`);
+    displayMessage.classList.add('fade-in');
   }
 }

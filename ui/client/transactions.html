@@ -48,8 +48,11 @@
             <div class="flex mb-1">
                 <div class="acc-balance slide-in">
                     <p>Account Balance</p>
-                    <p class="value">₦260, 000</p>
+                    <p class="value" id="accBal">₦260, 000</p>
                 </div>
+            </div>
+            <div id="displayMessage">
+
             </div>
             <div class="tr">
                 <table class="table1 fade-in">
@@ -59,31 +62,8 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tuesday 19th March 2019</td>
-                            <td>₦130, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Monday 11th March 2019</td>
-                            <td>-₦155, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Sunday 3rd March 2019</td>
-                            <td>-₦15, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Saturday 1st March 2019</td>
-                            <td>-₦150, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Thursday 20th February 2019</td>
-                            <td>₦100, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Tuesday 12th February 2019</td>
-                            <td>₦350, 000</td>
-                        </tr>
+                    <tbody id="transactions">
+                        
                     </tbody>
                 </table>
             </div>
@@ -96,17 +76,17 @@
             <h2 class="text-center m-0">Transaction Details</h2>
             <div class="grid">
                 <div>Transaction ID</div>
-                <div>001</div>
+                <div id="tid">001</div>
                 <div>Date</div>
-                <div>Tuesday 19th March 2019</div>
+                <div id='tdate'>Tuesday 19th March 2019</div>
                 <div>Type</div>
-                <div>Credit</div>
-                <div>cashier</div>
-                <div>Yetunde George</div>
+                <div id="ttype">Credit</div>
                 <div>Amount</div>
-                <div>₦130, 000</div>
-                <div>Account Balance</div>
-                <div>₦260, 000</div>
+                <div id="tamount">₦130, 000</div>
+                <div>Old Balance</div>
+                <div id="tobalance">₦260, 000</div>
+                <div>New Balance</div>
+                <div id="tnbalance">₦260, 000</div>
             </div>
         </div>
     </div>
@@ -114,5 +94,6 @@
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="../js/main.js"></script>
+    <script src="../js/client.js"></script>
 </body>
 </html>

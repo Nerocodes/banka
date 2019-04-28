@@ -37,27 +37,32 @@
     <main class="dashboard-main">
         <div class="left">
             <nav>
-                <ul>
+                <ul class="creAcc">
                     <!-- <a href="dashboard-active.html"><li>Dashboard</li></a> -->
-                    <a href="create-acc.html"><li class="active"><i class="fas fa-university"></i> Accounts</li></a>
-                    <a href="transactions.html" disabled><li><i class="fas fa-exchange-alt"></i> Transactions</li></a>
+                    <a href="dashboard.html"><li class="active"><i class="fas fa-university"></i> Create Account</li></a>
                 </ul>
             </nav>
         </div>
         <div class="right create-account fade-in">
                 <form class="create-acc-form">
+                    <p class="text-center" id="welcomeText">
+                        
+                    </p>
+                    <div id="displayMessage">
+
+                    </div>
                     <h2 class="text-center">Create Bank Account</h2>
                     <div class="form-group">
                         <label for="firstName" class="mb-1 hide">First Name:</label>
-                        <input type="text" name="first_name" id="firstName" placeholder="First Name">
+                        <input type="text" name="first_name" id="firstName" placeholder="First Name" disabled>
                     </div>
                     <div class="form-group">
                         <label for="lastName" class="mb-1 hide">Last Name:</label>
-                        <input type="text" name="last_name" id="lastName" placeholder="Last Name">
+                        <input type="text" name="last_name" id="lastName" placeholder="Last Name" disabled>
                     </div>
                     <div class="form-group">
                         <label for="email" class="mb-1 hide">Email:</label>
-                        <input type="text" name="email" id="email" placeholder="Email">
+                        <input type="text" name="email" id="email" placeholder="Email" disabled>
                     </div>
                     <div class="form-group">
                         <label for="type_of_account">Type of account:</label>
@@ -67,7 +72,7 @@
                         </select>
                     </div>
                     <div class="submit-btn">
-                        <a href="dashboard-active.html" class="link-btn">Create Account</a>
+                        <p class="link-btn" id="createAccount">Create Account</p>
                     </div>
                 </form>
         </div>
@@ -76,5 +81,6 @@
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="../js/main.js"></script>
+    <script src="../js/client.js"></script>
 </body>
 </html>
