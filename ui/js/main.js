@@ -155,7 +155,7 @@ const get = (url = ``, token = ``) => {
 const del = (url = ``, token = ``) => {
   return fetch(url, {
     method: 'DELETE',
-    mode: 'cors',
+    mode: 'no-cors',
     cache: 'no-cache',
     credentials: 'omit',
     headers: {
