@@ -140,7 +140,7 @@ const post = (url = ``, data = {}, token = ``) => {
 const get = (url = ``, token = ``) => {
   return fetch(url, {
     method: 'GET',
-    mode: 'cors',
+    mode: 'no-cors',
     cache: 'no-cache',
     credentials: 'omit',
     headers: {
@@ -155,7 +155,7 @@ const get = (url = ``, token = ``) => {
 const del = (url = ``, token = ``) => {
   return fetch(url, {
     method: 'DELETE',
-    mode: 'no-cors',
+    mode: 'cors',
     cache: 'no-cache',
     credentials: 'omit',
     headers: {
