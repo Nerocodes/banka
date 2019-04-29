@@ -43,6 +43,11 @@ footerRelative = () => {
 
 window.onload = footerRelative();
 
+// Number format
+const formatNumber = (number) => {
+  return parseFloat(number).toLocaleString('en');
+};
+
 // Date format
 const formatDate = (getDate) => {
     const d = new Date(getDate);
@@ -113,7 +118,7 @@ if(accountTrs){
 
 // Global variables
 // Api URL
-const api = 'http://banka-web-app.herokuapp.com/api/v1/';
+const api = 'https://banka-web-app.herokuapp.com/api/v1/';
 
 // Post function
 const post = (url = ``, data = {}, token = ``) => {
@@ -135,6 +140,21 @@ const post = (url = ``, data = {}, token = ``) => {
 const get = (url = ``, token = ``) => {
   return fetch(url, {
     method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'omit',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token':  `${token}`,
+    },
+  })
+  .then(res => res.json());
+};
+
+// Delete function
+const del = (url = ``, token = ``) => {
+  return fetch(url, {
+    method: 'DELETE',
     mode: 'cors',
     cache: 'no-cache',
     credentials: 'omit',
@@ -173,3 +193,30 @@ class Message {
     displayMessage.classList.add('fade-in');
   }
 }
+
+//Filter  
+const filter = (query) => {
+  console.log(query);
+  if (query == 'all') return;
+  const accountsTable = document.querySelector('#accounts');
+  get(`${api}accounts?status=${query}`, `${staff.token}`).then((res) => {
+    console.log(res);
+    if(res.data) {
+      const accounts = res.data;
+      let sn = 0;
+      accounts.map((account) => {
+        sn++;
+        accountsTable.innerHTML += `<tr>
+                                      <td onclick=accountDetails(${account.accountNumber})>${sn}</td>
+                                      <td onclick=accountDetails(${account.accountNumber})>${account.accountNumber}</td>
+                                      <td onclick=accountDetails(${account.accountNumber})>${account.ownerEmail}</td>
+                                      <td onclick=deleteAccount(${account.accountNumber})>
+                                          <span class="delete">
+                                              <i class="fas fa-trash-alt"></i>
+                                          </span>
+                                      </td>
+                                  </tr>`;
+      });
+    }
+  }).catch(err => console.log(err));
+};
