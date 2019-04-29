@@ -113,9 +113,9 @@ const transactionModal = (id) => {
       tid.innerHTML = transaction.transactionId;
       tdate.innerHTML = date;
       ttype.innerHTML = transaction.type;
-      tamount.innerHTML = transaction.amount;
-      tobalance.innerHTML = transaction.oldBalance;
-      tnbalance.innerHTML = transaction.newBalance;
+      tamount.innerHTML = `₦${formatNumber(transaction.amount)}`;
+      tobalance.innerHTML = `₦${formatNumber(transaction.oldBalance)}`;
+      tnbalance.innerHTML = `₦${formatNumber(transaction.newBalance)}`;
       modal.classList.remove('hide');
     } else {
       const signedIn = new Message(res.error);
