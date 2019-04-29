@@ -1,4 +1,5 @@
 const responseHelper = (res, resObj) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   if (resObj.error) {
     return res.json({
       status: resObj.status,
