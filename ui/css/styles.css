@@ -488,6 +488,10 @@ label{
     grid-gap: 3rem;
 }
 
+.dashboard-main {
+    margin-bottom: 3rem;
+}
+
 .dashboard-main .img{
     margin: 0 auto;
     width: 150px;

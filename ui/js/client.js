@@ -6,7 +6,7 @@ if (!client) {
   location.replace('/');
 }
 
-if (location.pathname == '/client/dashboard.html') {
+if (location.pathname == '/banka/ui/client/dashboard.html') {
   const welcomeText = document.querySelector('#welcomeText');
   welcomeText.innerHTML = `<i>Welcome <b class='name'>${client.firstName}</b>!
     Create an account to get started.<i>`;
@@ -29,7 +29,7 @@ if (location.pathname == '/client/dashboard.html') {
         if (res.status == 201) {
           const signedUp = new Message(res.message);
           setTimeout(() => {
-            location.assign('/client/dashboard-active.html');
+            location.assign('/banka/ui/client/dashboard-active.html');
           }, 2000);
           return signedUp.alertMessage('success');
         }
@@ -40,7 +40,7 @@ if (location.pathname == '/client/dashboard.html') {
   });
 };
 
-if (location.pathname == '/client/dashboard-active.html') {
+if (location.pathname == '/banka/ui/client/dashboard-active.html') {
   const dashboard = document.querySelector('.dashboard-active');
   const footer = document.querySelector('footer');
   const accNo = document.querySelector('#accNo');
@@ -63,7 +63,7 @@ if (location.pathname == '/client/dashboard-active.html') {
   }).catch(err => console.log(err));
 }
 
-if (location.pathname == '/client/transactions.html') {
+if (location.pathname == '/banka/ui/client/transactions.html') {
   const accounts = JSON.parse(sessionStorage.getItem('accounts'));
   const currentAccount = accounts[0];
   const accBal = document.querySelector('#accBal');
@@ -113,9 +113,9 @@ const transactionModal = (id) => {
       tid.innerHTML = transaction.transactionId;
       tdate.innerHTML = date;
       ttype.innerHTML = transaction.type;
-      tamount.innerHTML = transaction.amount;
-      tobalance.innerHTML = transaction.oldBalance;
-      tnbalance.innerHTML = transaction.newBalance;
+      tamount.innerHTML = `₦${formatNumber(transaction.amount)}`;
+      tobalance.innerHTML = `₦${formatNumber(transaction.oldBalance)}`;
+      tnbalance.innerHTML = `₦${formatNumber(transaction.newBalance)}`;
       modal.classList.remove('hide');
     } else {
       const signedIn = new Message(res.error);
