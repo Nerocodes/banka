@@ -140,7 +140,7 @@ const post = (url = ``, data = {}, token = ``) => {
 const get = (url = ``, token = ``) => {
   return fetch(url, {
     method: 'GET',
-    mode: 'no-cors',
+    mode: 'cors',
     cache: 'no-cache',
     credentials: 'omit',
     headers: {
