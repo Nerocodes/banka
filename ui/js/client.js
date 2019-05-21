@@ -73,6 +73,7 @@ if (location.pathname == '/banka/ui/client/transactions.html') {
     .then((res) => {
       console.log(res);
       if (res.data) {
+        table.parentElement.classList.remove('hide');
         const transactions = res.data;
         let type = '';
         transactions.map((transaction) => {

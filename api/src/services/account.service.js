@@ -186,7 +186,7 @@ const AccountService = {
       const res = await client.query(sql);
       if (res.rowCount < 1) {
         return {
-          status: 400,
+          status: 404,
           error: 'No account with this account number',
         };
       }

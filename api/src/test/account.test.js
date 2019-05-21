@@ -243,7 +243,7 @@ describe('Testing get account details', () => {
       .get(getAccUrl)
       .set('x-access-token', token)
       .end((error, response) => {
-        response.body.should.have.status(400);
+        response.body.should.have.status(404);
         response.body.should.be.a('object');
         response.body.error.should.equal('No account with this account number');
       });
