@@ -67,10 +67,10 @@ label{
 }
 
 .error{
-    color: #ffffff;
+    color: #ff3456;
     text-align: center;
-    background: linear-gradient(to right, rgb(165, 27, 27) 10%, rgb(168, 64, 64) 60%);
     border-radius: 5px;
+    border: 1px solid #ff3456;
     padding: 1rem;
     margin: 1rem 0rem;
 }
@@ -157,6 +157,7 @@ label{
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 
 .modal-content{
