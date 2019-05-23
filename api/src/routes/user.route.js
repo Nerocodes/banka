@@ -20,4 +20,9 @@ router.get('/user/:email/accounts',
   permissions.staffAndClientOwn,
   UserController.getUserAccounts);
 
+router.get('/users',
+  verifyToken.verify,
+  permissions.adminOnly,
+  UserController.getAllUsers);
+
 export default router;

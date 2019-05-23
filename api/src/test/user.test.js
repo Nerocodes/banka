@@ -234,6 +234,41 @@ describe('Testing user signin', () => {
   });
 });
 
+// Test for getting all users
+describe('Testing get all users', () => {
+  const usersUrl = '/api/v1/users';
+
+  it('should get all users', async () => {
+    const token = await getAdminToken();
+    chai.request(app)
+      .get(usersUrl)
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.body.should.have.status(200);
+        res.body.data.should.be.a('array');
+        res.body.data[0].should.be.a('object');
+        res.body.data[0].should.have.property('id');
+        res.body.data[0].should.have.property('firstName');
+        res.body.data[0].should.have.property('lastName');
+        res.body.data[0].should.have.property('email');
+        res.body.data[0].should.have.property('type');
+        res.body.data[0].should.have.property('isAdmin');
+      });
+  });
+
+  it('should not get all users if not admin', async () => {
+    const token = await getClientToken();
+    chai.request(app)
+      .get(usersUrl)
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.body.should.have.status(403);
+        res.body.should.be.a('object');
+        res.body.error.should.equal('Unauthorized Access');
+      });
+  });
+});
+
 // Test for getting user accounts
 describe('Testing get user accounts', () => {
   let userUrl = '/api/v1/user/neropaulej@gmail.com/accounts';
