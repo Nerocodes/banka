@@ -31,6 +31,16 @@ const permissions = {
       error: 'Unauthorized Access',
     });
   },
+
+  adminOnly(req, res, next) {
+    if (req.userType === 'staff' && req.isAdmin === true) {
+      return next();
+    }
+    return res.json({
+      status: 403,
+      error: 'Unauthorized Access',
+    });
+  },
 };
 
 export default permissions;
