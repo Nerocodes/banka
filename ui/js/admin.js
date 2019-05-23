@@ -1,14 +1,14 @@
 // Get user details
-const staff = JSON.parse(sessionStorage.getItem('staff'));
+const admin = JSON.parse(sessionStorage.getItem('admin'));
 console.log(location.pathname);
 
-if (!staff) {
+if (!admin) {
   location.replace('/');
 }
 
-if (location.pathname == '/staff/dashboard.html') {
+if (location.pathname == '/admin/dashboard.html') {
   const accountsTable = document.querySelector('#accounts');
-  get(`${api}accounts`, `${staff.token}`).then((res) => {
+  get(`${api}accounts`, `${admin.token}`).then((res) => {
     console.log(res);
     if(res.data) {
       const accounts = res.data;
@@ -38,7 +38,7 @@ if (location.pathname == '/staff/dashboard.html') {
       queryUrl = `${api}accounts?status=${selectFilter.value}`;
     }
     const accountsTable = document.querySelector('#accounts');
-    get(queryUrl, `${staff.token}`).then((res) => {
+    get(queryUrl, `${admin.token}`).then((res) => {
       console.log(res);
       if(res.data) {
         const accounts = res.data;
@@ -65,7 +65,7 @@ if (location.pathname == '/staff/dashboard.html') {
 // Account details
 const accountDetails = (accountNumber) => {
   sessionStorage.setItem('accountDetail', accountNumber);
-  location.assign('/staff/account-record.html');
+  location.assign('/admin/account-record.html');
 };
 
 // Delete account
@@ -73,7 +73,7 @@ const deleteAccount = (accountNumber) => {
   console.log('deleting');
   let deleting = new Message(`Deleting..`);
   deleting.alertMessage('error');
-  del(`${api}accounts/${accountNumber}`, `${staff.token}`).then((res) => {
+  del(`${api}accounts/${accountNumber}`, `${admin.token}`).then((res) => {
     console.log(res);
     if(res.message) {
       deleting = new Message(`${res.message}`);
@@ -88,12 +88,12 @@ const deleteAccount = (accountNumber) => {
   });
 };
 
-if (location.pathname == '/staff/account-record.html') {
+if (location.pathname == '/admin/account-record.html') {
   const accountNumber = sessionStorage.getItem('accountDetail');
   const accNo = document.querySelector('#accNo');
   const email = document.querySelector('#email');
   const accBal = document.querySelector('#accBal');
-  get(`${api}accounts/${accountNumber}`, `${staff.token}`).then((res) => {
+  get(`${api}accounts/${accountNumber}`, `${admin.token}`).then((res) => {
     console.log(res);
     if(res.data) {
       const account = res.data;
@@ -101,7 +101,7 @@ if (location.pathname == '/staff/account-record.html') {
       email.innerHTML = account.ownerEmail;
       accBal.innerHTML = `₦${parseFloat(account.balance).toLocaleString('en')}`;
       const table = document.querySelector('#transactions');
-      get(`${api}accounts/${account.accountNumber}/transactions`, `${staff.token}`)
+      get(`${api}accounts/${account.accountNumber}/transactions`, `${admin.token}`)
         .then((res) => {
           console.log(res);
           if (res.data) {
@@ -139,7 +139,7 @@ const transactionModal = (id) => {
   const tamount = document.querySelector('#tamount');
   const tobalance = document.querySelector('#tobalance');
   const tnbalance = document.querySelector('#tnbalance');
-  get(`${api}transactions/${id}`, `${staff.token}`).then((res) => {
+  get(`${api}transactions/${id}`, `${admin.token}`).then((res) => {
     console.log(res);
     if (res.data) {
       const transaction = res.data;
@@ -163,43 +163,6 @@ const transactionModal = (id) => {
   }).catch(err => console.log(err));
 }
 
-const credit = () => {
-  const accNo = document.querySelector('#accNo').value;
-  const amount = document.querySelector('#amount').value;
-  post(`${api}transactions/${accNo}/credit`, { amount }, `${staff.token}`).then((res) => {
-    console.log(res);
-    if(res.data) {
-      const credit = new Message(`${res.message}`);
-      credit.alertMessage('success');
-    } else {
-      const credit = new Message(`${res.error}`);
-      credit.alertMessage('error');
-    }
-  }).catch(err => console.log(err));
-};
-
-const debit = () => {
-  const accNo = document.querySelector('#accNo').value;
-  const amount = document.querySelector('#amount').value;
-  post(`${api}transactions/${accNo}/debit`, { amount }, `${staff.token}`).then((res) => {
-    console.log(res);
-    if(res.data) {
-      const credit = new Message(`${res.message}`);
-      credit.alertMessage('success');
-    } else {
-      const credit = new Message(`${res.error}`);
-      credit.alertMessage('error');
-    }
-  }).catch(err => console.log(err));
-};
-
-if (location.pathname == '/staff/credit.html') {
-  const creditBtn = document.querySelector('#credit');
-  creditBtn.addEventListener('click', credit)
+if (location.pathname == '/admin/users.html') {
+  const usersTable = document.querySelector('#users');
 }
-
-if (location.pathname == '/staff/debit.html') {
-  const debitBtn = document.querySelector('#debit');
-  debitBtn.addEventListener('click', debit)
-}
-

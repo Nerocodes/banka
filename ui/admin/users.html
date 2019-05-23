@@ -48,6 +48,9 @@
             <div class="flex">
                 <p class="add-btn mb-1">Add User</p>
             </div>
+            <div id="displayMessage">
+
+            </div>
             <table class="table2 fade-in">
                 <thead>
                     <tr>
@@ -58,67 +61,7 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Paul</td>
-                        <td>Ajiri</td>
-                        <td>Client</td>
-                        <td class="credit">
-                            <select>
-                                <option value="active" class="credit">Active</option>
-                                <option value="dormant" class="debit">Dormant</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Yetunde</td>
-                        <td>George</td>
-                        <td>Staff</td>
-                        <td class="credit">
-                            <select>
-                                <option value="active" class="credit">Active</option>
-                                <option value="dormant" class="debit">Dormant</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Richard</td>
-                        <td>Okoye</td>
-                        <td>Client</td>
-                        <td class="debit">
-                            <select>
-                                <option value="active" class="credit">Active</option>
-                                <option value="dormant" class="debit">Dormant</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Jacob</td>
-                        <td>John</td>
-                        <td>Client</td>
-                        <td class="credit">
-                            <select>
-                                <option value="active" class="credit">Active</option>
-                                <option value="dormant" class="debit">Dormant</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Uzumaki</td>
-                        <td>Naruto</td>
-                        <td>Admin</td>
-                        <td class="credit">
-                            <select>
-                                <option value="active" class="credit">Active</option>
-                                <option value="dormant" class="debit" selected>Dormant</option>
-                            </select>
-                        </td>
-                    </tr>
+                <tbody id="users">
 
                 </tbody>
             </table>
@@ -159,5 +102,6 @@
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="../js/main.js"></script>
+    <script src="../js/admin.js"></script>
 </body>
 </html>

@@ -118,7 +118,7 @@ if(accountTrs){
 
 // Global variables
 // Api URL
-const api = 'https://banka-web-app.herokuapp.com/api/v1/';
+const api = 'http://localhost:9000/api/v1/';
 
 // Post function
 const post = (url = ``, data = {}, token = ``) => {
