@@ -3,7 +3,7 @@ const client = JSON.parse(sessionStorage.getItem('user'));
 console.log(location.pathname);
 
 if (!client) {
-  location.replace('/');
+  location.replace('/banka/ui');
 }
 
 if (location.pathname == '/banka/ui/client/dashboard.html') {

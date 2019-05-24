@@ -50,17 +50,20 @@
             <h2 class="text-center">ACCOUNT RECORDS</h2>
             <div class="flex">
                 <div class="acc-balance slide-in">
-                    <p>Account Name</p>
-                    <p class="value">Paul Ajiri</p>
+                    <p>Account Number</p>
+                    <p class="value" id="accNo">Paul Ajiri</p>
                 </div>
                 <div class="acc-balance slide-in slide-delay">
-                    <p>Account Number</p>
-                    <p class="value">001122001</p>
+                    <p>Owner Email</p>
+                    <p class="value" id="email">001122001</p>
                 </div>
                 <div class="acc-balance slide-in slide-delay1">
                     <p>Account Balance</p>
-                    <p class="value">₦260, 000</p>
+                    <p class="value" id="accBal">₦260, 000</p>
                 </div>
+            </div>
+            <div id="displayMessage">
+
             </div>
             <div class="tr">
                 <table class="table1 fade-in">
@@ -70,39 +73,41 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tuesday 19th March 2019</td>
-                            <td>₦130, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Monday 11th March 2019</td>
-                            <td>-₦155, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Sunday 3rd March 2019</td>
-                            <td>-₦15, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Saturday 1st March 2019</td>
-                            <td>-₦150, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Thursday 20th February 2019</td>
-                            <td>₦100, 000</td>
-                        </tr>
-                        <tr>
-                            <td>Tuesday 12th February 2019</td>
-                            <td>₦350, 000</td>
-                        </tr>
+                    <tbody id="transactions">
+
                     </tbody>
                 </table>
             </div>
+            <div id="status">
+                
+            </div>
         </div>
     </main>
+    <!-- Modal section -->
+    <div class="bg-modal hide">
+        <div class="modal-content transaction-modal">
+            <div class="close"><i class="fas fa-times"></i></div>
+            <h2 class="text-center m-0">Transaction Details</h2>
+            <div class="grid">
+                <div>Transaction ID</div>
+                <div id="tid">001</div>
+                <div>Date</div>
+                <div id='tdate'>Tuesday 19th March 2019</div>
+                <div>Type</div>
+                <div id="ttype">Credit</div>
+                <div>Amount</div>
+                <div id="tamount">₦130, 000</div>
+                <div>Old Balance</div>
+                <div id="tobalance">₦260, 000</div>
+                <div>New Balance</div>
+                <div id="tnbalance">₦260, 000</div>
+            </div>
+        </div>
+    </div>
     <footer class="fr">
         <p>&copy; NeroCodes 2019</p>
     </footer>
     <script src="../js/main.js"></script>
+    <script src="../js/admin.js"></script>
 </body>
 </html>
