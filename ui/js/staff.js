@@ -3,10 +3,10 @@ const staff = JSON.parse(sessionStorage.getItem('staff'));
 console.log(location.pathname);
 
 if (!staff) {
-  location.replace('/');
+  location.replace('/banka/ui');
 }
 
-if (location.pathname == '/staff/dashboard.html') {
+if (location.pathname == '/banka/ui/staff/dashboard.html') {
   const accountsTable = document.querySelector('#accounts');
   get(`${api}accounts`, `${staff.token}`).then((res) => {
     console.log(res);
@@ -57,6 +57,7 @@ if (location.pathname == '/staff/dashboard.html') {
                                         </td>
                                     </tr>`;
         });
+        footerRelative();
       }
     }).catch(err => console.log(err));
   });
@@ -65,7 +66,7 @@ if (location.pathname == '/staff/dashboard.html') {
 // Account details
 const accountDetails = (accountNumber) => {
   sessionStorage.setItem('accountDetail', accountNumber);
-  location.assign('/staff/account-record.html');
+  location.assign('/banka/ui/staff/account-record.html');
 };
 
 // Delete account
@@ -88,11 +89,28 @@ const deleteAccount = (accountNumber) => {
   });
 };
 
-if (location.pathname == '/staff/account-record.html') {
+const changeStatus = (status, accNo) => {
+  patch(`${api}accounts/${accNo}`, `${status}`, `${staff.token}`).then((res) => {
+    console.log(res);
+    if(res.data) {
+      const statusChanged = new Message(`Account is now ${res.data.status}`);
+      statusChanged.alertMessage('success');
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    } else {
+      const errMes = new Message(`${res.error}`);
+      errMes.alertMessage('error');
+    } 
+  });
+}
+
+if (location.pathname == '/banka/ui/staff/account-record.html') {
   const accountNumber = sessionStorage.getItem('accountDetail');
   const accNo = document.querySelector('#accNo');
   const email = document.querySelector('#email');
   const accBal = document.querySelector('#accBal');
+  const accStatus = document.querySelector('#status');
   get(`${api}accounts/${accountNumber}`, `${staff.token}`).then((res) => {
     console.log(res);
     if(res.data) {
@@ -101,6 +119,24 @@ if (location.pathname == '/staff/account-record.html') {
       email.innerHTML = account.ownerEmail;
       accBal.innerHTML = `₦${parseFloat(account.balance).toLocaleString('en')}`;
       const table = document.querySelector('#transactions');
+      if (account.status == 'active') {
+        accStatus.innerHTML = `
+                              <p>This account is active</p>
+                              <button class="status-btn error-btn" onclick="changeStatus('dormant', ${account.accountNumber})">Deactivate Account</button>
+        `;
+      }
+      else if (account.status == 'dormant') {
+        accStatus.innerHTML = `
+                              <p>This account is dormant</p>
+                              <button class="status-btn success-btn" onclick="changeStatus('active', ${account.accountNumber})">Activate Account</button>
+        `;
+      }
+      else if (account.status == 'draft'){
+        accStatus.innerHTML = `
+                              <p>This account is in drafts</p>
+                              <button class="status-btn success-btn" onclick="changeStatus('active', ${account.accountNumber})">Activate Account</button>
+        `;
+      }
       get(`${api}accounts/${account.accountNumber}/transactions`, `${staff.token}`)
         .then((res) => {
           console.log(res);
@@ -193,12 +229,12 @@ const debit = () => {
   }).catch(err => console.log(err));
 };
 
-if (location.pathname == '/staff/credit.html') {
+if (location.pathname == '/banka/ui/staff/credit.html') {
   const creditBtn = document.querySelector('#credit');
   creditBtn.addEventListener('click', credit)
 }
 
-if (location.pathname == '/staff/debit.html') {
+if (location.pathname == '/banka/ui/staff/debit.html') {
   const debitBtn = document.querySelector('#debit');
   debitBtn.addEventListener('click', debit)
 }

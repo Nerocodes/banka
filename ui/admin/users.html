@@ -48,17 +48,14 @@
             <div class="flex">
                 <p class="add-btn mb-1">Add User</p>
             </div>
-            <div id="displayMessage">
-
-            </div>
             <table class="table2 fade-in">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Email</th>
                         <th>Role</th>
-                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody id="users">
@@ -72,7 +69,10 @@
         <div class="modal-content user-modal">
             <div class="close"><i class="fas fa-times"></i></div>
             <h2 class="text-center m-0">Add User</h2>
-            <form class="create-acc-form">
+            <div id="displayMessage">
+
+            </div>
+            <form class="create-acc-form" id="addUserForm">
                 <div class="form-group">
                     <input type="text" name="first_name" id="firstName" placeholder="First Name">
                 </div>
@@ -83,17 +83,17 @@
                     <input type="text" name="email" id="email" placeholder="Email">
                 </div>
                 <div class="form-group">
-                    <select name="type_of_account" id="type_of_account" placeholder="Select Role">
+                    <select name="type_of_account" id="isAdmin" placeholder="Select Role">
                         <option value="" disabled>Role</option>
-                        <option value="savings">Staff</option>
-                        <option value="current">Admin</option>
+                        <option value="false">Staff</option>
+                        <option value="true">Admin</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" id="password" placeholder="Password">
                 </div>
                 <div class="submit-btn">
-                    <a href="#" class="link-btn">CREATE</a>
+                    <input type="submit" value="CREATE" class="link-btn">
                 </div>
             </form>
         </div>

@@ -30,15 +30,17 @@ if(dropdown) {
 
 // Flexible footer
 footerRelative = () => {
-  const footer = document.querySelector('footer');
-  const windowHeight = window.innerHeight;
-  const documentHeight = document.body.clientHeight + 100;
+  setTimeout(() => {
+    const footer = document.querySelector('footer');
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.body.clientHeight + 50;
 
-  if( documentHeight > windowHeight) {
-    footer.classList.add('fr');
-  } else {
-    footer.classList.remove('fr');
-  }
+    if( documentHeight > windowHeight) {
+      footer.classList.add('fr');
+    } else {
+      footer.classList.remove('fr');
+    }
+  }, 2000);
 }
 
 window.onload = footerRelative();
@@ -118,7 +120,7 @@ if(accountTrs){
 
 // Global variables
 // Api URL
-const api = 'http://localhost:9000/api/v1/';
+const api = 'https://banka-web-app.herokuapp.com/api/v1/';
 
 // Post function
 const post = (url = ``, data = {}, token = ``) => {
@@ -132,6 +134,25 @@ const post = (url = ``, data = {}, token = ``) => {
       'x-access-token':  `${token}`,
     },
     body: JSON.stringify(data),
+  })
+  .then(res => res.json());
+};
+
+// Post function
+const patch = (url = ``, data = {}, token = ``) => {
+  console.log(data);
+  return fetch(url, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'omit',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token':  `${token}`,
+    },
+    body: JSON.stringify({
+      status: data,
+    }),
   })
   .then(res => res.json());
 };

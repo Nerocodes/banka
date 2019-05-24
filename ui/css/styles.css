@@ -73,6 +73,41 @@ label{
     border: 1px solid #ff3456;
     padding: 1rem;
     margin: 1rem 0rem;
+    background-color: #ffffff;
+}
+
+.success-btn {
+    color: rgb(27, 165, 80);
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid rgb(27, 165, 80);
+    padding: 1rem;
+    margin: 1rem 0rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.success-btn:hover {
+    background-color: rgb(27, 165, 80);
+    color: #ffffff;
+}
+
+.error-btn {
+    color: #ff3456;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #ff3456;
+    padding: 1rem;
+    margin: 1rem 0rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.error-btn:hover {
+    background-color: #ff3456;
+    color: #ffffff;
 }
 
 .table1{
@@ -182,6 +217,22 @@ label{
 
 .hide{
     display: none;
+}
+
+#status {
+    text-align: center;
+    margin: 1rem 0rem;
+}
+
+#status p {
+    margin: 0rem;
+    color: #511C29;
+    font-style: italic;
+}
+
+#status .status-btn {
+    margin: 0.5rem;
+    outline: none;
 }
 /* End */
 
@@ -487,10 +538,6 @@ label{
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-gap: 3rem;
-}
-
-.dashboard-main {
-    margin-bottom: 3rem;
 }
 
 .dashboard-main .img{
