@@ -166,6 +166,43 @@ const UserService = {
     }
   },
 
+  async getAllUsers() {
+    const sql = `
+        SELECT * FROM Users;
+      `;
+
+    const client = await pool.connect();
+    try {
+      const res = await client.query(sql);
+      const users = [];
+      res.rows.map((user) => {
+        const {
+          id,
+          email,
+          firstname: firstName,
+          lastname: lastName,
+          type,
+          isadmin: isAdmin,
+        } = user;
+        return users.push({
+          id,
+          email,
+          firstName,
+          lastName,
+          type,
+          isAdmin,
+        });
+      });
+      return {
+        status: 200,
+        message: 'Request successful',
+        data: users,
+      };
+    } finally {
+      client.release();
+    }
+  },
+
 };
 
 export default UserService;

@@ -18,7 +18,7 @@ const signUp = () => {
       sessionStorage.setItem('user', user);
       const signedUp = new Message(res.message);
       setTimeout(() => {
-        location.assign('/banka/ui/client/dashboard.html');
+        location.assign('/client/dashboard.html');
       }, 2000);
       return signedUp.alertMessage('success');
     }
@@ -51,23 +51,23 @@ const login = () => {
         get(`${api}user/${res.data.email}/accounts`, `${res.data.token}`).then((res) => {
           console.log(res);
           if (res.data) {
-            location.assign('/banka/ui/client/dashboard-active.html');
+            location.assign('/client/dashboard-active.html');
           }
         }).catch(err => console.log(err));
         setTimeout(() => {
-          location.assign('/banka/ui/client/dashboard.html');
+          location.assign('/client/dashboard.html');
         }, 2000);
       }
       else if(res.data.type == 'staff' && res.data.isAdmin == false) {
         sessionStorage.setItem('staff', user);
         setTimeout(() => {
-          location.assign('/banka/ui/staff/dashboard.html');
+          location.assign('/staff/dashboard.html');
         }, 2000);
       }
       else if(res.data.type == 'staff' && res.data.isAdmin == true) {
         sessionStorage.setItem('admin', user);
         setTimeout(() => {
-          location.assign('/banka/ui/admin/dashboard.html');
+          location.assign('/admin/dashboard.html');
         }, 2000);
       }
       return signedIn.alertMessage('success');

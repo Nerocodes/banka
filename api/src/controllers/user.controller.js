@@ -24,6 +24,11 @@ const UserController = {
     const accounts = await UserService.getUserAccounts(req.params);
     responseHelper(res, accounts);
   },
+
+  async getAllUsers(req, res) {
+    const users = await UserService.getAllUsers(req.params);
+    responseHelper(res, users);
+  },
 };
 
 export default UserController;

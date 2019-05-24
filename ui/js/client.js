@@ -3,7 +3,7 @@ const client = JSON.parse(sessionStorage.getItem('user'));
 console.log(location.pathname);
 
 if (!client) {
-  location.replace('/');
+  location.replace('/banka/ui');
 }
 
 if (location.pathname == '/banka/ui/client/dashboard.html') {
@@ -73,6 +73,7 @@ if (location.pathname == '/banka/ui/client/transactions.html') {
     .then((res) => {
       console.log(res);
       if (res.data) {
+        table.parentElement.classList.remove('hide');
         const transactions = res.data;
         let type = '';
         transactions.map((transaction) => {
